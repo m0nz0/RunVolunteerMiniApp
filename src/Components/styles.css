@@ -1,0 +1,120 @@
+.input-group-text {
+    background-color: white;
+}
+
+#login {
+    padding-left: 0;
+}
+#id-a {
+    padding-right: 6px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.SignInScreen_wrapper main form {
+    font-size: 1rem;
+    text-align: left;
+    width: 290px;
+}
+
+.no-left-border {
+    border-left: 0;
+}
+
+.no-right-border {
+    border-right: 0;
+}
+
+.form-group {
+    margin: 20px 0 20px;
+}
+
+.sign-btn {
+    background-color: #e6564c;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    margin-top: 40px;
+    padding: 10px;
+    transition: all .3s ease-in-out;
+    width: 290px;
+}
+
+.sign-btn:hover {
+    background-color: #2b326d;
+    /*border: none;*/
+    /*transition: all .3s ease-in-out;*/
+}
+
+.SignInScreen_wrapper main {
+    border-radius: 20px;
+    box-shadow: 0 0 10px #ddd;
+    color: #777;
+    max-width: 500px;
+    padding: 0 0 20px;
+    text-align: center;
+}
+
+.SignInScreen_logo {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    width: 400px;
+}
+
+.SignInScreen_wrapper main section {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.SignInScreen_wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+    width: 100%;
+    height: fit-content;
+}
+
+body {
+    color: rgba(0, 0, 0, .85);
+    font-family: sans-serif;
+    font-size: 1rem;
+    font-variant: tabular-nums;
+    line-height: 1.15;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.link-section a {
+    margin-top: 20px;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    padding-bottom: 10px;
+}
+
+a {
+    /*-webkit-text-decoration-skip: objects;*/
+    /*background-color: transparent;*/
+    color: #1890ff;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    transition: color .3s;
+}
+
+a:hover {
+    color: #40a9ff;
+}
