@@ -44,7 +44,7 @@ export const AuthForm: FC<Props> = (props) => {
             tg.showAlert('Введите пароль')
         }
 
-        if ((props.data.action === Action.Auth || props.data.action === Action.AdditionalLink) && props.data.source == Source.Inline && props.data.target == Target.Verst) {
+        if ((props.data.action === Action.Auth || props.data.action === Action.AdditionalLink) && props.data.source === Source.Inline && props.data.target === Target.Verst) {
             let url = props.data.action === Action.Auth ?
                 ApiRoute.VerstAuth :
                 ApiRoute.AdditionalLink;
