@@ -1,11 +1,11 @@
 import React, {FC} from "react";
-import {AuthForm} from "./Components/AuthForm";
+import {AuthForm} from "./Components/Auth/AuthForm";
 import {AllParams} from "./types";
 import {Source} from "./Const/Source";
 import {Target} from "./Const/Target";
 import {Action} from "./Const/Action";
 import {Version} from "./Const/Version";
-import {MenuForm} from "./Components/MenuForm";
+import {MenuForm} from "./Components/Menu/MenuForm";
 
 export const App: FC = () => {
 
@@ -14,8 +14,8 @@ export const App: FC = () => {
         let url = document.location;
         // console.log("url", url.href)
 
-        let u=process.env.REACT_APP_BASE_URL;
-        console.log("REACT_APP_BASE_URL", u);
+        // let u=process.env.REACT_APP_BASE_URL;
+        // console.log("REACT_APP_BASE_URL", u);
 
         let splited = url.search.split("?")
         if (splited.length === 1) {

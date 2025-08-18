@@ -1,0 +1,10 @@
+.app-logo {
+    height: 150px;
+    width: 150px;
+    display: block;
+    margin: auto;
+}
+
+.buttons-list {
+    padding-top: 30px;
+}

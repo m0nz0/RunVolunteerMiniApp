@@ -3,14 +3,14 @@ import './styles.css'
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
-import {AllParams} from "../types";
-import {HeaderColor} from "../Const/HeaderColor";
-import {LoginText} from "../Const/LoginText";
-import {Target} from "../Const/Target";
-import {Version} from "../Const/Version";
-import {Action} from "../Const/Action";
-import {Source} from "../Const/Source";
-import {ApiRoute, BaseRoute} from "../Const/Route";
+import {AllParams} from "../../types";
+import {HeaderColor} from "../../Const/HeaderColor";
+import {LoginText} from "../../Const/LoginText";
+import {Target} from "../../Const/Target";
+import {Version} from "../../Const/Version";
+import {Action} from "../../Const/Action";
+import {Source} from "../../Const/Source";
+import {BaseRoute} from "../../Const/Route";
 
 type Props = {
     data: AllParams | any
@@ -45,9 +45,9 @@ export const AuthForm: FC<Props> = (props) => {
         }
 
         if ((props.data.action === Action.Auth || props.data.action === Action.AdditionalLink) && props.data.source === Source.Inline && props.data.target === Target.Verst) {
-            let url = props.data.action === Action.Auth ?
-                ApiRoute.VerstAuth :
-                ApiRoute.AdditionalLink;
+            let url = (props.data.action === Action.Auth ?
+                process.env.REACT_APP_VERST_AUTH_URL :
+                process.env.REACT_APP_ADDITIONAL_LINK_URL) as string;
             authVerstAndCallLinkController(login, password, url, props.data.version);
         } else if (props.data.action === Action.CheckRoster) {
             if (props.data.calendarId && props.data.locationId) {
@@ -84,7 +84,7 @@ export const AuthForm: FC<Props> = (props) => {
 
         console.log('Save team. Nrms auth start ')
 
-        let baseUrl = BaseRoute[version].UrlBase;
+        let baseUrl =  BaseRoute[version].UrlBase;
         fetch(`${baseUrl}${process.env.NRMS_AUTH_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -112,7 +112,7 @@ export const AuthForm: FC<Props> = (props) => {
 
                     console.log('Save team. Save team start')
                     let botUrl = BaseRoute[version].UrlBot;
-                    fetch(`${botUrl}${ApiRoute.SaveTeam}`, {
+                    fetch(`${botUrl}${process.env.REACT_APP_SAVE_TEAM_URL}`, {
                         method: 'POST',
                         body: JSON.stringify(saveNrmsRequest),
                         headers: headers,
@@ -139,7 +139,7 @@ export const AuthForm: FC<Props> = (props) => {
         let body = {username: 'A' + login, password: pass}
 
         console.log('Verst link. Verst auth start')
-        let verstAuthUrl = ApiRoute.VerstAuth;
+        let verstAuthUrl = process.env.REACT_APP_VERST_AUTH_URL;
         console.log(verstAuthUrl)
         let baseUrl = BaseRoute[version].UrlBase;
         console.log(baseUrl)
@@ -192,7 +192,7 @@ export const AuthForm: FC<Props> = (props) => {
         console.log('Verst link button. Verst auth start')
 
         let baseUrl = BaseRoute[version].UrlBase;
-        fetch(`${baseUrl}${ApiRoute.VerstAuth}`, {
+        fetch(`${baseUrl}${process.env.REACT_APP_VERST_AUTH_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body)
