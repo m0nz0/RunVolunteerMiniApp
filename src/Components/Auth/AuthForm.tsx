@@ -10,7 +10,6 @@ import {Target} from "../../Const/Target";
 import {Version} from "../../Const/Version";
 import {Action} from "../../Const/Action";
 import {Source} from "../../Const/Source";
-import {BaseRoute} from "../../Const/Route";
 
 type Props = {
     data: AllParams | any
@@ -84,7 +83,7 @@ export const AuthForm: FC<Props> = (props) => {
 
         console.log('Save team. Nrms auth start ')
 
-        let baseUrl =  BaseRoute[version].UrlBase;
+        let baseUrl = process.env.REACT_APP_BASE_URL;
         fetch(`${baseUrl}${process.env.NRMS_AUTH_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -141,7 +140,7 @@ export const AuthForm: FC<Props> = (props) => {
         console.log('Verst link. Verst auth start')
         let verstAuthUrl = process.env.REACT_APP_VERST_AUTH_URL;
         console.log(verstAuthUrl)
-        let baseUrl = BaseRoute[version].UrlBase;
+        let baseUrl = process.env.REACT_APP_BASE_URL;
         console.log(baseUrl)
         fetch(`${baseUrl}${verstAuthUrl}`, {
             method: 'POST',
@@ -163,7 +162,7 @@ export const AuthForm: FC<Props> = (props) => {
 
                     console.log('Verst link. Link start')
 
-                    let botUrl = BaseRoute[version].UrlBot;
+                    let botUrl = process.env.REACT_APP_BOT_URL;
                     fetch(`${botUrl}${url}`, {
                         method: 'POST',
                         body: JSON.stringify({tg: tg.initDataUnsafe.user.id, vid: login}),
@@ -191,7 +190,7 @@ export const AuthForm: FC<Props> = (props) => {
 
         console.log('Verst link button. Verst auth start')
 
-        let baseUrl = BaseRoute[version].UrlBase;
+        let baseUrl = process.env.REACT_APP_BASE_URL;
         fetch(`${baseUrl}${process.env.REACT_APP_VERST_AUTH_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
