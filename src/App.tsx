@@ -14,6 +14,9 @@ export const App: FC = () => {
         let url = document.location;
         // console.log("url", url.href)
 
+        let u=process.env.REACT_APP_BASE_URL;
+        console.log("REACT_APP_BASE_URL", u);
+
         let splited = url.search.split("?")
         if (splited.length === 1) {
             return null;
