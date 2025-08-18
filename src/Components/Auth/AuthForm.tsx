@@ -111,7 +111,7 @@ export const AuthForm: FC<Props> = (props) => {
                     };
 
                     console.log('Save team. Save team start')
-                    let botUrl = BaseRoute[version].UrlBot;
+                    let botUrl = process.env.REACT_APP_BOT_URL;
                     fetch(`${botUrl}${process.env.REACT_APP_SAVE_TEAM_URL}`, {
                         method: 'POST',
                         body: JSON.stringify(saveNrmsRequest),
