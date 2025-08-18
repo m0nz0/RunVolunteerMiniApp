@@ -5,13 +5,19 @@ import {Source} from "./Const/Source";
 import {Target} from "./Const/Target";
 import {Action} from "./Const/Action";
 import {Version} from "./Const/Version";
+import {MenuForm} from "./Components/MenuForm";
 
 export const App: FC = () => {
 
 
-    function getUrlParams(): AllParams {
+    function getUrlParams(): AllParams | any {
         let url = document.location;
-        console.log("url", url.href)
+        // console.log("url", url.href)
+
+        let splited = url.search.split("?")
+        if (splited.length === 1) {
+            return null;
+        }
         let urlParams = url.search.split('?')[1]
             .split('&')
             .map((item) => {
@@ -27,11 +33,6 @@ export const App: FC = () => {
         let version = urlParams.filter(x => x.key === 'v')[0].value;
         let verstId = urlParams.find(x => x.key === 'vi')?.value;
 
-        let tt=process.env.REACT_APP_TEST_VAR;
-        console.log(tt);
-
-        let tt2=process.env.REACT_APP_TEST_SECRET;
-        console.log(tt2);
 
         return {
             calendarId: calendarId ? Number(calendarId) : undefined,
@@ -44,5 +45,8 @@ export const App: FC = () => {
         }
     }
 
-    return <AuthForm data={getUrlParams()}/>
+    let params = getUrlParams()
+    return params === null ?
+        <MenuForm/> :
+        <AuthForm data={params}/>
 }

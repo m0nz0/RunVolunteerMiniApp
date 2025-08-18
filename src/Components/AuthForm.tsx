@@ -13,7 +13,7 @@ import {Source} from "../Const/Source";
 import {ApiRoute, BaseRoute} from "../Const/Route";
 
 type Props = {
-    data: AllParams
+    data: AllParams | any
 }
 
 declare global {
@@ -85,7 +85,7 @@ export const AuthForm: FC<Props> = (props) => {
         console.log('Save team. Nrms auth start ')
 
         let baseUrl = BaseRoute[version].UrlBase;
-        fetch(`${baseUrl}${ApiRoute.NrmsAuth}`, {
+        fetch(`${baseUrl}${process.env.NRMS_AUTH_URL}`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body)
