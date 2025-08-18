@@ -26,6 +26,10 @@ export const App: FC = () => {
         let action = urlParams.filter(x => x.key === 'a')[0].value;
         let version = urlParams.filter(x => x.key === 'v')[0].value;
         let verstId = urlParams.find(x => x.key === 'vi')?.value;
+
+        let tt=process.env.REACT_APP_TEST_VAR;
+        console.log(tt);
+
         return {
             calendarId: calendarId ? Number(calendarId) : undefined,
             locationId: locationId ? Number(locationId) : undefined,
