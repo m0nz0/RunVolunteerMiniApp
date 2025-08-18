@@ -30,6 +30,9 @@ export const App: FC = () => {
         let tt=process.env.REACT_APP_TEST_VAR;
         console.log(tt);
 
+        let tt2=process.env.REACT_APP_TEST_SECRET;
+        console.log(tt2);
+
         return {
             calendarId: calendarId ? Number(calendarId) : undefined,
             locationId: locationId ? Number(locationId) : undefined,
