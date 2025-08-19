@@ -1,16 +1,17 @@
-import React, {ChangeEvent, FC, useState} from "react";
+import React, {FC, useState} from "react";
 import '../Menu/styles.css'
 import logo from '../../ico.png'
-import {Button, ListGroup, ListGroupItem} from "react-bootstrap";
+import {Button} from "react-bootstrap";
+import {LocationList} from "../LocationList/LocationList";
 
 declare global {
     interface Window {
         Telegram: any;
     }
 }
-
+type CurrentPage = 'menu' | 'location list'
 export const MenuForm: FC = () => {
-
+    const [currentPage, setCurrentPage] = useState<CurrentPage>('menu')
     let tg = window.Telegram.WebApp;
     tg.disableVerticalSwipes();
     tg.expand();
@@ -23,6 +24,14 @@ export const MenuForm: FC = () => {
         "Помощь"
     ]
 
+    const onMenuBtnClick = (i: number) => {
+        console.log("clicked", i)
+        // if (i == 3) {
+        //     setCurrentPage("location list")
+        // } else {
+        //     setCurrentPage("menu")
+        // }
+    };
     return (
         <div>
             <h1>Привет, чем я могу тебе помочь?</h1>
@@ -32,9 +41,12 @@ export const MenuForm: FC = () => {
                     return <Button variant="info"
                                    size="lg" key={i}
                                    onClick={() => {
+                                       onMenuBtnClick(i)
                                    }
                                    }>{item}</Button>;
                 })}
+                {/*{currentPage == 'menu' && <MenuForm/>}*/}
+                {/*{currentPage == 'location list' && <LocationList action={1}/>}*/}
             </div>
             {/*<div className={'buttons-list'}>*/}
             {/*    <ListGroup>*/}
