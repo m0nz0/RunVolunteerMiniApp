@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {LocationInfo} from "../../Services/LocationService";
-import {Container} from "react-bootstrap";
+import {Button, ButtonGroup, Container} from "react-bootstrap";
 
 interface Props {
     location: LocationInfo;
@@ -8,6 +8,9 @@ interface Props {
 }
 
 export const LocationCard: FC<Props> = (props) => {
+    const onBtnClick = (btn: string) => {
+        console.log("clicked", btn)
+    }
     return <div>
         <Container>
             <p>
@@ -23,5 +26,10 @@ export const LocationCard: FC<Props> = (props) => {
                 <span>{props.location.verstStatusName}</span>
             </p>
         </Container>
+        <ButtonGroup vertical>
+            {props.location.locationFlags.map(x =>
+                <Button variant={"light"} key={x}
+                        onClick={() => onBtnClick(x)}>x</Button>)}
+        </ButtonGroup>
     </div>
 }
