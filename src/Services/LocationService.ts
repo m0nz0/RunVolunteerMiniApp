@@ -1,11 +1,30 @@
-export interface Location {
-    id: number;
-    name: string;
-    address: string;
+export type LocationInfo = {
+    verstId: number,
+    name: string,
+    cityName: string,
+    isFavorite: boolean,
+    isHome: boolean,
+    isDirected: boolean,
+    isRequested: boolean,
+    verstActive: boolean,
+    verstStatusName: string,
+    verstStatusCode: string,
+    botActive: boolean,
+    url: string,
+    lat: number,
+    lon: number,
+    href: string,
+    defaultPositions: DefautPosition,
+    directorTgIds: number[],
+    locationFlags: string[]
+}
+
+export type DefautPosition = {
+    [key: number]: number[]
 }
 
 export default class LocationService {
-    static async getLocations(): Promise<Location[]> {
+    static async getLocations(): Promise<LocationInfo[]> {
         // Заглушка, вместо этого вставь свой реальный URL
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";

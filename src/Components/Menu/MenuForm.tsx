@@ -2,7 +2,7 @@ import React, {FC, useState} from "react";
 import '../Menu/styles.css'
 import logo from '../../ico.png'
 import {Button} from "react-bootstrap";
-import {LocationList} from "../LocationList/LocationList";
+import {LocationListComponent} from "../LocationList/LocationListComponent";
 
 interface Props {
     onSelect: (component: "about" | "locations") => void;

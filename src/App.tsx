@@ -9,7 +9,7 @@ import {MenuForm} from "./Components/Menu/MenuForm";
 import {extractUrlParams} from "./Common/UrlParser";
 import {About} from "./Components/About/About";
 import {SomeError} from "./Components/SomeError";
-import {LocationList} from "./Components/LocationList/LocationList";
+import {LocationListComponent} from "./Components/LocationList/LocationListComponent";
 
 
 type ActiveComponent = "menu" | "about" | "locations";
@@ -55,7 +55,7 @@ export const App: FC = () => {
         } else if (activeComponent === "about") {
             return <div><About onBack={goBack}/></div>
         } else if (activeComponent === "locations") {
-            return <LocationList onBack={goBack} request={{action: 1}}/>
+            return <LocationListComponent onBack={goBack} request={{action: 1}}/>
         } else {
             return <SomeError/>;
         }
