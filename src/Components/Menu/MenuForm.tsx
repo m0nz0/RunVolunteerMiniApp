@@ -4,17 +4,12 @@ import logo from '../../ico.png'
 import {Button} from "react-bootstrap";
 import {LocationList} from "../LocationList/LocationList";
 
-declare global {
-    interface Window {
-        Telegram: any;
-    }
+interface Props {
+    onSelect: (component: "about" | "locations") => void;
+    // onBack: () => void;
 }
-type CurrentPage = 'menu' | 'location list'
-export const MenuForm: FC = () => {
-    const [currentPage, setCurrentPage] = useState<CurrentPage>('menu')
-    let tg = window.Telegram.WebApp;
-    tg.disableVerticalSwipes();
-    tg.expand();
+
+export const MenuForm: FC<Props> = ({onSelect}) => {
 
     let listItemTextList = [
         'Записаться в волонтеры',
@@ -26,11 +21,11 @@ export const MenuForm: FC = () => {
 
     const onMenuBtnClick = (i: number) => {
         console.log("clicked", i)
-        // if (i == 3) {
-        //     setCurrentPage("location list")
-        // } else {
-        //     setCurrentPage("menu")
-        // }
+        if (i == 3) {
+            onSelect("locations")
+        } else if (i == 4) {
+            onSelect("about")
+        }
     };
     return (
         <div>
@@ -45,15 +40,8 @@ export const MenuForm: FC = () => {
                                    }
                                    }>{item}</Button>;
                 })}
-                {/*{currentPage == 'menu' && <MenuForm/>}*/}
-                {/*{currentPage == 'location list' && <LocationList action={1}/>}*/}
+
             </div>
-            {/*<div className={'buttons-list'}>*/}
-            {/*    <ListGroup>*/}
-            {/*        {listItemTextList.map((item, i) => {*/}
-            {/*            return <ListGroup.Item key={i}>{item}</ListGroup.Item>*/}
-            {/*        })}*/}
-            {/*    </ListGroup></div>*/}
         </div>
     )
 }
