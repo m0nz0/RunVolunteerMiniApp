@@ -10,17 +10,22 @@ import MyEntriesComponent from "./MyEntries/MyEntriesComponent";
 import ExistingEntriesComponent from "./ExistingEntries/ExistingEntriesComponent";
 import NewEntryComponent from "./NewEntry/NewEntryComponent";
 
-export const MainLayout: React.FC = () => {
+interface Props {
+    tgUser: any
+}
+
+export const MainLayout: React.FC<Props> = (props) => {
     return (
         <Container>
             <Breadcrumbs/>
+            <strong>Hi, {props.tgUser?.username}</strong>
             <Routes>
-                <Route path="/" element={<MenuComponent/>}/>
-                <Route path="/new-entry" element={<NewEntryComponent/>}/>
-                <Route path="/my-entries" element={<MyEntriesComponent/>}/>
-                <Route path="/existing-entries" element={<ExistingEntriesComponent/>}/>
-                <Route path="/about" element={<AboutComponent/>}/>
-                <Route path="/locations" element={<LocationListComponent/>}/>
+                <Route path="/test" element={<MenuComponent/>}/>
+                <Route path="/test/new-entry" element={<NewEntryComponent/>}/>
+                <Route path="/test/my-entries" element={<MyEntriesComponent/>}/>
+                <Route path="/test/existing-entries" element={<ExistingEntriesComponent/>}/>
+                <Route path="/test/about" element={<AboutComponent/>}/>
+                <Route path="/test/locations" element={<LocationListComponent/>}/>
             </Routes>
         </Container>
     );
