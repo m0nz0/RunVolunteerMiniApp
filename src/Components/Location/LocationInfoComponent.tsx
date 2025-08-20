@@ -29,7 +29,7 @@ export const LocationInfoComponent: FC<Props> = (props) => {
         <ButtonGroup vertical>
             {props.location.locationFlags.map(x =>
                 <Button variant={"light"} key={x}
-                        onClick={() => onBtnClick(x)}>x</Button>)}
+                    /*onClick={() => onBtnClick(x)}*/>x</Button>)}
         </ButtonGroup>
     </div>
 }

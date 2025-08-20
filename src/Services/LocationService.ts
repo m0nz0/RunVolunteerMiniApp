@@ -28,7 +28,7 @@ export default class LocationService {
         // Заглушка, вместо этого вставь свой реальный URL
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
-        let methodName = "get-locations";
+        let methodName = "get-all-locations";
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
         console.log("location fetch url", fetchUrl)
         const response = await fetch(fetchUrl, {

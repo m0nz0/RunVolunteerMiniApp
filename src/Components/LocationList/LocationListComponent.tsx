@@ -1,12 +1,18 @@
 import {FC, useEffect, useState} from "react";
 import {FullRequest} from "../../Model/FullRequest";
-import {Accordion, Spinner} from "react-bootstrap";
+import {Accordion, Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
 import {LocationInfoComponent} from "../Location/LocationInfoComponent";
+import {LocationFlag, LocationFlagName} from "../../Const/LocationFlag";
 
 interface Props {
     request: FullRequest;
     onBack: () => void;
+}
+
+interface FlagChecker {
+    id: number,
+    flag: boolean
 }
 
 export const LocationListComponent: FC = () => {
@@ -14,6 +20,7 @@ export const LocationListComponent: FC = () => {
     const [locations, setLocations] = useState<LocationInfo[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
 
     useEffect(() => {
         let isMounted = true;
@@ -22,12 +29,17 @@ export const LocationListComponent: FC = () => {
             try {
                 const data = await LocationService.getLocations();
                 setLocations(data);
+                let flags = [...new Set(data.map(x => x.locationFlags).flat())].map(x => LocationFlag[x as keyof typeof LocationFlag]);
+                setCheckedItems(flags.map(x => {
+                    return {id: x, flag: false}
+                }))
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
             } finally {
                 if (isMounted) setLoading(false);
             }
         };
+
         loadData();
         return () => {
             isMounted = false;
@@ -43,22 +55,48 @@ export const LocationListComponent: FC = () => {
         );
     }
 
-    // if (error) {
-    //     return (
-    //         <div className="p-3">
-    //             <Alert variant="danger">Ошибка: {error}</Alert>
-    //             <Button onClick={props.onBack} variant="secondary">
-    //                 ← Back
-    //             </Button>
-    //         </div>
-    //     );
-    // }
+    const filteredLocations = () => {
+        if (checkedItems.every(x => x.flag == false)) {
+            return locations;
+        }
+
+        let checked = checkedItems.filter(x => x.flag).map(x => x.id);
+        let filtered = locations
+            .filter(x => {
+                let flags = x.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
+                console.log(flags)
+                return flags.some(x => checked.includes(x))
+            });
+        return filtered;
+    }
+
+    const handleCheckboxChange = (itemId: number) => {
+        setCheckedItems(prevItems =>
+            prevItems.map(x => {
+                return {id: x.id, flag: itemId == x.id ? !x.flag : x.flag}
+            })
+        );
+    };
 
     return <div>
-        {/*<Button onClick={props.onBack}>← Back</Button>*/}
-        <h2 className="mb-3">Locations</h2>
-        <Accordion alwaysOpen>
-            {locations.sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0).map((loc) => (
+        <h2 className="text-center">Это список всех локаций. Воспользуйтесь фильтрами и поском, чтобы найти нужную</h2>
+        <div>
+            <Form>
+                {
+                    checkedItems.map(x => {
+                        return <FormCheck type={"switch"}
+                                          id={x.id.toString()}
+                                          key={x.id}
+                                          label={LocationFlagName[x.id as keyof typeof LocationFlagName]}
+                            // value={x.flag}
+                                          onChange={() => handleCheckboxChange(x.id)}>
+                        </FormCheck>;
+                    })
+                }
+            </Form>
+        </div>
+        <Accordion>
+            {filteredLocations().sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0).map((loc) => (
                 <Accordion.Item eventKey={String(loc.verstId)} key={loc.verstId}>
                     <Accordion.Header>
                         <div dangerouslySetInnerHTML={{__html: loc.href}}></div>
