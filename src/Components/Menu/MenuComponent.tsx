@@ -13,10 +13,11 @@ const listItemTextList = [
     "Помощь"
 ]
 
-// interface Props {
-//     onSelect: (component: "about" | "locations") => void;
-//     // onBack: () => void;
-// }
+interface Props {
+    tgUser: any
+    // onSelect: (component: "about" | "locations") => void;
+    // onBack: () => void;
+}
 
 // адаптер для Link (чтобы работало в react-bootstrap + TS)
 const LinkAdapter = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
@@ -24,9 +25,10 @@ const LinkAdapter = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) 
 ));
 LinkAdapter.displayName = "LinkAdapter";
 
-export const MenuComponent: React.FC = () => {
+export const MenuComponent: React.FC<Props> = (props) => {
     return (
         <div>
+            <strong>Hi, {JSON.stringify(props.tgUser)}</strong>
             <h1>Привет, чем я могу тебе помочь?</h1>
             <img className={'app-logo'} src={logo}/>
             <div className="d-grid gap-2 buttons-list">

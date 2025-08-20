@@ -18,9 +18,8 @@ export const MainLayout: React.FC<Props> = (props) => {
     return (
         <Container>
             <Breadcrumbs/>
-            <strong>Hi, {props.tgUser?.username}</strong>
             <Routes>
-                <Route path="/test" element={<MenuComponent/>}/>
+                <Route path="/test" element={<MenuComponent tgUser={props.tgUser}/>}/>
                 <Route path="/test/new-entry" element={<NewEntryComponent/>}/>
                 <Route path="/test/my-entries" element={<MyEntriesComponent/>}/>
                 <Route path="/test/existing-entries" element={<ExistingEntriesComponent/>}/>
