@@ -3,8 +3,8 @@ import {FullRequest} from "../../Model/FullRequest";
 import {Accordion, Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
 import {LocationInfoComponent} from "../Location/LocationInfoComponent";
-import {LocationFlag, LocationFlagIcon, LocationFlagName} from "../../Const/LocationFlag";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {LocationFlag, LocationFlagIcon} from "../../Const/LocationFlag";
+import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
 
 interface Props {
     request: FullRequest;
@@ -91,7 +91,6 @@ export const LocationListComponent: FC = () => {
         return locations
             .filter(x => {
                 let flags = x.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
-                console.log("flags", flags,"checked", checked)
                 return checked.every(x => flags.includes(x))
             });
     }
@@ -105,7 +104,7 @@ export const LocationListComponent: FC = () => {
     };
 
     return <div>
-        <h2 className="text-center">Это список всех локаций. Воспользуйтесь фильтрами и поском, чтобы найти нужную</h2>
+        <h2 className="text-center">Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти нужную</h2>
         <div>
             <Form>
                 {
@@ -115,11 +114,7 @@ export const LocationListComponent: FC = () => {
                                           id={x.id.toString()}
                                           key={x.id}
                                           checked={x.flag}
-                                          label={
-                                              <span>
-                                                  <FontAwesomeIcon
-                                                      icon={LocationFlagIcon[x.id as keyof typeof LocationFlagIcon]}/> <span> {LocationFlagName[x.id as keyof typeof LocationFlagName]} </span>
-                                              </span>}
+                                          label={<LocationFlagComponent flag={x.id} withText={true}/>}
                                           onChange={() => handleCheckboxChange(x.id)}>
                         </FormCheck>
                             ;
@@ -136,9 +131,9 @@ export const LocationListComponent: FC = () => {
                             <span>
                                 {
                                     loc.locationFlags.map(x => {
-                                        let flag = LocationFlag[x as keyof typeof LocationFlag]
-                                        return <FontAwesomeIcon
-                                            icon={LocationFlagIcon[flag]}/>
+                                        let flag = LocationFlag[x as keyof typeof LocationFlag];
+                                        return <LocationFlagComponent key={loc.verstId + "-" + x} flag={flag}
+                                                                      withText={false}/>;
                                     })}
                             </span>
                         </div>

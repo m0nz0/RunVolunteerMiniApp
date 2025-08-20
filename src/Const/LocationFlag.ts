@@ -19,7 +19,7 @@ export const LocationFlagName: { [key in LocationFlag]: string } = {
     [LocationFlag.Home]: "Домашняя локация",
     [LocationFlag.IsPrepare]: "Готовится к запуску",
     [LocationFlag.IsCancel]: "Отменено",
-    [LocationFlag.IsBotActive]: "Доступна запсить через бота",
+    [LocationFlag.IsBotActive]: "Доступна запись через бота",
 };
 
 export const LocationFlagIcon: { [key in LocationFlag]: IconProp } = {
@@ -30,4 +30,14 @@ export const LocationFlagIcon: { [key in LocationFlag]: IconProp } = {
     [LocationFlag.IsPrepare]: faRotate,
     [LocationFlag.IsCancel]: faBan,
     [LocationFlag.IsBotActive]: faCheck,
+};
+
+export const LocationFlagColor: { [key in LocationFlag]: string } = {
+    [LocationFlag.Favorite]: "goldenrod",
+    [LocationFlag.Directed]: "indianred",
+    [LocationFlag.Requested]: "lightblue",
+    [LocationFlag.Home]: "blueviolet",
+    [LocationFlag.IsPrepare]: "blue",
+    [LocationFlag.IsCancel]: "red",
+    [LocationFlag.IsBotActive]: "green",
 };
