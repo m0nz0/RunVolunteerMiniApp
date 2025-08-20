@@ -3,7 +3,8 @@ import {FullRequest} from "../../Model/FullRequest";
 import {Accordion, Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
 import {LocationInfoComponent} from "../Location/LocationInfoComponent";
-import {LocationFlag, LocationFlagName} from "../../Const/LocationFlag";
+import {LocationFlag, LocationFlagIcon, LocationFlagName} from "../../Const/LocationFlag";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 interface Props {
     request: FullRequest;
@@ -84,13 +85,19 @@ export const LocationListComponent: FC = () => {
             <Form>
                 {
                     checkedItems.map(x => {
+                        let ico = LocationFlagIcon[x.id as keyof typeof LocationFlagIcon]
+                        console.log("ico", ico)
                         return <FormCheck type={"switch"}
                                           id={x.id.toString()}
                                           key={x.id}
-                                          label={LocationFlagName[x.id as keyof typeof LocationFlagName]}
-                            // value={x.flag}
+                                          label={
+                                              <span>
+                                                  <FontAwesomeIcon
+                                                      icon={LocationFlagIcon[x.id as keyof typeof LocationFlagIcon]}/> <span> {LocationFlagName[x.id as keyof typeof LocationFlagName]} </span>
+                                              </span>}
                                           onChange={() => handleCheckboxChange(x.id)}>
-                        </FormCheck>;
+                        </FormCheck>
+                            ;
                     })
                 }
             </Form>
@@ -99,7 +106,17 @@ export const LocationListComponent: FC = () => {
             {filteredLocations().sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0).map((loc) => (
                 <Accordion.Item eventKey={String(loc.verstId)} key={loc.verstId}>
                     <Accordion.Header>
-                        <div dangerouslySetInnerHTML={{__html: loc.href}}></div>
+                        <div>
+                            <span dangerouslySetInnerHTML={{__html: loc.href}}></span>
+                            <span>
+                                {
+                                    loc.locationFlags.map(x => {
+                                        let flag = LocationFlag[x as keyof typeof LocationFlag]
+                                        return <FontAwesomeIcon
+                                            icon={LocationFlagIcon[flag]}/>
+                                    })}
+                            </span>
+                        </div>
                     </Accordion.Header>
                     <Accordion.Body>
                         <LocationInfoComponent location={loc}/>

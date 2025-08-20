@@ -5,6 +5,8 @@
   "homepage": "https://m0nz0.github.io/test",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-regular-svg-icons": "^7.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@fortawesome/react-fontawesome": "^0.2.5",
     "bootstrap": "5.3.7",

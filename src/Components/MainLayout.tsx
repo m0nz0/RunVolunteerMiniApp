@@ -20,11 +20,11 @@ export const MainLayout: React.FC<Props> = (props) => {
             <Breadcrumbs/>
             <Routes>
                 <Route path="/test" element={<MenuComponent tgUser={props.tgUser}/>}/>
-                <Route path="/test/new-entry" element={<NewEntryComponent/>}/>
-                <Route path="/test/my-entries" element={<MyEntriesComponent/>}/>
-                <Route path="/test/existing-entries" element={<ExistingEntriesComponent/>}/>
-                <Route path="/test/about" element={<AboutComponent/>}/>
-                <Route path="/test/locations" element={<LocationListComponent/>}/>
+                <Route path="/new-entry" element={<NewEntryComponent/>}/>
+                <Route path="/my-entries" element={<MyEntriesComponent/>}/>
+                <Route path="/existing-entries" element={<ExistingEntriesComponent/>}/>
+                <Route path="/about" element={<AboutComponent/>}/>
+                <Route path="/locations" element={<LocationListComponent/>}/>
             </Routes>
         </Container>
     );

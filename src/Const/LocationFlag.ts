@@ -1,3 +1,6 @@
+import {faBan, faCheck, faCrown, faHome, faHourglass, faRotate, faStar} from "@fortawesome/free-solid-svg-icons";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
+
 export enum LocationFlag {
 
     Favorite,
@@ -27,4 +30,12 @@ export const LocationFlagIcon: { [key in LocationFlag]: string } = {
     [LocationFlag.IsPrepare]: "<FontAwesomeIcon icon={byPrefixAndName.fas['arrows-rotate']} />",
     [LocationFlag.IsCancel]: "<FontAwesomeIcon icon={byPrefixAndName.fas['ban']} />",
     [LocationFlag.IsBotActive]: "<FontAwesomeIcon icon={byPrefixAndName.fas['check']} />",
+export const LocationFlagIcon: { [key in LocationFlag]: IconProp } = {
+    [LocationFlag.Favorite]: faStar,
+    [LocationFlag.Directed]: faCrown,
+    [LocationFlag.Requested]: faHourglass,
+    [LocationFlag.Home]: faHome,
+    [LocationFlag.IsPrepare]: faRotate,
+    [LocationFlag.IsCancel]: faBan,
+    [LocationFlag.IsBotActive]: faCheck,
 };

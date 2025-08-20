@@ -29,7 +29,7 @@ export const MenuComponent: React.FC<Props> = (props) => {
     return (
         <div>
             <strong>Hi, {JSON.stringify(props.tgUser)}</strong>
-            <h1>Привет, чем я могу тебе помочь?</h1>
+            <h1 className={"text-center"} text->Привет, чем я могу тебе помочь?</h1>
             <img className={'app-logo'} src={logo}/>
             <div className="d-grid gap-2 buttons-list">
                 {
