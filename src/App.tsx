@@ -14,7 +14,7 @@ export const App: React.FC = () => {
     tg.disableVerticalSwipes();
     tg.expand();
 
-    let tgUserId = tg.initDataUnsafe.user.id;
+    let tgUserId = tg?.initDataUnsafe?.user?.id;
     console.log("tgUserId", tgUserId)
     return (
         <Router>
