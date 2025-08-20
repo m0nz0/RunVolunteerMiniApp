@@ -12,7 +12,7 @@ interface Props {
 }
 
 interface FlagChecker {
-    id: number,
+    id: LocationFlag,
     flag: boolean
 }
 
@@ -29,10 +29,36 @@ export const LocationListComponent: FC = () => {
         const loadData = async () => {
             try {
                 const data = await LocationService.getLocations();
-                setLocations(data);
+                setLocations(data
+                    .sort((a, b) => {
+                            let af = a.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
+                            let bf = b.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
+
+                            let home = (af.some(f => f === LocationFlag.Home) ? 0 : 1) -
+                                (bf.some(f => f === LocationFlag.Home) ? 0 : 1);
+                            if (home != 0) {
+                                return home;
+                            }
+                            let favor = (af.some(f => f === LocationFlag.Favorite) ? 0 : 1) -
+                                (bf.some(f => f === LocationFlag.Favorite) ? 0 : 1);
+                            if (favor != 0) {
+                                return favor;
+                            }
+
+                            let direct = (af.some(f => f === LocationFlag.Directed) ? 0 : 1) -
+                                (bf.some(f => f === LocationFlag.Directed) ? 0 : 1)
+
+                            if (direct != 0) {
+                                return direct;
+                            }
+                            return a.name.localeCompare(b.name);
+                        }
+                    )
+                )
+
                 let flags = [...new Set(data.map(x => x.locationFlags).flat())].map(x => LocationFlag[x as keyof typeof LocationFlag]);
                 setCheckedItems(flags.map(x => {
-                    return {id: x, flag: false}
+                    return {id: x, flag: x === LocationFlag.IsBotActive}
                 }))
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
@@ -57,18 +83,17 @@ export const LocationListComponent: FC = () => {
     }
 
     const filteredLocations = () => {
-        if (checkedItems.every(x => x.flag == false)) {
+        if (checkedItems.every(x => !x.flag)) {
             return locations;
         }
 
-        let checked = checkedItems.filter(x => x.flag).map(x => x.id);
-        let filtered = locations
+        let checked = checkedItems.filter(x => x.flag).map(x => x.id)
+        return locations
             .filter(x => {
                 let flags = x.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
-                console.log(flags)
-                return flags.some(x => checked.includes(x))
+                console.log("flags", flags,"checked", checked)
+                return checked.every(x => flags.includes(x))
             });
-        return filtered;
     }
 
     const handleCheckboxChange = (itemId: number) => {
@@ -86,10 +111,10 @@ export const LocationListComponent: FC = () => {
                 {
                     checkedItems.map(x => {
                         let ico = LocationFlagIcon[x.id as keyof typeof LocationFlagIcon]
-                        console.log("ico", ico)
                         return <FormCheck type={"switch"}
                                           id={x.id.toString()}
                                           key={x.id}
+                                          checked={x.flag}
                                           label={
                                               <span>
                                                   <FontAwesomeIcon
@@ -103,7 +128,7 @@ export const LocationListComponent: FC = () => {
             </Form>
         </div>
         <Accordion>
-            {filteredLocations().sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0).map((loc) => (
+            {filteredLocations().map((loc) => (
                 <Accordion.Item eventKey={String(loc.verstId)} key={loc.verstId}>
                     <Accordion.Header>
                         <div>
