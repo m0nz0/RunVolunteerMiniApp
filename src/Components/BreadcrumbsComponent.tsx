@@ -7,7 +7,7 @@ export const Breadcrumbs: React.FC = () => {
 
     return (
         <Breadcrumb>
-            <Breadcrumb.Item linkAs={Link} linkProps={{to: "/"}}>Home</Breadcrumb.Item>
+            <Breadcrumb.Item linkAs={Link} linkProps={{to: "/test"}}>Home</Breadcrumb.Item>
             {pathnames.map((value, index) => {
                 const to = "/" + pathnames.slice(0, index + 1).join("/");
                 const isLast = index === pathnames.length - 1;
