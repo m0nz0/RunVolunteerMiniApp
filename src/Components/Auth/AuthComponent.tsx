@@ -21,7 +21,7 @@ declare global {
     }
 }
 
-export const AuthForm: FC<Props> = (props) => {
+export const AuthComponent: FC<Props> = (props) => {
 
     let tg = window.Telegram.WebApp;
     tg.disableVerticalSwipes();

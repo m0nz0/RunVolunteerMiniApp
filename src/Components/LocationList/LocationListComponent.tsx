@@ -1,15 +1,15 @@
 import {FC, useEffect, useState} from "react";
 import {FullRequest} from "../../Model/FullRequest";
-import {Accordion, Alert, Button, Spinner} from "react-bootstrap";
+import {Accordion, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
-import {LocationCard} from "../Location/LocationCard";
+import {LocationInfoComponent} from "../Location/LocationInfoComponent";
 
 interface Props {
     request: FullRequest;
     onBack: () => void;
 }
 
-export const LocationListComponent: FC<Props> = (props) => {
+export const LocationListComponent: FC = () => {
 
     const [locations, setLocations] = useState<LocationInfo[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -43,19 +43,19 @@ export const LocationListComponent: FC<Props> = (props) => {
         );
     }
 
-    if (error) {
-        return (
-            <div className="p-3">
-                <Alert variant="danger">Ошибка: {error}</Alert>
-                <Button onClick={props.onBack} variant="secondary">
-                    ← Back
-                </Button>
-            </div>
-        );
-    }
+    // if (error) {
+    //     return (
+    //         <div className="p-3">
+    //             <Alert variant="danger">Ошибка: {error}</Alert>
+    //             <Button onClick={props.onBack} variant="secondary">
+    //                 ← Back
+    //             </Button>
+    //         </div>
+    //     );
+    // }
 
     return <div>
-        <Button onClick={props.onBack}>← Back</Button>
+        {/*<Button onClick={props.onBack}>← Back</Button>*/}
         <h2 className="mb-3">Locations</h2>
         <Accordion alwaysOpen>
             {locations.sort((a, b) => a.name > b.name ? 1 : a.name < b.name ? -1 : 0).map((loc) => (
@@ -64,7 +64,7 @@ export const LocationListComponent: FC<Props> = (props) => {
                         <div dangerouslySetInnerHTML={{__html: loc.href}}></div>
                     </Accordion.Header>
                     <Accordion.Body>
-                        <LocationCard location={loc}/>
+                        <LocationInfoComponent location={loc}/>
                     </Accordion.Body>
                 </Accordion.Item>
             ))}

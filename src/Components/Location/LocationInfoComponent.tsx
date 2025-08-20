@@ -7,7 +7,7 @@ interface Props {
     // onBack: () => void;
 }
 
-export const LocationCard: FC<Props> = (props) => {
+export const LocationInfoComponent: FC<Props> = (props) => {
     const onBtnClick = (btn: string) => {
         console.log("clicked", btn)
     }
