@@ -1,10 +1,21 @@
 import React from "react";
-import {BrowserRouter as Router, Routes, Route, Link, useLocation} from "react-router-dom";
-import {Container, Navbar, Nav, Breadcrumb, Accordion} from "react-bootstrap";
+import {BrowserRouter as Router} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MainLayout} from "./Components/MainLayout";
 
+declare global {
+    interface Window {
+        Telegram: any;
+    }
+}
+
 export const App: React.FC = () => {
+    let tg = window.Telegram.WebApp;
+    tg.disableVerticalSwipes();
+    tg.expand();
+
+    let tgUserId = tg.initDataUnsafe.user.id;
+    console.log("tgUserId", tgUserId)
     return (
         <Router>
             <MainLayout/>
