@@ -18,7 +18,7 @@ export const App: React.FC = () => {
     console.log("tgUserId", tgUserId)
     return (
         <Router>
-            <MainLayout/>
+            <MainLayout tgUser={tgUserId}/>
         </Router>
     );
 };
