@@ -23,8 +23,9 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "deploy:dev": "env-cmd -f .env.development gh-pages -d build"
+    "deploy": "npm run build && npm run copy404 && gh-pages -d build",
+    "copy404": "copyfiles build/index.html build/404.html"
+
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +49,7 @@
     "@types/node": "^24.3.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
+    "copyfiles": "^2.4.1",
     "env-cmd": "^10.1.0",
     "gh-pages": "^6.3.0",
     "react-scripts": "5.0.1",
