@@ -60,7 +60,7 @@ export const LocationListComponent: FC = () => {
 
                 let flags = [...new Set(data.map(x => x.locationFlags).flat())].map(x => LocationFlag[x as keyof typeof LocationFlag]);
                 setCheckedItems(flags.map(x => {
-                    return {id: x, flag: defaultSwitchedFilters.some(f=>f===x)}
+                    return {id: x, flag: defaultSwitchedFilters.some(f => f === x)}
                 }))
             } catch (err) {
                 if (isMounted) setError((err as Error).message);

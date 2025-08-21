@@ -1,3 +1,5 @@
+import {UserHelper} from "../Common/UserHelper";
+
 export type LocationInfo = {
     verstId: number,
     name: string,
@@ -25,7 +27,8 @@ export type DefautPosition = {
 
 export default class LocationService {
     static async getLocations(): Promise<LocationInfo[]> {
-        // Заглушка, вместо этого вставь свой реальный URL
+
+        let userId = UserHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = "get-all-locations";
@@ -33,7 +36,7 @@ export default class LocationService {
         console.log("location fetch url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
-            body: JSON.stringify(182817160),
+            body: JSON.stringify(/*userId*/182817160),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

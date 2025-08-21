@@ -14,11 +14,9 @@ export const App: React.FC = () => {
     tg.disableVerticalSwipes();
     tg.expand();
 
-    let tgUser = tg?.initDataUnsafe?.user;
-    console.log("tgUser", JSON.stringify(tgUser))
     return (
         <Router>
-            <MainLayout tgUser={tgUser}/>
+            <MainLayout/>
         </Router>
     );
 };

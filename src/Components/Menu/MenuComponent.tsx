@@ -4,6 +4,7 @@ import {Button} from "react-bootstrap";
 import {Link, LinkProps} from "react-router-dom";
 import logo from '../../ico.png'
 import './styles.css'
+import {UserHelper} from "../../Common/UserHelper";
 
 const listItemTextList = [
     "Записаться в волонтеры",
@@ -25,10 +26,13 @@ const LinkAdapter = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) 
 ));
 LinkAdapter.displayName = "LinkAdapter";
 
-export const MenuComponent: React.FC<Props> = (props) => {
+export const MenuComponent: React.FC = () => {
+
+    let user = UserHelper.getUser();
+    let userName = user?.username;
     return (
         <div>
-            <strong>Hi, {JSON.stringify(props.tgUser)}</strong>
+            {userName && <strong>Hi, {userName}</strong>}
             <h1 className={"text-center"} text->Привет, чем я могу тебе помочь?</h1>
             <img className={'app-logo'} src={logo}/>
             <div className="d-grid gap-2 buttons-list">

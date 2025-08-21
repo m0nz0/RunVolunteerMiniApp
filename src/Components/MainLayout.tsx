@@ -14,12 +14,12 @@ interface Props {
     tgUser: any
 }
 
-export const MainLayout: React.FC<Props> = (props) => {
+export const MainLayout: React.FC = () => {
     return (
         <Container>
             <BreadcrumbsComponent/>
             <Routes>
-                <Route path="/test" element={<MenuComponent tgUser={props.tgUser}/>}/>
+                <Route path="/test" element={<MenuComponent/>}/>
                 <Route path="/new-entry" element={<NewEntryComponent/>}/>
                 <Route path="/my-entries" element={<MyEntriesComponent/>}/>
                 <Route path="/existing-entries" element={<ExistingEntriesComponent/>}/>
