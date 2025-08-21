@@ -1,8 +1,16 @@
 import {FC} from "react";
+import {LocationFlag} from "../../Const/LocationFlag";
+import {LocationListComponent} from "../LocationList/LocationListComponent";
 
-const NewEntryComponent: FC = (props) => {
+interface Props {
+}
+
+const NewEntryComponent: FC = () => {
     return <div>
-        <h5>Тут будет запись</h5>
+        <h5 className={"text-center"}>Выбери локацию для записи</h5>
+        <LocationListComponent defaultSwitchedFilters={[LocationFlag.Favorite, LocationFlag.IsBotActive]}
+                               hiddenFilters={[LocationFlag.IsBotActive, LocationFlag.IsPrepare, LocationFlag.IsCancel]}
+                               forSchedule={true}/>
     </div>
 }
 

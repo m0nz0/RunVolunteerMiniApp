@@ -1,29 +1,30 @@
 import {FC, useEffect, useState} from "react";
-import {FullRequest} from "../../Model/FullRequest";
-import {Accordion, Form, FormCheck, Spinner} from "react-bootstrap";
+import {Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
-import {LocationInfoComponent} from "../LocationInfo/LocationInfoComponent";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
+import {LocationInfoComponent} from "../LocationInfo/LocationInfoComponent";
 
 interface Props {
-    request: FullRequest;
-    onBack: () => void;
+    defaultSwitchedFilters: LocationFlag[]
+    hiddenFilters: LocationFlag[],
+    forSchedule: boolean
 }
 
 interface FlagChecker {
     id: LocationFlag,
-    flag: boolean
+    flag: boolean,
+
 }
 
-const defaultSwitchedFilters = [LocationFlag.Favorite, LocationFlag.IsBotActive];
-
-export const LocationListComponent: FC = () => {
+export const LocationListComponent: FC<Props> = (props) => {
 
     const [locations, setLocations] = useState<LocationInfo[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
+    const [activeKey, setActiveKey] = useState<string | null>(null);
+
 
     useEffect(() => {
         let isMounted = true;
@@ -31,7 +32,7 @@ export const LocationListComponent: FC = () => {
         const loadData = async () => {
             try {
                 const data = await LocationService.getLocations();
-                setLocations(data
+                let sorted = data
                     .sort((a, b) => {
                             let af = a.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
                             let bf = b.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
@@ -55,12 +56,15 @@ export const LocationListComponent: FC = () => {
                             }
                             return a.name.localeCompare(b.name);
                         }
-                    )
-                )
+                    );
 
-                let flags = [...new Set(data.map(x => x.locationFlags).flat())].map(x => LocationFlag[x as keyof typeof LocationFlag]);
+                setLocations(props.forSchedule ? sorted.filter(value => value.botActive) : sorted)
+
+                let flags = [...new Set(data.map(x => x.locationFlags).flat())]
+                    .map(x => LocationFlag[x as keyof typeof LocationFlag])
+                    .filter(value => !props.hiddenFilters.some(hf => hf === value));
                 setCheckedItems(flags.map(x => {
-                    return {id: x, flag: defaultSwitchedFilters.some(f => f === x)}
+                    return {id: x, flag: props.defaultSwitchedFilters.some(f => f === x)}
                 }))
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
@@ -105,45 +109,26 @@ export const LocationListComponent: FC = () => {
         );
     };
 
+
     return <div>
-        <h2 className="text-center">Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти нужную</h2>
-        <div>
-            <Form>
-                {
-                    checkedItems.map(x => {
-                        return <FormCheck type={"switch"}
-                                          id={x.id.toString()}
-                                          key={x.id}
-                                          checked={x.flag}
-                                          label={<LocationFlagComponent flag={x.id} withText={true}/>}
-                                          onChange={() => handleCheckboxChange(x.id)}>
-                        </FormCheck>
-                            ;
-                    })
-                }
-            </Form>
-        </div>
-        <Accordion>
-            {filteredLocations().map((loc) => (
-                <Accordion.Item eventKey={String(loc.verstId)} key={loc.verstId}>
-                    <Accordion.Header>
-                        <div>
-                            <span>{loc.name}</span>
-                            <span>
-                                {
-                                    loc.locationFlags.map(x => {
-                                        return <LocationFlagComponent key={loc.verstId + "-" + x}
-                                                                      flag={LocationFlag[x as keyof typeof LocationFlag]}
-                                                                      withText={false}/>;
-                                    })}
-                            </span>
-                        </div>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                        <LocationInfoComponent location={loc}/>
-                    </Accordion.Body>
-                </Accordion.Item>
-            ))}
-        </Accordion>
+        <Form>
+            {
+                checkedItems.map(x => {
+                    return <FormCheck type={"switch"}
+                                      id={x.id.toString()}
+                                      key={x.id}
+                                      disabled={props.hiddenFilters.some(f => f === x.id)}
+                                      checked={x.flag}
+                                      label={<LocationFlagComponent flag={x.id} withText={true}/>}
+                                      onChange={() => handleCheckboxChange(x.id)}>
+                    </FormCheck>
+                })
+            }
+        </Form>
+        {filteredLocations().map((loc) =>
+            <div key={loc.verstId}>
+                <LocationInfoComponent location={loc} forSchedule={props.forSchedule}/>
+            </div>)
+        }
     </div>
 }

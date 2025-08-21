@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface Props {
     flag: LocationFlag,
-    withText: boolean,
+    withText: boolean
 }
 
 export const LocationFlagComponent: FC<Props> = (props) => {
