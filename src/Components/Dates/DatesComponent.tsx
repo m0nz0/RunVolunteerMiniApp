@@ -1,22 +1,24 @@
 import {FC, useEffect, useState} from "react";
 import CalendarService, {Calendar} from "../../Services/CalendarService";
+import {useParams} from "react-router-dom";
 
 interface Props {
     locationId: number
 }
 
-export const DatesComponent: FC<Props> = (props) => {
+export const DatesComponent: FC = () => {
 
     const [dates, setDates] = useState<Calendar[]>([])
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const {locationId} = useParams<{ locationId: string }>();
 
     useEffect(() => {
         let isMounted = true;
 
         const loadData = async () => {
             try {
-                const data = await CalendarService.getDatesForSchedule(props.locationId);
+                const data = await CalendarService.getDatesForSchedule(Number(locationId));
                 let sorted = data
                     .sort((a, b) => {
                             return a.date.getMilliseconds() - b.date.getMilliseconds()

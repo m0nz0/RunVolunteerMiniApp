@@ -1,7 +1,9 @@
 import React from "react";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {MainLayout} from "./Components/MainLayout";
+import {BreadcrumbsComponent} from "./Components/BreadcrumbsComponent";
+import {Container} from "react-bootstrap";
+import {appRoutes} from "./routes";
 
 declare global {
     interface Window {
@@ -16,7 +18,18 @@ export const App: React.FC = () => {
 
     return (
         <BrowserRouter basename="/test">
-            <MainLayout/>
+            <Container>
+                <BreadcrumbsComponent/>
+                <Routes>
+                    {appRoutes.map((route) => (
+                        <Route
+                            key={route.path}
+                            path={route.path}
+                            element={<route.element {...(route.extraProps || {})} />}
+                        />
+                    ))}
+                </Routes>
+            </Container>
         </BrowserRouter>
     );
 };
