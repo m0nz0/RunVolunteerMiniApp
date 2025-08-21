@@ -3,7 +3,7 @@ import {FullRequest} from "../../Model/FullRequest";
 import {Accordion, Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
 import {LocationInfoComponent} from "../LocationInfo/LocationInfoComponent";
-import {LocationFlag, LocationFlagIcon} from "../../Const/LocationFlag";
+import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
 
 interface Props {
@@ -93,7 +93,7 @@ export const LocationListComponent: FC = () => {
         return locations
             .filter(x => {
                 let flags = x.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
-                return checked.every(x => flags.includes(x))
+                return checked.every(t => flags.includes(t))
             });
     }
 
@@ -111,7 +111,6 @@ export const LocationListComponent: FC = () => {
             <Form>
                 {
                     checkedItems.map(x => {
-                        let ico = LocationFlagIcon[x.id as keyof typeof LocationFlagIcon]
                         return <FormCheck type={"switch"}
                                           id={x.id.toString()}
                                           key={x.id}
@@ -129,12 +128,12 @@ export const LocationListComponent: FC = () => {
                 <Accordion.Item eventKey={String(loc.verstId)} key={loc.verstId}>
                     <Accordion.Header>
                         <div>
-                            <span dangerouslySetInnerHTML={{__html: loc.href}}></span>
+                            <span>{loc.name}</span>
                             <span>
                                 {
                                     loc.locationFlags.map(x => {
-                                        let flag = LocationFlag[x as keyof typeof LocationFlag];
-                                        return <LocationFlagComponent key={loc.verstId + "-" + x} flag={flag}
+                                        return <LocationFlagComponent key={loc.verstId + "-" + x}
+                                                                      flag={LocationFlag[x as keyof typeof LocationFlag]}
                                                                       withText={false}/>;
                                     })}
                             </span>

@@ -2,7 +2,6 @@ import {faBan, faCheck, faCrown, faHome, faHourglass, faRotate, faStar} from "@f
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 export enum LocationFlag {
-
     Favorite,
     Directed,
     Requested,
@@ -12,32 +11,12 @@ export enum LocationFlag {
     IsBotActive
 }
 
-export const LocationFlagName: { [key in LocationFlag]: string } = {
-    [LocationFlag.Favorite]: "Избранные локации",
-    [LocationFlag.Directed]: "Вы директор",
-    [LocationFlag.Requested]: "Вы подяли заявку в директора",
-    [LocationFlag.Home]: "Домашняя локация",
-    [LocationFlag.IsPrepare]: "Готовится к запуску",
-    [LocationFlag.IsCancel]: "Отменено",
-    [LocationFlag.IsBotActive]: "Доступна запись через бота",
-};
-
-export const LocationFlagIcon: { [key in LocationFlag]: IconProp } = {
-    [LocationFlag.Favorite]: faStar,
-    [LocationFlag.Directed]: faCrown,
-    [LocationFlag.Requested]: faHourglass,
-    [LocationFlag.Home]: faHome,
-    [LocationFlag.IsPrepare]: faRotate,
-    [LocationFlag.IsCancel]: faBan,
-    [LocationFlag.IsBotActive]: faCheck,
-};
-
-export const LocationFlagColor: { [key in LocationFlag]: string } = {
-    [LocationFlag.Favorite]: "goldenrod",
-    [LocationFlag.Directed]: "indianred",
-    [LocationFlag.Requested]: "lightblue",
-    [LocationFlag.Home]: "blueviolet",
-    [LocationFlag.IsPrepare]: "blue",
-    [LocationFlag.IsCancel]: "red",
-    [LocationFlag.IsBotActive]: "green",
+export const LocationFlagParams: { [key in LocationFlag]: { name: string, icon: IconProp, color: string } } = {
+    [LocationFlag.Favorite]: {name: "Избранные локации", color: "goldenrod", icon: faStar},
+    [LocationFlag.Directed]: {name: "Вы директор", color: "indianred", icon: faCrown},
+    [LocationFlag.Requested]: {name: "Вы подяли заявку в директора", color: "lightblue", icon: faHourglass},
+    [LocationFlag.Home]: {name: "Домашняя локация", color: "blueviolet", icon: faHome},
+    [LocationFlag.IsPrepare]: {name: "Готовится к запуску", color: "blue", icon: faRotate},
+    [LocationFlag.IsCancel]: {name: "Отменено", color: "red", icon: faBan},
+    [LocationFlag.IsBotActive]: {name: "Доступна запись через бота", color: "green", icon: faCheck},
 };

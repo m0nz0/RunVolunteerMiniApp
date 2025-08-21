@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {LocationFlag, LocationFlagColor, LocationFlagIcon, LocationFlagName} from "../../Const/LocationFlag";
+import {LocationFlag, LocationFlagParams} from "../../Const/LocationFlag";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface Props {
@@ -9,8 +9,10 @@ interface Props {
 
 export const LocationFlagComponent: FC<Props> = (props) => {
 
+    let info = LocationFlagParams[props.flag as keyof typeof LocationFlagParams];
+
     return (<span>
-        <FontAwesomeIcon icon={LocationFlagIcon[props.flag]} color={LocationFlagColor[props.flag]}/>
-        {props.withText && <span> {LocationFlagName[props.flag]} </span>}
+        <FontAwesomeIcon icon={info.icon} color={info.color}/>
+        {props.withText && <span> {info.name} </span>}
     </span>)
 }

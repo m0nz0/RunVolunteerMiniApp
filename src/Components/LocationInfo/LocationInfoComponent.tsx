@@ -19,8 +19,8 @@ export const LocationInfoComponent: FC<Props> = (props) => {
                 <span>{props.location.cityName}</span>
             </p>
             <p>
-                <strong>Название локации: </strong>
-                <span>{props.location.name}</span>
+                <strong>Страница локации: </strong>
+                <span dangerouslySetInnerHTML={{__html: props.location.href}}></span>
             </p>
             <p>
                 <strong>Статус: </strong>
