@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {MenuComponent} from "./Menu/MenuComponent";
 import {LocationListComponent} from "./LocationList/LocationListComponent";
 import {AboutComponent} from "./About/AboutComponent";
-import {Breadcrumbs} from "./BreadcrumbsComponent";
+import {BreadcrumbsComponent} from "./BreadcrumbsComponent";
 import MyEntriesComponent from "./MyEntries/MyEntriesComponent";
 import ExistingEntriesComponent from "./ExistingEntries/ExistingEntriesComponent";
 import NewEntryComponent from "./NewEntry/NewEntryComponent";
@@ -17,7 +17,7 @@ interface Props {
 export const MainLayout: React.FC<Props> = (props) => {
     return (
         <Container>
-            <Breadcrumbs/>
+            <BreadcrumbsComponent/>
             <Routes>
                 <Route path="/test" element={<MenuComponent tgUser={props.tgUser}/>}/>
                 <Route path="/new-entry" element={<NewEntryComponent/>}/>

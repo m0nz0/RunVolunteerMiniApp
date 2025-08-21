@@ -1,7 +1,7 @@
 import {Link, useLocation} from "react-router-dom";
 import {Breadcrumb} from "react-bootstrap";
 
-export const Breadcrumbs: React.FC = () => {
+export const BreadcrumbsComponent: React.FC = () => {
     const location = useLocation();
     const pathnames = location.pathname.split("/").filter((x) => x);
 

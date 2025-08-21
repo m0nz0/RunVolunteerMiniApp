@@ -2,7 +2,7 @@ import {FC, useEffect, useState} from "react";
 import {FullRequest} from "../../Model/FullRequest";
 import {Accordion, Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService, {LocationInfo} from "../../Services/LocationService";
-import {LocationInfoComponent} from "../Location/LocationInfoComponent";
+import {LocationInfoComponent} from "../LocationInfo/LocationInfoComponent";
 import {LocationFlag, LocationFlagIcon} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
 
@@ -15,6 +15,8 @@ interface FlagChecker {
     id: LocationFlag,
     flag: boolean
 }
+
+const defaultSwitchedFilters = [LocationFlag.Favorite, LocationFlag.IsBotActive];
 
 export const LocationListComponent: FC = () => {
 
@@ -58,7 +60,7 @@ export const LocationListComponent: FC = () => {
 
                 let flags = [...new Set(data.map(x => x.locationFlags).flat())].map(x => LocationFlag[x as keyof typeof LocationFlag]);
                 setCheckedItems(flags.map(x => {
-                    return {id: x, flag: x === LocationFlag.IsBotActive}
+                    return {id: x, flag: defaultSwitchedFilters.some(f=>f===x)}
                 }))
             } catch (err) {
                 if (isMounted) setError((err as Error).message);

@@ -1,6 +1,7 @@
 import {FC} from "react";
 import {LocationInfo} from "../../Services/LocationService";
 import {Button, ButtonGroup, Container} from "react-bootstrap";
+import {CoordinatesComponent} from "../Coordinates/CoordinatesComponent";
 
 interface Props {
     location: LocationInfo;
@@ -25,6 +26,10 @@ export const LocationInfoComponent: FC<Props> = (props) => {
                 <strong>Статус: </strong>
                 <span>{props.location.verstStatusName}</span>
             </p>
+            <p>
+                <strong>Где: </strong>
+                <CoordinatesComponent lat={props.location.lat} lon={props.location.lon}/></p>
+
         </Container>
         {/*<ButtonGroup vertical>*/}
         {/*    {props.location.locationFlags.map(x =>*/}
