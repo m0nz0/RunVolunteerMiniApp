@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {MainLayout} from "./Components/MainLayout";
 
@@ -15,9 +15,9 @@ export const App: React.FC = () => {
     tg.expand();
 
     return (
-        <Router>
+        <BrowserRouter basename="/test">
             <MainLayout/>
-        </Router>
+        </BrowserRouter>
     );
 };
 

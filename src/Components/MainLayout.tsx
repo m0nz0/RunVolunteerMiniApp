@@ -19,7 +19,7 @@ export const MainLayout: React.FC = () => {
         <Container>
             <BreadcrumbsComponent/>
             <Routes>
-                <Route path="/test" element={<MenuComponent/>}/>
+                <Route path="/" element={<MenuComponent/>}/>
                 <Route path="/new-entry" element={<NewEntryComponent/>}/>
                 <Route path="/my-entries" element={<MyEntriesComponent/>}/>
                 <Route path="/existing-entries" element={<ExistingEntriesComponent/>}/>
