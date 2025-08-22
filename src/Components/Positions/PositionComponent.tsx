@@ -1,10 +1,11 @@
 import {FC, useEffect, useState} from "react";
-import {data, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {PositionData} from "../../types";
 import PositionService from "../../Services/PositionService";
-import {Accordion, Spinner} from "react-bootstrap";
+import {Accordion, Button, Spinner} from "react-bootstrap";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
-import {useUserContext} from "../../Common/Context/UserContext";
+import {PositionTypeParams} from "../../Const/PositionType";
+import LinkAdapter from "../../Common/LinkAdapter";
 
 interface Props {
 }
@@ -47,22 +48,34 @@ export const PositionComponent: FC<Props> = (props) => {
         );
     }
     return (
-        <div>
+        positionData && <div>
             <p>Выбор позиции для локации {locationDict[Number(locationId)].name}</p>
             <p>Calendar {calendarId}</p>
+            <p> {JSON.stringify(positionData.calendar)}</p>
 
             <Accordion alwaysOpen>
-                {/*{Object.gr.groupBy positionData?.positions.map((loc, idx) => (*/}
-                {/*//     <Accordion.Item eventKey={idx.toString()} key={idx}>*/}
-                {/*//         <Accordion.Header>{loc}</Accordion.Header>*/}
-                {/*//         <Accordion.Body>*/}
-                {/*//             Information about {loc} goes here...*/}
-                {/*//         </Accordion.Body>*/}
-                {/*//     </Accordion.Item>*/}
-                {/*}*/}
+                {Object.entries(Object.groupBy(positionData?.positions, item => item.positionType))
+                    .map(([positionType, value]) =>
+                        // <div>{positionType}</div>
+                        <Accordion.Item eventKey={positionType}>
+                            <Accordion.Header>{PositionTypeParams[Number(positionType) as keyof typeof PositionTypeParams].name}</Accordion.Header>
+                            <Accordion.Body>
+                                <div className={"d-grid gap-2 buttons-list"}>
+                                    {value
+                                        .sort((a, b) => a.name.localeCompare(b.name))
+                                        .map(x =>
+                                            <Button key={x.id} as={LinkAdapter as any}
+                                                    to={`/locations/${locationId}/dates/${x.id}/`}
+                                                    variant="info"
+                                                    size="lg">{x.name}</Button>
+                                        )
+                                    }
+                                </div>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    )
+                }
             </Accordion>
-
-            // {positionData?.positions.map(x => <p>{x.name}</p>)}
         </div>
     )
 }

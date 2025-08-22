@@ -13,7 +13,7 @@ export default class PositionService {
         let controllerName = "MiniApp";
         let methodName = "get-positions-for-schedule";
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}/${locationId}/calendar/${calendarId}`;
-        console.log("location fetch url", fetchUrl)
+        console.log("position fetch url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
             body: JSON.stringify(/*userId*/182817160),
