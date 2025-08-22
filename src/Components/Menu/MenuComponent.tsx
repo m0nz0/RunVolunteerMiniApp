@@ -5,6 +5,7 @@ import {Link, LinkProps} from "react-router-dom";
 import logo from '../../ico.png'
 import './styles.css'
 import {UserHelper} from "../../Common/UserHelper";
+import LinkAdapter from "../../Common/LinkAdapter";
 
 const listItemTextList = [
     "Записаться в волонтеры",
@@ -20,12 +21,6 @@ interface Props {
     // onBack: () => void;
 }
 
-// адаптер для Link (чтобы работало в react-bootstrap + TS)
-const LinkAdapter = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
-    <Link ref={ref} {...props} />
-));
-LinkAdapter.displayName = "LinkAdapter";
-
 export const MenuComponent: React.FC = () => {
 
     let user = UserHelper.getUser();
@@ -40,22 +35,35 @@ export const MenuComponent: React.FC = () => {
                     listItemTextList.map((x, i) => {
                         switch (x) {
                             case "Записаться в волонтеры":
-                                return <Button as={LinkAdapter as any} to={"/new-entry"} variant="info"
+                                return <Button key={i} as={LinkAdapter as any}
+                                               to={"/new-entry"}
+                                               variant="info"
                                                size="lg">{x}</Button>;
                             case "Мои Записи":
-                                return <Button as={LinkAdapter as any} to="/my-entries" variant="info"
+                                return <Button key={i} as={LinkAdapter as any}
+                                               to="/my-entries"
+                                               variant="info"
                                                size="lg">{x}</Button>;
                             case "Кто уже записан":
-                                return <Button as={LinkAdapter as any} to="/existing-entries" variant="info"
+                                return <Button key={i} as={LinkAdapter as any}
+                                               to="/existing-entries"
+                                               variant="info"
                                                size="lg">{x}</Button>;
                             case "Локации":
-                                return <Button as={LinkAdapter as any} to="/locations" variant="info"
+                                return <Button key={i} as={LinkAdapter as any}
+                                               to="/locations"
+                                               variant="info"
                                                size="lg">{x}</Button>;
                             case "Помощь":
-                                return <Button as={LinkAdapter as any} to="/about" variant="info"
+                                return <Button key={i} as={LinkAdapter as any}
+                                               to="/about"
+                                               variant="info"
                                                size="lg">{x} </Button>;
                             default:
-                                return <Button as={LinkAdapter as any} to="/" variant="info" size="lg">{x}</Button>;
+                                return <Button key={i} as={LinkAdapter as any}
+                                               to="/"
+                                               variant="info"
+                                               size="lg">{x}</Button>;
                         }
                     })
                 }</div>

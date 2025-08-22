@@ -1,9 +1,11 @@
 import React from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {BreadcrumbsComponent} from "./Components/BreadcrumbsComponent";
 import {Container} from "react-bootstrap";
 import {appRoutes} from "./routes";
+import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
+import {GlobalProvider} from "./Common/Context/GlobalContext";
+import {UserProvider} from "./Common/Context/UserContext";
 
 declare global {
     interface Window {
@@ -12,25 +14,30 @@ declare global {
 }
 
 export const App: React.FC = () => {
-    let tg = window.Telegram.WebApp;
-    tg.disableVerticalSwipes();
-    tg.expand();
+    let tg = window?.Telegram?.WebApp;
+    if (tg) {
+        tg.disableVerticalSwipes();
+        tg.expand();
+    }
 
     return (
-        <BrowserRouter basename="/test">
-            <Container>
-                <BreadcrumbsComponent/>
-                <Routes>
-                    {appRoutes.map((route) => (
-                        <Route
-                            key={route.path}
-                            path={route.path}
-                            element={<route.element {...(route.extraProps || {})} />}
-                        />
-                    ))}
-                </Routes>
-            </Container>
-        </BrowserRouter>
+        <GlobalProvider>
+            <UserProvider> <BrowserRouter basename="/test">
+                <Container>
+                    <BreadcrumbsComponent/>
+                    <Routes>
+                        {appRoutes.map((route) => (
+                            <Route
+                                key={route.path}
+                                path={route.path}
+                                element={<route.element {...(route.extraProps || {})} />}
+                            />
+                        ))}
+                    </Routes>
+                </Container>
+            </BrowserRouter>
+            </UserProvider>
+        </GlobalProvider>
     );
 };
 

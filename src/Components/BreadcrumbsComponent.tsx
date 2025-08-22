@@ -1,50 +1,56 @@
-import {Link, matchPath, useLocation} from "react-router-dom";
+import React from "react";
 import {Breadcrumb} from "react-bootstrap";
+import {Link, matchPath, useLocation, useMatch} from "react-router-dom";
 import {appRoutes} from "../routes";
+import {useGlobalContext} from "../Common/Context/GlobalContext";
 
-export const BreadcrumbsComponent: React.FC = () => {
+
+const BreadcrumbsComponent: React.FC = () => {
+    const {locationDict} = useGlobalContext();
+    // const params = useParams<{ locationId?: string }>();
     const location = useLocation();
-    const pathnames = location.pathname.split("/").filter((x) => x);
 
-    let crumbs: { to: string; label: string }[] = [];
 
-    pathnames.forEach((_, index) => {
-        const to = `/${pathnames.slice(0, index + 1).join("/")}`;
-        const route = appRoutes.find((r) => matchPath(r.path, to));
+    const pathnames = location.pathname.split("/").filter(Boolean);
+    const match = useMatch("/locations/:locationId/*");
+    const locationId = match?.params.locationId;
 
-        if (route) {
-            // достаём параметры (например :id)
-            const match = matchPath({path: route.path, end: true}, to);
-            const params = match?.params || {};
-
-            const label =
-                typeof route.label === "function" ? route.label(params as Record<string, string>) : route.label;
-
-            crumbs.push({to, label});
+    const findRouteLabel = (url: string): string | undefined => {
+        for (const route of appRoutes) {
+            if (matchPath({path: route.path, end: true}, url)) {
+                return route.label; // теперь всегда string
+            }
         }
-    });
+        return undefined;
+    };
 
     return (
         <Breadcrumb>
             <Breadcrumb.Item linkAs={Link} linkProps={{to: "/"}}>
                 Главная
             </Breadcrumb.Item>
-            {crumbs.map((crumb, index) => {
-                const isLast = index === crumbs.length - 1;
-                return isLast ? (
-                    <Breadcrumb.Item active key={crumb.to}>
-                        {crumb.label}
-                    </Breadcrumb.Item>
-                ) : (
-                    <Breadcrumb.Item
-                        linkAs={Link}
-                        linkProps={{to: crumb.to}}
-                        key={crumb.to}
-                    >
-                        {crumb.label}
+
+            {pathnames.map((part, index) => {
+                let isLink = true;
+                const url = "/" + pathnames.slice(0, index + 1).join("/");
+
+                let label = findRouteLabel(url) ?? part;
+
+                let isLast = index === pathnames.length - 1;
+                // Если это /locations/:locationId, используем имя из справочника
+                if (pathnames[index - 1] === "locations" && /^\d+$/.test(part)) {
+
+                    label = locationDict[Number(part)]?.name ?? part;
+                    isLast = true
+                }
+
+                return (<Breadcrumb.Item key={url} linkAs={Link} linkProps={{to: url}} active={isLast}>
+                        {label}
                     </Breadcrumb.Item>
                 );
             })}
         </Breadcrumb>
     );
 };
+
+export default BreadcrumbsComponent;

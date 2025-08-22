@@ -2,6 +2,9 @@ import {Version} from "./Const/Version";
 import {Action} from "./Const/Action";
 import {Target} from "./Const/Target";
 import {Source} from "./Const/Source";
+import {LocationFlag} from "./Const/LocationFlag";
+import {DefautPosition} from "./Services/LocationService";
+import {PositionType} from "./Const/PositionType";
 
 export type AllParams = {
     calendarId: number | undefined,

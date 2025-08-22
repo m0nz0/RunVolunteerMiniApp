@@ -5,10 +5,11 @@ import MyEntriesComponent from "./Components/MyEntries/MyEntriesComponent";
 import ExistingEntriesComponent from "./Components/ExistingEntries/ExistingEntriesComponent";
 import NewEntryComponent from "./Components/NewEntry/NewEntryComponent";
 import {DatesComponent} from "./Components/Dates/DatesComponent";
+import {PositionComponent} from "./Components/Positions/PositionComponent";
 
 export interface AppRoute {
     path: string;
-    label: string | ((params: Record<string, string>) => string); // текст или функция
+    label: string,//| ((params: Record<string, string>) => string); // текст или функция
     element: React.ComponentType<any>;  // компонент (позже отрендерим)
     extraProps?: Record<string, any>;   // кастомные пропсы
 }
@@ -51,9 +52,15 @@ export const appRoutes: AppRoute[] = [
         extraProps: {pageSize: 20},
     },
     {
-        path: "/location/:locationId/dates",
+        path: "/locations/:locationId/dates",
         label: "Дата",//(params) => `Профиль #${params.id}`,  // динамическое название
         element: DatesComponent,
+        extraProps: {showDetails: true},
+    },
+    {
+        path: "/locations/:locationId/dates/:calendarId",
+        label: "Позиции",//(params) => `Профиль #${params.id}`,  // динамическое название
+        element: PositionComponent,
         extraProps: {showDetails: true},
     },
     // {

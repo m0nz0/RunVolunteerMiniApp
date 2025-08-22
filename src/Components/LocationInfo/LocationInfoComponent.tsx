@@ -1,21 +1,15 @@
 import React, {FC} from "react";
-import {LocationInfo} from "../../Services/LocationService";
-import {Button, ButtonGroup, Card, Container} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 import {CoordinatesComponent} from "../Coordinates/CoordinatesComponent";
 import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
 import {LocationFlag} from "../../Const/LocationFlag";
-import {Link, LinkProps} from "react-router-dom";
+import LinkAdapter from "../../Common/LinkAdapter";
+import {UserLocationDictItem} from "../../types";
 
 interface Props {
-    location: LocationInfo,
+    location: UserLocationDictItem,
     forSchedule: boolean
 }
-
-// адаптер для Link (чтобы работало в react-bootstrap + TS)
-const LinkAdapter = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => (
-    <Link ref={ref} {...props} />
-));
-LinkAdapter.displayName = "LinkAdapter";
 
 export const LocationInfoComponent: FC<Props> = (props) => {
 
@@ -58,9 +52,9 @@ export const LocationInfoComponent: FC<Props> = (props) => {
                 </Card.Text>
                 <Card.Footer>
                     <Button as={LinkAdapter as any}
-                            to={`/location/${props.location.verstId}/dates`}
+                            to={`/locations/${props.location.verstId}/dates`}
                             variant="info"
-                            size="lg">Btn</Button>;
+                            size="lg">Записаться</Button>
                 </Card.Footer>
             </Card.Body>
         </Card>

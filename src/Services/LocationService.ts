@@ -1,32 +1,12 @@
 import {UserHelper} from "../Common/UserHelper";
-
-export type LocationInfo = {
-    verstId: number,
-    name: string,
-    cityName: string,
-    isFavorite: boolean,
-    isHome: boolean,
-    isDirected: boolean,
-    isRequested: boolean,
-    verstActive: boolean,
-    verstStatusName: string,
-    verstStatusCode: string,
-    botActive: boolean,
-    url: string,
-    lat: number,
-    lon: number,
-    href: string,
-    defaultPositions: DefautPosition,
-    directorTgIds: number[],
-    locationFlags: string[]
-}
+import {UserLocationDictItem} from "../types";
 
 export type DefautPosition = {
     [key: number]: number[]
 }
 
 export default class LocationService {
-    static async getLocations(): Promise<LocationInfo[]> {
+    static async getLocations(): Promise<UserLocationDictItem[]> {
 
         let userId = UserHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;

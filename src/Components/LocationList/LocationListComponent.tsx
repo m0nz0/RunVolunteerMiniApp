@@ -1,9 +1,11 @@
 import {FC, useEffect, useState} from "react";
 import {Form, FormCheck, Spinner} from "react-bootstrap";
-import LocationService, {LocationInfo} from "../../Services/LocationService";
+import LocationService from "../../Services/LocationService";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
 import {LocationInfoComponent} from "../LocationInfo/LocationInfoComponent";
+import {FlagChecker, UserLocationDictItem} from "../../types";
+import {useUserContext} from "../../Common/Context/UserContext";
 
 interface Props {
     defaultSwitchedFilters: LocationFlag[]
@@ -11,20 +13,13 @@ interface Props {
     forSchedule: boolean
 }
 
-interface FlagChecker {
-    id: LocationFlag,
-    flag: boolean,
-
-}
-
 export const LocationListComponent: FC<Props> = (props) => {
 
-    const [locations, setLocations] = useState<LocationInfo[]>([]);
+    const [locations, setLocations] = useState<UserLocationDictItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
-    const [activeKey, setActiveKey] = useState<string | null>(null);
-
+    const {updateUserLocations, refreshUserLocations} = useUserContext();
 
     useEffect(() => {
         let isMounted = true;
@@ -32,6 +27,8 @@ export const LocationListComponent: FC<Props> = (props) => {
         const loadData = async () => {
             try {
                 const data = await LocationService.getLocations();
+                updateUserLocations(data);
+
                 let sorted = data
                     .sort((a, b) => {
                             let af = a.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
