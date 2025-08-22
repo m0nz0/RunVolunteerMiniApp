@@ -3,9 +3,9 @@ import AllLocationsComponent from "./Components/AllLocations/AllLocationsCompone
 import {AboutComponent} from "./Components/About/AboutComponent";
 import MyEntriesComponent from "./Components/MyEntries/MyEntriesComponent";
 import ExistingEntriesComponent from "./Components/ExistingEntries/ExistingEntriesComponent";
-import NewEntryComponent from "./Components/NewEntry/NewEntryComponent";
 import {DatesComponent} from "./Components/Dates/DatesComponent";
 import {PositionComponent} from "./Components/Positions/PositionComponent";
+import {NameSelectorComponent} from "./Components/NameSelector/NameSelectorComponent";
 
 export interface AppRoute {
     path: string;
@@ -25,7 +25,7 @@ export const appRoutes: AppRoute[] = [
         path: "/locations",
         label: "Локации",
         element: AllLocationsComponent,
-        extraProps: {pageSize: 20},
+        extraProps: {forSchedule: false},
     },
     {
         path: "/about",
@@ -33,12 +33,7 @@ export const appRoutes: AppRoute[] = [
         element: AboutComponent,
         extraProps: {pageSize: 20},
     },
-    {
-        path: "/new-entry",
-        label: "Записаться",
-        element: NewEntryComponent,
-        extraProps: {pageSize: 20},
-    },
+
     {
         path: "/my-entries",
         label: "Мои записи",
@@ -52,20 +47,33 @@ export const appRoutes: AppRoute[] = [
         extraProps: {pageSize: 20},
     },
     {
-        path: "/locations/:locationId/dates",
-        label: "Дата",//(params) => `Профиль #${params.id}`,  // динамическое название
-        element: DatesComponent,
-        extraProps: {showDetails: true},
+        path: "/new-entry",
+        label: "Записаться",
+        element: AllLocationsComponent,
+        extraProps: {forSchedule: true},
     },
     {
-        path: "/locations/:locationId/dates/:calendarId",
-        label: "Позиции",//(params) => `Профиль #${params.id}`,  // динамическое название
+        path: "/new-entry/:locationId/dates",
+        label: "Дата",
+        element: DatesComponent,
+        extraProps: {forSchedule: true},
+    },
+    {
+        path: "/new-entry/:locationId/dates/:calendarId/position",
+        label: "Позиции",
         element: PositionComponent,
-        extraProps: {showDetails: true},
+        extraProps: {forSchedule: true},
+    },
+    {
+        path: "/new-entry/:locationId/dates/:calendarId/position/:positionId/",
+        label: "Запись",
+        element: NameSelectorComponent,
+        extraProps: {forSchedule: true},
     },
     // {
     //     path: "/orders/:status",
     //     label: (params) => `Заказы (${params.status})`,
-    //     element: OrdersPage,
+    //     element: OrdersPage
+    //     extraProps: {showDetails: true},,
     // },
 ];

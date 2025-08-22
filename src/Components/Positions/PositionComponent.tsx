@@ -6,6 +6,8 @@ import {Accordion, Button, Spinner} from "react-bootstrap";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {PositionTypeParams} from "../../Const/PositionType";
 import LinkAdapter from "../../Common/LinkAdapter";
+import {dateService} from "../../Common/dateService";
+import {useUserContext} from "../../Common/Context/UserContext";
 
 interface Props {
 }
@@ -17,6 +19,7 @@ export const PositionComponent: FC<Props> = (props) => {
     const {calendarId} = useParams<{ calendarId: string }>();
     const [positionData, setPositionDats] = useState<PositionData>()
     const {locationDict} = useGlobalContext()
+    const {updateUserPositions} = useUserContext()
 
     useEffect(() => {
         let isMounted = true;
@@ -26,6 +29,7 @@ export const PositionComponent: FC<Props> = (props) => {
                 const data = await PositionService.getPositions(Number(locationId), Number(calendarId));
 
                 setPositionDats(data)
+                updateUserPositions(data.positions)
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
             } finally {
@@ -49,15 +53,13 @@ export const PositionComponent: FC<Props> = (props) => {
     }
     return (
         positionData && <div>
-            <p>Выбор позиции для локации {locationDict[Number(locationId)].name}</p>
-            <p>Calendar {calendarId}</p>
-            <p> {JSON.stringify(positionData.calendar)}</p>
+            <p>Выбор позиции для локации {locationDict[Number(locationId)].name},
+                даты {dateService.formatDayMonthNameYear(positionData.calendar.date)}</p>
 
-            <Accordion alwaysOpen>
+            <Accordion alwaysOpen={false}>
                 {Object.entries(Object.groupBy(positionData?.positions, item => item.positionType))
                     .map(([positionType, value]) =>
-                        // <div>{positionType}</div>
-                        <Accordion.Item eventKey={positionType}>
+                        <Accordion.Item eventKey={positionType} key={positionType.toString()}>
                             <Accordion.Header>{PositionTypeParams[Number(positionType) as keyof typeof PositionTypeParams].name}</Accordion.Header>
                             <Accordion.Body>
                                 <div className={"d-grid gap-2 buttons-list"}>
@@ -65,9 +67,9 @@ export const PositionComponent: FC<Props> = (props) => {
                                         .sort((a, b) => a.name.localeCompare(b.name))
                                         .map(x =>
                                             <Button key={x.id} as={LinkAdapter as any}
-                                                    to={`/locations/${locationId}/dates/${x.id}/`}
+                                                    to={`/new-entry/${locationId}/dates/${calendarId}/position/${x.id}`}
                                                     variant="info"
-                                                    size="lg">{x.name}</Button>
+                                                    size="lg">{x.id} - {x.parentId} {x.name}</Button>
                                         )
                                     }
                                 </div>

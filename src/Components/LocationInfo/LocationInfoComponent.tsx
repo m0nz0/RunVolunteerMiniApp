@@ -51,10 +51,10 @@ export const LocationInfoComponent: FC<Props> = (props) => {
                             </span>
                 </Card.Text>
                 <Card.Footer>
-                    <Button as={LinkAdapter as any}
-                            to={`/locations/${props.location.verstId}/dates`}
-                            variant="info"
-                            size="lg">Записаться</Button>
+                    {props.forSchedule && <Button as={LinkAdapter as any}
+                                                  to={`/new-entry/${props.location.verstId}/dates`}
+                                                  variant="info"
+                                                  size="lg">Записаться</Button>}
                 </Card.Footer>
             </Card.Body>
         </Card>

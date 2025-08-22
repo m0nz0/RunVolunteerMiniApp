@@ -1,42 +1,61 @@
 // UserContext.tsx
-import React, {createContext, useContext, useEffect, useState} from "react";
-import {UserLocationDictItem} from "../../types";
+import React, {createContext, useContext, useState} from "react";
+import {Calendar, Position, UserLocationDictItem} from "../../types";
 
 interface UserContextType {
-    userLocationDict: UserLocationDictItem[];
-    refreshUserLocations: () => Promise<void>;
+    userLocationDict: Record<number, UserLocationDictItem>;
+    userDatesDict: Record<number, Calendar>;
+    userPositionDict: Record<number, Position>;
+    // refreshUserLocations: () => Promise<void>;
     updateUserLocations: (locations: UserLocationDictItem[]) => void;
+    updateUserDates: (dates: Calendar[]) => void;
+    updateUserPositions: (positions: Position[]) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [userLocationDict, setUserLocationDict] = useState<UserLocationDictItem[]>([]);
+    const [userLocationDict, setUserLocationDict] = useState<Record<number, UserLocationDictItem>>({});
+    const [userDatesDict, setUserDatesDict] = useState<Record<number, Calendar>>({});
+    const [userPositionDict, setUserPosition] = useState<Record<number, Position>>({});
 
     // загрузка данных с бэка
-    const fetchUserLocations = async () => {
-        const res = await fetch("/api/user-locations"); // бэкенд отдаёт данные текущего пользователя
-        const data: UserLocationDictItem[] = await res.json();
-        setUserLocationDict(data);
-    };
+    // const fetchUserLocations = async () => {
+    //     const res = await fetch("/api/user-locations"); // бэкенд отдаёт данные текущего пользователя
+    //     const data: UserLocationDictItem[] = await res.json();
+    //     setUserLocationDict(data);
+    // };
 
     // начальная загрузка
-    useEffect(() => {
-        fetchUserLocations();
-    }, []);
+    // useEffect(() => {
+    //     fetchUserLocations();
+    // }, []);
 
     // метод для ручного обновления из бэка
-    const refreshUserLocations = async () => {
-        await fetchUserLocations();
-    };
+    // const refreshUserLocations = async () => {
+    //     await fetchUserLocations();
+    // };
 
     // метод для обновления вручную (например, после формы или фильтра)
-    const updateUserLocations = (locations: UserLocationDictItem[]) => {
-        setUserLocationDict(locations);
+    const updateUserLocations = (data: UserLocationDictItem[]) => {
+        setUserLocationDict(Object.fromEntries(data.map(x => [x.verstId, x])));
+    };
+    const updateUserDates = (data: Calendar[]) => {
+        setUserDatesDict(Object.fromEntries(data.map(x => [x.id, x])));
+    };
+    const updateUserPositions = (data: Position[]) => {
+        setUserPosition(Object.fromEntries(data.map(x => [x.id, x])));
     };
 
     return (
-        <UserContext.Provider value={{userLocationDict, refreshUserLocations, updateUserLocations}}>
+        <UserContext.Provider value={{
+            userLocationDict,
+            userDatesDict,
+            userPositionDict,
+            updateUserLocations,
+            updateUserDates,
+            updateUserPositions
+        }}>
             {children}
         </UserContext.Provider>
     );

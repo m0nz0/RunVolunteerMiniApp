@@ -19,7 +19,7 @@ export const LocationListComponent: FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
-    const {updateUserLocations, refreshUserLocations} = useUserContext();
+    const {userLocationDict, updateUserLocations} = useUserContext();
 
     useEffect(() => {
         let isMounted = true;
