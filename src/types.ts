@@ -100,7 +100,7 @@ export interface FlagChecker {
 }
 
 export interface CalendarData {
-    dates: Calendar[],
+    dates: CalendarInfo[],
     locations: UserLocationDictItem[]
     location: UserLocationDictItem,
     schedules: Team[]
@@ -108,34 +108,49 @@ export interface CalendarData {
 
 export interface PositionData {
     positions: Position[],
-    calendar: Calendar,
+    calendar: CalendarInfo,
     locations: UserLocationDictItem[]
     team: Team[]
+}
+
+export interface TeamData {
+    schedules: Team[],
+    location: UserLocationDictItem,
+    positions: Position[],
+    date: CalendarInfo,
+    hasOtherLocations: boolean,
+
 }
 
 export interface Team {
     id: number,
     location: UserLocationDictItem,
-    locatinId: number,
-    calendar: Calendar,
+    locationId: number,
+    calendar: CalendarInfo,
     calendarId: number,
     position: Position,
     positionId: number,
     name: string,
     tgUserId: number,
     verstId: number,
-    tgUser: any
+    tgUser: TgUser
+}
+
+export interface TgUser {
+    id: number,
+    tgLogin: string
+    verstIds: any[]
 }
 
 export interface Position {
     id: number,
     name: string,
-    isDEfault: boolean,
+    is_default: boolean,
     parentId?: number,
     positionType: PositionType
 }
 
-export interface Calendar {
+export interface CalendarInfo {
 
     id: number;
     date: string;

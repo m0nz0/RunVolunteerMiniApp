@@ -46,7 +46,7 @@ const BreadcrumbsComponent: React.FC = () => {
                 let isLast = index === pathnames.length - 1;
 
                 // Если это /locations/:locationId, используем имя из справочника
-                if (["new-entry", "locations"].some(t => t === pathnames[index - 1]) && /^\d+$/.test(part)) {
+                if (["new-entry", "locations","existing-entries"].some(t => t === pathnames[index - 1]) && /^\d+$/.test(part)) {
                     label = locationDict[Number(part)]?.name ?? part;
                     isLast = true
                 }

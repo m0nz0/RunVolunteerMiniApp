@@ -1,0 +1,31 @@
+const groups = [
+        {
+            title: "Организатор",
+            people: ["Иванов Иван", "Петров Пётр"],
+        },
+        {
+            title: "Замысвующий",
+            people: ["Сидор Сидоров"],
+        },
+    ];
+
+    return (
+        <Container className="mt-4">
+            <Row className="g-4">
+                {groups.map((group, idx) => (
+                    <Col md={6} key={idx}>
+                        <Card className="shadow-sm h-100">
+                            <Card.Header className="fw-bold text-center bg-primary text-white">
+                                {group.title}
+                            </Card.Header>
+                            <ListGroup variant="flush">
+                                {group.people.map((person, i) => (
+                                    <ListGroup.Item key={i}>{person}</ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+        </Container>
+    );

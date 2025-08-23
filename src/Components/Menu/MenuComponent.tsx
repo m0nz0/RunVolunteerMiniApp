@@ -1,16 +1,15 @@
 import React from "react";
 import '../Menu/styles.css'
 import {Button} from "react-bootstrap";
-import {Link, LinkProps} from "react-router-dom";
 import logo from '../../ico.png'
 import './styles.css'
 import {UserHelper} from "../../Common/UserHelper";
 import LinkAdapter from "../../Common/LinkAdapter";
 
 const listItemTextList = [
-    "Записаться в волонтеры",
-    "Мои Записи",
-    "Кто уже записан",
+    // "Записаться в волонтеры",
+    // "Мои Записи",
+    // "Кто уже записан",
     "Локации",
     "Помощь"
 ]
@@ -27,8 +26,8 @@ export const MenuComponent: React.FC = () => {
     let userName = user?.username;
     return (
         <div>
-            {userName && <strong>Hi, {userName}</strong>}
-            <h1 className={"text-center"} text->Привет, чем я могу тебе помочь?</h1>
+            <h1 className={"text-center"} text->Привет,{userName && <span>{userName},</span>} чем я могу тебе
+                помочь?</h1>
             <img className={'app-logo'} src={logo}/>
             <div className="d-grid gap-2 buttons-list">
                 {

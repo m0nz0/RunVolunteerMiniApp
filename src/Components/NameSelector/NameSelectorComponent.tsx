@@ -23,7 +23,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     let location = locationDict[Number(locationId)].name;
     let date = dateService.formatDayMonthNameYear(userDatesDict[Number(calendarId)].date);
     return (<div>
-        <p>И так, вы выбрали локацию {location} выбрали дату {date} и позицию {position}"</p>
+        <p>Вы выбрали локацию {location} выбрали дату {date} и позицию {position}"</p>
 
         <br/>
         <h3>Тут пока ничего нет, но будут кнопки для записи ебя или доп аккаунта</h3>

@@ -1,11 +1,12 @@
 import React from "react";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Container} from "react-bootstrap";
-import {appRoutes} from "./routes";
-import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
 import {GlobalProvider} from "./Common/Context/GlobalContext";
 import {UserProvider} from "./Common/Context/UserContext";
+import {appRoutes} from "./routes";
+import {AppRouter} from "./Components/CommonAppRouter/AppRouter";
+import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
 
 declare global {
     interface Window {
@@ -22,20 +23,13 @@ export const App: React.FC = () => {
 
     return (
         <GlobalProvider>
-            <UserProvider> <BrowserRouter basename="/test">
-                <Container>
-                    <BreadcrumbsComponent/>
-                    <Routes>
-                        {appRoutes.map((route) => (
-                            <Route
-                                key={route.path}
-                                path={route.path}
-                                element={<route.element {...(route.extraProps || {})} />}
-                            />
-                        ))}
-                    </Routes>
-                </Container>
-            </BrowserRouter>
+            <UserProvider>
+                <BrowserRouter basename="/test">
+                    <Container>
+                        <BreadcrumbsComponent/>
+                        <AppRouter/>
+                    </Container>
+                </BrowserRouter>
             </UserProvider>
         </GlobalProvider>
     );
@@ -49,10 +43,10 @@ export const App: React.FC = () => {
 // import {Action} from "./Const/Action";
 // import {Version} from "./Const/Version";
 // import {MenuComponent} from "./Components/Menu/MenuComponent";
-// import {extractUrlParams} from "./Common/UrlParser";
+// import {extractUrlParams} from "./CommonAppRouter/UrlParser";
 // import {AboutComponent} from "./Components/AboutComponent/AboutComponent";
 // import {SomeError} from "./Components/SomeError";
-// import {LocationListComponent} from "./Components/LocationList/LocationListComponent";
+// import {LocationListComponent} from "./Components/Location/LocationListComponent";
 //
 //
 // type ActiveComponent = "menu" | "about" | "locations";

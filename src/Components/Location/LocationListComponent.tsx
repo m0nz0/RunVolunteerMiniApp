@@ -2,10 +2,10 @@ import {FC, useEffect, useState} from "react";
 import {Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService from "../../Services/LocationService";
 import {LocationFlag} from "../../Const/LocationFlag";
-import {LocationFlagComponent} from "../LocationFlag/LocationFlagComponent";
-import {LocationInfoComponent} from "../LocationInfo/LocationInfoComponent";
+import {LocationFlagComponent} from "./LocationFlagComponent";
 import {FlagChecker, UserLocationDictItem} from "../../types";
 import {useUserContext} from "../../Common/Context/UserContext";
+import {LocationCardComponent} from "./LocationCardComponent";
 
 interface Props {
     defaultSwitchedFilters: LocationFlag[]
@@ -122,10 +122,11 @@ export const LocationListComponent: FC<Props> = (props) => {
                 })
             }
         </Form>
-        {filteredLocations().map((loc) =>
-            <div key={loc.verstId}>
-                <LocationInfoComponent location={loc} forSchedule={props.forSchedule}/>
-            </div>)
+        {filteredLocations().map((loc) => {
+            return <div key={loc.verstId}>
+                <LocationCardComponent location={loc} forSchedule={props.forSchedule}/>
+            </div>
+        })
         }
     </div>
 }

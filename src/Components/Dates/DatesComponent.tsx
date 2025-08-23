@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from "react";
 import CalendarService from "../../Services/CalendarService";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {CalendarData} from "../../types";
 import {Button, Spinner} from "react-bootstrap";
 import LinkAdapter from "../../Common/LinkAdapter";
@@ -12,8 +12,9 @@ interface Props {
     forSchedule: boolean
 }
 
-export const DatesComponent: FC = () => {
+export const DatesComponent: FC<Props> = (props) => {
 
+    const location = useLocation()
     const [datesData, setDatesData] = useState<CalendarData>()
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -26,10 +27,15 @@ export const DatesComponent: FC = () => {
 
         const loadData = async () => {
             try {
-                const data = await CalendarService.getDatesForSchedule(Number(locationId));
-
-                setDatesData(data)
-                updateUserDates(data.dates)
+                if (props.forSchedule) {
+                    let data = await CalendarService.getDatesForSchedule(Number(locationId))
+                    setDatesData(data)
+                    updateUserDates(data.dates)
+                } else {
+                    let data = await CalendarService.getExistingDates(Number(locationId));
+                    setDatesData({dates: data, location: location.state.loc, locations: [], schedules: []})
+                    // updateUserDates(data)
+                }
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
             } finally {
@@ -53,18 +59,22 @@ export const DatesComponent: FC = () => {
     }
 
     return (<div>
-            <p>
-                Выбор желаемой даты для записи для локации {locationDict[Number(locationId)].name}
-            </p>
+            <p className={"text-center"}>{location.state.forSchedule ?
+                "Выбор желаемой даты для записи"
+                : "Даты с записями"
+            } для локации {locationDict[Number(locationId)].name}</p>
             <div className={"d-grid gap-2 buttons-list"}>
                 {datesData &&
                     datesData.dates.sort((a, b) => dateService.toLocalDate(a.date).millisecond() - dateService.toLocalDate(b.date).millisecond())
-                        .map(x =>
-                            <Button key={x.id} as={LinkAdapter as any}
-                                    to={`/new-entry/${locationId}/dates/${x.id}/position`}
-                                    variant="info"
-                                    size="lg">{dateService.formatDMY(x.date)}</Button>
-                        )
+                        .map(x => {
+                            let to = `/${props.forSchedule ? "new-entry" : "existing-entries"}/${locationId}/dates/${x.id}/${props.forSchedule ? "position" : "team"}`;
+                            console.log("to", to)
+                            return <Button key={x.id} as={LinkAdapter as any}
+                                           to={to}
+                                           variant="info"
+                                           state={{locationId: locationId, calendarId: x.id}}
+                                           size="lg">{dateService.formatDMY(x.date)}</Button>
+                        })
                 }
             </div>
 
