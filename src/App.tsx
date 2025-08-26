@@ -7,7 +7,7 @@ import {UserProvider} from "./Common/Context/UserContext";
 import {appRoutes} from "./routes";
 import {AppRouter} from "./Components/CommonAppRouter/AppRouter";
 import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
-
+import './styles.css'
 declare global {
     interface Window {
         Telegram: any;

@@ -1,5 +1,5 @@
 import {UserHelper} from "../Common/UserHelper";
-import {CalendarInfo, CalendarData} from "../types";
+import {CalendarInfo, CalendarData, ExistingDatesInfo} from "../types";
 
 
 const controllerName: string = "MiniApp"
@@ -32,7 +32,7 @@ export default class CalendarService {
         return response.json();
     }
 
-    static async getExistingDates(locationId: number): Promise<CalendarInfo[]> {
+    static async getExistingDates(locationId: number): Promise<ExistingDatesInfo> {
 
         let userId = UserHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.EXISTING_DATES}/${locationId}`;

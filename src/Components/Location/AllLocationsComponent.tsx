@@ -1,26 +1,19 @@
 import {FC} from "react";
-import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationListComponent} from "./LocationListComponent";
+import {LocationViewParams, LocationViewType} from "../../Const/LocationViewType";
 
 interface Props {
-    forSchedule: boolean
+    locationViewType: LocationViewType
 }
 
+
 export const AllLocationsComponent: FC<Props> = (props) => {
-    return (<div>
-        {props.forSchedule ?
-            (<div>
-                <h5 className={"text-center"}>Выбери локацию для записи</h5>
-                <LocationListComponent defaultSwitchedFilters={[LocationFlag.Favorite, LocationFlag.IsBotActive]}
-                                       hiddenFilters={[LocationFlag.IsBotActive, LocationFlag.IsPrepare, LocationFlag.IsCancel]}
-                                       forSchedule={props.forSchedule}/>
-            </div>) :
-            (<div>
-                <h5 className="text-center">Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти
-                    нужную</h5>
-                <LocationListComponent defaultSwitchedFilters={[LocationFlag.Favorite, LocationFlag.IsBotActive]}
-                                       hiddenFilters={[]}
-                                       forSchedule={props.forSchedule}/>
-            </div>)}
-    </div>)
+
+    let data = LocationViewParams[props.locationViewType]
+    return <div>
+        <h5 className="text-center">{data.header}</h5>
+        <LocationListComponent defaultSwitchedFilters={data.defaultActiveFilters}
+                               hiddenFilters={data.hiddenFilters}
+                               locationViewType={props.locationViewType}/>
+    </div>
 }

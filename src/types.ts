@@ -63,6 +63,17 @@ interface Window {
     };
 }
 
+export interface VerstLocation {
+    id: number;
+    name: string;
+    url: string;
+    lat: number;
+    lon: number;
+    city_name: string;
+    subject_name: string;
+    status: string
+}
+
 export interface GlobalLocationDictItem {
     verstId: number;
     name: string;
@@ -85,12 +96,6 @@ export interface UserLocationDictItem extends GlobalLocationDictItem {
     defaultPositions: DefautPosition,
     directorTgIds: number[],
     locationFlags: string[]
-}
-
-export interface PositionDict {
-    id: string;
-    name: string;
-    locationId: string;
 }
 
 export interface FlagChecker {
@@ -122,6 +127,28 @@ export interface TeamData {
 
 }
 
+export interface OnInputNameData {
+    location: UserLocationDictItem,
+    verstUsers: VerstAthlete[],
+    date: CalendarInfo
+    allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
+}
+
+export interface VerstIdInfo {
+    verstId: number;
+    isMain: boolean;
+}
+
+export interface VerstAthlete {
+    id: number;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    full_name: string;
+    home_event: string;
+    qr_code: string;
+}
+
 export interface Team {
     id: number,
     location: UserLocationDictItem,
@@ -136,10 +163,15 @@ export interface Team {
     tgUser: TgUser
 }
 
+export interface ExistingDatesInfo {
+    dates: CalendarInfo[],
+    location: UserLocationDictItem,
+}
+
 export interface TgUser {
     id: number,
     tgLogin: string
-    verstIds: any[]
+    verstIds: any[],
 }
 
 export interface Position {

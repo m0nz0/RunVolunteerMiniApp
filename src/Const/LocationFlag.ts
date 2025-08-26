@@ -1,5 +1,5 @@
-import {faBan, faCheck, faCrown, faHome, faHourglass, faRotate, faStar} from "@fortawesome/free-solid-svg-icons";
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {ReactElement} from "react";
+import {icons} from "./Icons";
 
 export enum LocationFlag {
     Favorite,
@@ -11,12 +11,12 @@ export enum LocationFlag {
     IsBotActive
 }
 
-export const LocationFlagParams: { [key in LocationFlag]: { name: string, icon: IconProp, color: string } } = {
-    [LocationFlag.Favorite]: {name: "Избранные локации", color: "goldenrod", icon: faStar},
-    [LocationFlag.Directed]: {name: "Вы директор", color: "indianred", icon: faCrown},
-    [LocationFlag.Requested]: {name: "Вы подяли заявку в директора", color: "lightblue", icon: faHourglass},
-    [LocationFlag.Home]: {name: "Домашняя локация", color: "blueviolet", icon: faHome},
-    [LocationFlag.IsPrepare]: {name: "Готовится к запуску", color: "blue", icon: faRotate},
-    [LocationFlag.IsCancel]: {name: "Отменено", color: "red", icon: faBan},
-    [LocationFlag.IsBotActive]: {name: "Доступна запись через бота", color: "green", icon: faCheck},
+export const LocationFlagParams: { [key in LocationFlag]: { name: string, icon: ReactElement } } = {
+    [LocationFlag.Favorite]: {name: "Избранные локации", icon: icons.Favorite},
+    [LocationFlag.Directed]: {name: "Вы директор", icon: icons.Directed},
+    [LocationFlag.Requested]: {name: "Вы подяли заявку в директора", icon: icons.Requested},
+    [LocationFlag.Home]: {name: "Домашняя локация", icon: icons.Home},
+    [LocationFlag.IsPrepare]: {name: "Готовится к запуску", icon: icons.IsPrepare},
+    [LocationFlag.IsCancel]: {name: "Отменено", icon: icons.IsCancel},
+    [LocationFlag.IsBotActive]: {name: "Доступна запись через бота", icon: icons.CheckGreen},
 };

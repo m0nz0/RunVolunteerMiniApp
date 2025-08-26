@@ -7,9 +7,9 @@ import {UserHelper} from "../../Common/UserHelper";
 import LinkAdapter from "../../Common/LinkAdapter";
 
 const listItemTextList = [
-    // "Записаться в волонтеры",
+    "Записаться в волонтеры",
     // "Мои Записи",
-    // "Кто уже записан",
+    "Кто уже записан",
     "Локации",
     "Помощь"
 ]

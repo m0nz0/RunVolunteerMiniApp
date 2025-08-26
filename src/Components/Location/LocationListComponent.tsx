@@ -6,11 +6,12 @@ import {LocationFlagComponent} from "./LocationFlagComponent";
 import {FlagChecker, UserLocationDictItem} from "../../types";
 import {useUserContext} from "../../Common/Context/UserContext";
 import {LocationCardComponent} from "./LocationCardComponent";
+import {LocationViewType} from "../../Const/LocationViewType";
 
 interface Props {
     defaultSwitchedFilters: LocationFlag[]
     hiddenFilters: LocationFlag[],
-    forSchedule: boolean
+    locationViewType: LocationViewType,
 }
 
 export const LocationListComponent: FC<Props> = (props) => {
@@ -19,15 +20,15 @@ export const LocationListComponent: FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
-    const {userLocationDict, updateUserLocations} = useUserContext();
+    // const {userLocationDict, updateUserLocations} = useUserContext();
 
     useEffect(() => {
         let isMounted = true;
 
         const loadData = async () => {
             try {
-                const data = await LocationService.getLocations();
-                updateUserLocations(data);
+                const data = await LocationService.getLocations(props.locationViewType);
+                // updateUserLocations(data);
 
                 let sorted = data
                     .sort((a, b) => {
@@ -36,26 +37,28 @@ export const LocationListComponent: FC<Props> = (props) => {
 
                             let home = (af.some(f => f === LocationFlag.Home) ? 0 : 1) -
                                 (bf.some(f => f === LocationFlag.Home) ? 0 : 1);
-                            if (home != 0) {
+                            if (home !== 0) {
                                 return home;
                             }
                             let favor = (af.some(f => f === LocationFlag.Favorite) ? 0 : 1) -
                                 (bf.some(f => f === LocationFlag.Favorite) ? 0 : 1);
-                            if (favor != 0) {
+                            if (favor !== 0) {
                                 return favor;
                             }
 
                             let direct = (af.some(f => f === LocationFlag.Directed) ? 0 : 1) -
                                 (bf.some(f => f === LocationFlag.Directed) ? 0 : 1)
 
-                            if (direct != 0) {
+                            if (direct !== 0) {
                                 return direct;
                             }
                             return a.name.localeCompare(b.name);
                         }
                     );
 
-                setLocations(props.forSchedule ? sorted.filter(value => value.botActive) : sorted)
+                setLocations(props.locationViewType === LocationViewType.ForSchedule ?
+                    sorted.filter(value => value.botActive) :
+                    sorted)
 
                 let flags = [...new Set(data.map(x => x.locationFlags).flat())]
                     .map(x => LocationFlag[x as keyof typeof LocationFlag])
@@ -101,7 +104,7 @@ export const LocationListComponent: FC<Props> = (props) => {
     const handleCheckboxChange = (itemId: number) => {
         setCheckedItems(prevItems =>
             prevItems.map(x => {
-                return {id: x.id, flag: itemId == x.id ? !x.flag : x.flag}
+                return {id: x.id, flag: itemId === x.id ? !x.flag : x.flag}
             })
         );
     };
@@ -122,11 +125,14 @@ export const LocationListComponent: FC<Props> = (props) => {
                 })
             }
         </Form>
-        {filteredLocations().map((loc) => {
-            return <div key={loc.verstId}>
-                <LocationCardComponent location={loc} forSchedule={props.forSchedule}/>
-            </div>
-        })
-        }
+        <div className={"d-grid gap-2"}>
+            {filteredLocations().map((loc) => {
+                return <div key={loc.verstId}>
+                    <LocationCardComponent location={loc}
+                                           locationViewType={props.locationViewType}/>
+                </div>
+            })
+            }
+        </div>
     </div>
 }

@@ -2,9 +2,10 @@ import {FC, useEffect, useState} from "react";
 import {TeamData} from "../../types";
 import {useLocation} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
-import {Badge, Card, Col, Container, ListGroup, Row, Spinner} from "react-bootstrap";
-import {DatesComponent} from "../Dates/DatesComponent";
+import {ListGroup, Spinner} from "react-bootstrap";
 import {dateService} from "../../Common/dateService";
+import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
+import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 
 interface Props {
 }
@@ -46,20 +47,34 @@ export const TeamComponent: FC<Props> = (props) => {
         );
     }
 
+    function thisPositions() {
+        return team?.positions
+            .filter(p => p.is_default ||
+                team?.schedules.map(s => s.positionId).some(s => s === p.id));
+    }
 
     return <div>
-        <h5 className={"text-center"}>Команда
-            локации {team?.location?.name} за {dateService.formatDayMonthNameYear(team?.date?.date ?? "")} </h5>
+        <h5 className={"text-center"}>Команда локации
+            {team?.location?.name} за {dateService.formatDayMonthNameYear(team?.date?.date ?? "")} </h5>
+
+        <p>
+            <NameWithBadgeComponent name={"Записалось волонтёров"}
+                                    badgeColor="success"
+                                    badgeValue={(team?.schedules ?? []).length}
+                                    isRight={true}/>
+            <NameWithBadgeComponent name={"Незакрытых позиций"}
+                                    badgeColor={"danger"}
+                                    badgeValue={(thisPositions() ?? []).filter(p => !team?.schedules.some(s => s.positionId === p.id)).length}
+                                    isRight={true}/>
+        </p>
         <ListGroup>
-            {team?.positions
-                .filter(p => p.is_default ||
-                    team?.schedules.map(s => s.positionId).some(s => s == p.id))
+            {(thisPositions() ?? [])
                 .sort((a, b) => {
                     if (a.id === 1) return -1; // ключ=1 всегда первый
                     if (b.id === 1) return 1;
 
-                    let namea = team?.positions.find(x => x.id == Number(a.id))?.name
-                    let nameb = team?.positions.find(x => x.id == Number(b.id))?.name
+                    let namea = team?.positions.find(x => x.id === Number(a.id))?.name
+                    let nameb = team?.positions.find(x => x.id === Number(b.id))?.name
 
                     if (namea && nameb) {
                         return namea.localeCompare(nameb)
@@ -67,42 +82,32 @@ export const TeamComponent: FC<Props> = (props) => {
                     return 1;
                 })
                 .map((position) => {
-                    let positionUsers = team?.schedules.filter(s => s.positionId == position.id);
+                    let positionUsers = team?.schedules.filter(s => s.positionId === position.id) ?? [];
                     return <div>
                         <ListGroup.Item
                             as={"li"}
                             className="d-flex justify-content-between align-items-start">
                             <div>
-                                <div className="ms-2 me-auto">
-                                    <div className="fw-bold">{position.name}</div>
-                                </div>
-                                <div>{positionUsers
-                                    .map(u => {
-                                        let verstId = (u.tgUser.verstIds??[]).find(x => x.isMain)?.verstId;
-                                        let tgLogin = u.tgUser?.tgLogin;
-                                        return <div>
-                                            <span>{u.name}</span>
-                                            {tgLogin && <span> | <a href={`https://t.me/${tgLogin}`}>@{tgLogin}</a></span>}
-                                            {verstId && <span> | <a href={`https://5verst.ru/userstats/${verstId}`}>A{verstId}</a></span>}
-                                        </div>
-                                    })}
-                                </div>
+                                <NameWithBadgeComponent name={position.name}
+                                                        badgeValue={positionUsers.length}
+                                                        badgeColor={positionUsers.length === 0 ? "danger" : "success"}/>
+                                {positionUsers
+                                    .map(u =>
+                                        <ScheduleUserCardComponent user={u.tgUser} scheduledName={u.name}/>
+                                    )
+                                }
                             </div>
-                            <Badge bg={positionUsers.length == 0 ? "danger" : "success"} pill>
-                                {positionUsers.length}
-                            </Badge>
                         </ListGroup.Item>
                     </div>
                 })
             }
-            <ListGroup.Item
-                as={"li"}
-                className="d-flex justify-content-between align-items-start">
-                <div>Итого:</div>
-                <Badge bg={team?.schedules.length == 0 ? "danger" : "success"} pill>
-                    {team?.schedules.length}
-                </Badge>
-            </ListGroup.Item>
+            {/*<ListGroup.Item*/}
+            {/*    as={"li"}*/}
+            {/*    className="d-flex justify-content-between align-items-start">*/}
+            {/*    <NameWithBadgeComponent name={"Итого:"}*/}
+            {/*                            badgeValue={team?.schedules.length}*/}
+            {/*                            badgeColor={team?.schedules.length === 0 ? "danger" : "success"}/>*/}
+            {/*</ListGroup.Item>*/}
         </ListGroup>
     </div>
 }

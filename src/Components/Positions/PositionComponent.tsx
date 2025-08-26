@@ -2,12 +2,12 @@ import {FC, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {PositionData} from "../../types";
 import PositionService from "../../Services/PositionService";
-import {Accordion, Button, Spinner} from "react-bootstrap";
+import {Accordion, Alert, Button, Spinner} from "react-bootstrap";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
-import {PositionTypeParams} from "../../Const/PositionType";
+import {PositionType, PositionTypeParams} from "../../Const/PositionType";
 import LinkAdapter from "../../Common/LinkAdapter";
 import {dateService} from "../../Common/dateService";
-import {useUserContext} from "../../Common/Context/UserContext";
+import {icons} from "../../Const/Icons";
 
 interface Props {
 }
@@ -17,19 +17,19 @@ export const PositionComponent: FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(true);
     const {locationId} = useParams<{ locationId: string }>();
     const {calendarId} = useParams<{ calendarId: string }>();
-    const [positionData, setPositionDats] = useState<PositionData>()
+    const [positionData, setPositionData] = useState<PositionData>()
     const {locationDict} = useGlobalContext()
-    const {updateUserPositions} = useUserContext()
+    // const {updateUserPositions} = useUserContext()
 
     useEffect(() => {
         let isMounted = true;
 
         const loadData = async () => {
             try {
-                const data = await PositionService.getPositions(Number(locationId), Number(calendarId));
+                const data = await PositionService.getPositionsForSchedule(Number(locationId), Number(calendarId));
 
-                setPositionDats(data)
-                updateUserPositions(data.positions)
+                setPositionData(data)
+                // updateUserPositions(data.positions)
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
             } finally {
@@ -51,12 +51,19 @@ export const PositionComponent: FC<Props> = (props) => {
             </div>
         );
     }
+
+
     return (
         positionData && <div>
-            <p>Выбор позиции для локации {locationDict[Number(locationId)].name},
-                даты {dateService.formatDayMonthNameYear(positionData.calendar.date)}</p>
+            <h5 className={"text-center"}>Выбор позиции для локации {locationDict[Number(locationId)].name},
+                даты {dateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
 
-            <Accordion alwaysOpen={false}>
+            <Alert variant={"info"}>
+                <p>{icons.ExclamationRed} - обязательная позиция</p>
+                <p>{icons.CheckGreen} - кто-то уже записался</p>
+            </Alert>
+
+            <Accordion alwaysOpen={false} defaultActiveKey={PositionType.Main.toString()}>
                 {Object.entries(Object.groupBy(positionData?.positions, item => item.positionType))
                     .map(([positionType, value]) =>
                         <Accordion.Item eventKey={positionType} key={positionType.toString()}>
@@ -65,11 +72,15 @@ export const PositionComponent: FC<Props> = (props) => {
                                 <div className={"d-grid gap-2 buttons-list"}>
                                     {value
                                         .sort((a, b) => a.name.localeCompare(b.name))
-                                        .map(x =>
-                                            <Button key={x.id} as={LinkAdapter as any}
-                                                    to={`/new-entry/${locationId}/dates/${calendarId}/position/${x.id}`}
-                                                    variant="info"
-                                                    size="lg">{x.id} - {x.parentId} {x.name}</Button>
+                                        .map(x => {
+                                                let icon = positionData.team.some(t => t.positionId === x.id) ?
+                                                    icons.CheckGreen : positionType === PositionType.Main.toString() ? icons.ExclamationRed : null;
+
+                                                return <Button key={x.id} as={LinkAdapter as any}
+                                                               to={`/new-entry/${locationId}/dates/${calendarId}/position/${x.id}`}
+                                                               variant="info"
+                                                               size="lg">{icon} {x.name}</Button>;
+                                            }
                                         )
                                     }
                                 </div>

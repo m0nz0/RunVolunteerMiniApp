@@ -1,14 +1,12 @@
 import MenuComponent from "./Components/Menu/MenuComponent";
-import {AboutComponent} from "./Components/About/AboutComponent";
-import MyEntriesComponent from "./Components/MyEntries/MyEntriesComponent";
-import ExistingEntriesComponent from "./Components/ExistingEntries/ExistingEntriesComponent";
 import {DatesComponent} from "./Components/Dates/DatesComponent";
 import {PositionComponent} from "./Components/Positions/PositionComponent";
 import {NameSelectorComponent} from "./Components/NameSelector/NameSelectorComponent";
 import {AllLocationsComponent} from "./Components/Location/AllLocationsComponent";
-import {LocationCardComponent} from "./Components/Location/LocationCardComponent";
 import {LocationInfoComponent} from "./Components/Location/LocationInfoComponent";
 import {TeamComponent} from "./Components/Team/TeamComponent";
+import {LocationViewType} from "./Const/LocationViewType";
+import {AboutComponent} from "./Components/About/AboutComponent";
 
 export interface AppRoute {
     path: string;
@@ -29,7 +27,7 @@ export const appRoutes: AppRoute[] = [
         path: "/locations",
         label: "Локации",
         element: AllLocationsComponent,
-        extraProps: {forSchedule: false},
+        extraProps: {locationViewType: LocationViewType.AllLocations},
     },
     {
         path: "/locations/:locationId",
@@ -37,13 +35,13 @@ export const appRoutes: AppRoute[] = [
         element: LocationInfoComponent,
         extraProps: {forSchedule: false},
     },
-    // {
-    //     path: "/about",
-    //     label: "Помощь",
-    //     element: AboutComponent,
-    //     extraProps: {pageSize: 20},
-    //     children: []
-    // },
+    {
+        path: "/about",
+        label: "Помощь",
+        element: AboutComponent,
+        extraProps: {pageSize: 20},
+        children: []
+    },
     // {
     //     path: "/my-entries",
     //     label: "Мои записи",
@@ -53,8 +51,8 @@ export const appRoutes: AppRoute[] = [
     {
         path: "/existing-entries",
         label: "Кто записан",
-        element: ExistingEntriesComponent,
-        extraProps: {pageSize: 20},
+        element: AllLocationsComponent,
+        extraProps: {locationViewType: LocationViewType.WithSchedules},
         children: []
     },
     {
@@ -62,7 +60,7 @@ export const appRoutes: AppRoute[] = [
         label: "Дата",
         element: DatesComponent,
         children: [],
-        extraProps:{forSchedule: false}
+        extraProps: {locationViewType: LocationViewType.WithSchedules}
     },
     {
         path: "/existing-entries/:locationId/dates/:calendarId/team",
@@ -74,14 +72,15 @@ export const appRoutes: AppRoute[] = [
         label: "Записаться",
         element:
         AllLocationsComponent,
-        extraProps: {forSchedule: true},
+        extraProps: {locationViewType: LocationViewType.ForSchedule},
         children: []
     },
     {
         path: "/new-entry/:locationId/dates",
         label: "Дата",
         element: DatesComponent,
-        children: []
+        children: [],
+        extraProps: {locationViewType: LocationViewType.ForSchedule}
     },
     {
         path: "/new-entry/:locationId/dates/:calendarId/position",

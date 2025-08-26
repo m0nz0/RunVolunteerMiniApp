@@ -1,0 +1,12 @@
+html, body {
+    font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+button, .btn {
+    font-size: 1rem; /* 16px */
+    padding: 0.75rem 1rem; /* побольше для пальцев */
+}
