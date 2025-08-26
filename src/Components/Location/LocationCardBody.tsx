@@ -7,22 +7,20 @@ import {UserLocationDictItem} from "../../types";
 
 interface Props {
     location: UserLocationDictItem
-
 }
 
 export const LocationCardBody: FC<Props> = (props) => {
     return (<Card.Body>
         <Card.Title>
             <div><span dangerouslySetInnerHTML={{__html: props.location.href}}></span>
-                <span>
-                                {
-                                    props.location.locationFlags.map(x => <LocationFlagComponent
-                                        key={props.location.verstId + "-" + x}
-                                        flag={LocationFlag[x as keyof typeof LocationFlag]}
-                                        withText={false}/>
-                                    )
-                                }
-                            </span>
+                <span>                                {
+                    props.location.locationFlags.map(x => <LocationFlagComponent
+                        key={props.location.verstId + "-" + x}
+                        flag={LocationFlag[x as keyof typeof LocationFlag]}
+                        withText={false}/>
+                    )
+                }
+                </span>
             </div>
         </Card.Title>
         <Card.Text>

@@ -1,8 +1,8 @@
 import React, {FC} from "react";
 import {Button, ButtonGroup, ButtonToolbar, Card} from "react-bootstrap";
-import LinkAdapter from "../../Common/LinkAdapter";
 import {useLocation} from "react-router-dom";
 import {LocationCardBody} from "./LocationCardBody";
+import LinkAdapter from "../../Common/LinkAdapter";
 
 interface Props {
     forSchedule: boolean
@@ -29,9 +29,10 @@ export const LocationInfoComponent: FC<Props> = (props) => {
                         <ButtonGroup>
                             <Button as={LinkAdapter as any}
                                     to={`/existing-entries/${loc.state.location.verstId}/dates`}
-                                    // state={{location: loc.state.location}}
                                     variant="info"
                                     size="lg">Кто уже записан</Button>
+                            {/*{AppButtons.NewEntry(loc.state.location.verstId)}*/}
+                            {/*{AppButtons.WhoScheduled(loc.state.location.verstId)}*/}
                         </ButtonGroup>
                     </ButtonToolbar>
                 </Card.Footer>

@@ -3,7 +3,7 @@ import "dayjs/locale/ru";
 
 dayjs.locale("ru");
 
-export const dateService = {
+export const DateService = {
     // Преобразовать ISO строку в dayjs объект в локальном времени
     toLocalDate: (iso: string) => dayjs(iso),
 

@@ -3,7 +3,7 @@ import {TeamData} from "../../types";
 import {useLocation} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
 import {ListGroup, Spinner} from "react-bootstrap";
-import {dateService} from "../../Common/dateService";
+import {DateService} from "../../Common/dateService";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 
@@ -54,8 +54,8 @@ export const TeamComponent: FC<Props> = (props) => {
     }
 
     return <div>
-        <h5 className={"text-center"}>Команда локации
-            {team?.location?.name} за {dateService.formatDayMonthNameYear(team?.date?.date ?? "")} </h5>
+        <h5 className={"text-center"}>Команда
+            локации {team?.location?.name} за {DateService.formatDayMonthNameYear(team?.date?.date ?? "")} </h5>
 
         <p>
             <NameWithBadgeComponent name={"Записалось волонтёров"}

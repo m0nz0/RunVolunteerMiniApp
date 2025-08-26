@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import {CalendarData} from "../../types";
 import {Button, Spinner} from "react-bootstrap";
 import LinkAdapter from "../../Common/LinkAdapter";
-import {dateService} from "../../Common/dateService";
+import {DateService} from "../../Common/dateService";
 import {LocationViewType} from "../../Const/LocationViewType";
 
 interface Props {
@@ -13,8 +13,6 @@ interface Props {
 
 export const DatesComponent: FC<Props> = (props) => {
 
-    console.log("props.locationViewType", props.locationViewType)
-    // const loc = useLocation()
     const [datesData, setDatesData] = useState<CalendarData>()
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -54,7 +52,6 @@ export const DatesComponent: FC<Props> = (props) => {
         );
     }
 
-    console.log(datesData, props.locationViewType)
     if (props.locationViewType === LocationViewType.WithSchedules && datesData?.dates.length === 0) {
         return <div className={"text-center"}>
             <h5>Еще никто не записался в волонтеры локации {datesData?.location.name}</h5>
@@ -71,18 +68,25 @@ export const DatesComponent: FC<Props> = (props) => {
             } для локации {datesData?.location.name}</h5>
             <div className={"d-grid gap-2 buttons-list"}>
                 {datesData &&
-                    datesData.dates.sort((a, b) => dateService.toLocalDate(a.date).millisecond() - dateService.toLocalDate(b.date).millisecond())
+                    datesData.dates.sort((a, b) => DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
                         .map(x => {
 
-                            let to = props.locationViewType === LocationViewType.ForSchedule ?
-                                `/new-entry/${locationId}/dates/${x.id}/position` :
-                                `/existing-entries/${locationId}/dates/${x.id}/team`;
+                            let toPosition = `/new-entry/${locationId}/dates/${x.id}/position`;
+                            let toViewTeam = `/existing-entries/${locationId}/dates/${x.id}/team`;
 
-                            return <Button key={x.id} as={LinkAdapter as any}
-                                           to={to}
-                                           variant="info"
-                                           state={{locationId: locationId, calendarId: x.id}}
-                                           size="lg">{dateService.formatDMY(x.date)}</Button>
+                            let to = props.locationViewType === LocationViewType.ForSchedule ?
+                                toPosition :
+                                toViewTeam;
+
+
+                            return <div key={x.id}>
+                                {/*{AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))}*/}
+                                <Button key={x.id} as={LinkAdapter as any}
+                                        to={to}
+                                        variant="info"
+                                        state={{locationId: locationId, calendarId: x.id}}
+                                        size="lg">{DateService.formatDMY(x.date)}</Button>
+                            </div>
                         })
                 }
             </div>

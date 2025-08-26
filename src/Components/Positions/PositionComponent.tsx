@@ -6,7 +6,7 @@ import {Accordion, Alert, Button, Spinner} from "react-bootstrap";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {PositionType, PositionTypeParams} from "../../Const/PositionType";
 import LinkAdapter from "../../Common/LinkAdapter";
-import {dateService} from "../../Common/dateService";
+import {DateService} from "../../Common/dateService";
 import {icons} from "../../Const/Icons";
 
 interface Props {
@@ -19,7 +19,6 @@ export const PositionComponent: FC<Props> = (props) => {
     const {calendarId} = useParams<{ calendarId: string }>();
     const [positionData, setPositionData] = useState<PositionData>()
     const {locationDict} = useGlobalContext()
-    // const {updateUserPositions} = useUserContext()
 
     useEffect(() => {
         let isMounted = true;
@@ -29,7 +28,6 @@ export const PositionComponent: FC<Props> = (props) => {
                 const data = await PositionService.getPositionsForSchedule(Number(locationId), Number(calendarId));
 
                 setPositionData(data)
-                // updateUserPositions(data.positions)
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
             } finally {
@@ -56,7 +54,7 @@ export const PositionComponent: FC<Props> = (props) => {
     return (
         positionData && <div>
             <h5 className={"text-center"}>Выбор позиции для локации {locationDict[Number(locationId)].name},
-                даты {dateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
+                даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
 
             <Alert variant={"info"}>
                 <p>{icons.ExclamationRed} - обязательная позиция</p>
@@ -79,7 +77,9 @@ export const PositionComponent: FC<Props> = (props) => {
                                                 return <Button key={x.id} as={LinkAdapter as any}
                                                                to={`/new-entry/${locationId}/dates/${calendarId}/position/${x.id}`}
                                                                variant="info"
-                                                               size="lg">{icon} {x.name}</Button>;
+                                                               size="lg">{icon} {x.name}</Button>
+                                                {/*{AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id, {{icon} x.name})}*/
+                                                }
                                             }
                                         )
                                     }

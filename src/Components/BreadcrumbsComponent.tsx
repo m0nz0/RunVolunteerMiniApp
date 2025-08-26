@@ -4,7 +4,7 @@ import {Link, matchPath, useLocation, useMatch} from "react-router-dom";
 import {appRoutes} from "../routes";
 import {useGlobalContext} from "../Common/Context/GlobalContext";
 import {useUserContext} from "../Common/Context/UserContext";
-import {dateService} from "../Common/dateService";
+import {DateService} from "../Common/dateService";
 
 
 const BreadcrumbsComponent: React.FC = () => {
@@ -52,7 +52,7 @@ const BreadcrumbsComponent: React.FC = () => {
                 }
                 // Если это /dates/:calendarId, используем имя из справочника
                 if (pathnames[index - 1] === "dates" && /^\d+$/.test(part)) {
-                    label = dateService.formatDayMonthNameYear(userDatesDict[Number(part)]?.date) ?? part;
+                    label = DateService.formatDayMonthNameYear(userDatesDict[Number(part)]?.date) ?? part;
                     isLast = true
                 }
                 // Если это /position/:positionId, используем имя из справочника

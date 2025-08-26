@@ -4,7 +4,7 @@ import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {Button, Form, Spinner} from "react-bootstrap";
 import NameInputService from "../../Services/NameInputService";
 import {OnInputNameData, VerstAthlete, VerstIdInfo} from "../../types";
-import {dateService} from "../../Common/dateService";
+import {DateService} from "../../Common/dateService";
 import {icons} from "../../Const/Icons";
 
 interface Props {
@@ -16,8 +16,6 @@ const Who = {
     Top: "Записать одного из инициативных волонтёров"
 }
 
-const meButtons = ["Кнопка 1", "Кнопка 2", "Кнопка 3"];
-
 export const NameSelectorComponent: FC<Props> = () => {
 
     const [data, setData] = useState<OnInputNameData>()
@@ -26,9 +24,11 @@ export const NameSelectorComponent: FC<Props> = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const {locationId} = useParams<{ locationId: string }>();
-    const {calendarId} = useParams<{ calendarId: string }>();
-    const {positionId} = useParams<{ positionId: string }>();
+    const {locationId, calendarId, positionId} = useParams<{
+        locationId: string,
+        calendarId: string,
+        positionId: string
+    }>();
 
 
     const {locationDict, positionDict} = useGlobalContext()
@@ -87,7 +87,7 @@ export const NameSelectorComponent: FC<Props> = () => {
         <h5 className={"text-center"}>Мы подошли к последнему этапу записи. Надо выбрать кого записать.</h5>
         <div>
             <p>Вы выбрали локацию <strong>{location?.name}</strong>;</p>
-            <p>Дата - <strong>{dateService.formatDayMonthNameYear(data?.date?.date ?? "")}</strong>;</p>
+            <p>Дата - <strong>{DateService.formatDayMonthNameYear(data?.date?.date ?? "")}</strong>;</p>
             <p>Позиция - <strong>{position?.name}</strong>.</p>
         </div>
         <br/>
