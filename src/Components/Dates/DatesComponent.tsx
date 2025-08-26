@@ -79,14 +79,13 @@ export const DatesComponent: FC<Props> = (props) => {
                                 toViewTeam;
 
 
-                            return <div key={x.id}>
-                                {/*{AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))}*/}
-                                <Button key={x.id} as={LinkAdapter as any}
-                                        to={to}
-                                        variant="info"
-                                        state={{locationId: locationId, calendarId: x.id}}
-                                        size="lg">{DateService.formatDMY(x.date)}</Button>
-                            </div>
+                            return <Button key={x.id} as={LinkAdapter as any}
+                                           to={to}
+                                           variant="info"
+                                           state={{locationId: locationId, calendarId: x.id}}
+                                           size="lg">{DateService.formatDMY(x.date)}</Button>
+                            {/*{AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))}*/
+                            }
                         })
                 }
             </div>
