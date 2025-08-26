@@ -1,5 +1,5 @@
 import {UserHelper} from "../Common/UserHelper";
-import {CalendarInfo, CalendarData, Team, TeamData, OnInputNameData} from "../types";
+import {OnInputNameData} from "../types";
 
 
 const controllerName: string = "MiniApp"

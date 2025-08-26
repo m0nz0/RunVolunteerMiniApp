@@ -4,7 +4,6 @@ import LocationService from "../../Services/LocationService";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "./LocationFlagComponent";
 import {FlagChecker, UserLocationDictItem} from "../../types";
-import {useUserContext} from "../../Common/Context/UserContext";
 import {LocationCardComponent} from "./LocationCardComponent";
 import {LocationViewType} from "../../Const/LocationViewType";
 
@@ -20,7 +19,6 @@ export const LocationListComponent: FC<Props> = (props) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
-    // const {userLocationDict, updateUserLocations} = useUserContext();
 
     useEffect(() => {
         let isMounted = true;

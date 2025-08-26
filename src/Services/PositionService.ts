@@ -1,5 +1,5 @@
 import {UserHelper} from "../Common/UserHelper";
-import {Position, PositionData, UserLocationDictItem} from "../types";
+import {Position, PositionData} from "../types";
 
 export type DefautPosition = {
     [key: number]: number[]

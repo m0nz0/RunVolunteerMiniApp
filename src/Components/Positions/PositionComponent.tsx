@@ -15,8 +15,7 @@ interface Props {
 export const PositionComponent: FC<Props> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const {locationId} = useParams<{ locationId: string }>();
-    const {calendarId} = useParams<{ calendarId: string }>();
+    const {locationId, calendarId} = useParams<{ locationId: string, calendarId: string }>();
     const [positionData, setPositionData] = useState<PositionData>()
     const {locationDict} = useGlobalContext()
 

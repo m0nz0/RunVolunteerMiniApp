@@ -1,6 +1,6 @@
 import React from "react";
 import {Breadcrumb} from "react-bootstrap";
-import {Link, matchPath, useLocation, useMatch} from "react-router-dom";
+import {Link, matchPath, useLocation} from "react-router-dom";
 import {appRoutes} from "../routes";
 import {useGlobalContext} from "../Common/Context/GlobalContext";
 import {useUserContext} from "../Common/Context/UserContext";
@@ -16,15 +16,11 @@ const BreadcrumbsComponent: React.FC = () => {
 
 
     const pathnames = location.pathname.split("/").filter(Boolean);
-    const match = useMatch("/locations/:locationId/*");
-    const locationId = match?.params.locationId;
 
     const findRouteLabel = (url: string): string | undefined => {
         for (const route of appRoutes) {
             let match = matchPath({path: route.path, end: true}, url)
-            // console.log(match)
             if (match) {
-                // console.log(route, url, match)
                 return route.label; // теперь всегда string
             }
         }
@@ -46,7 +42,7 @@ const BreadcrumbsComponent: React.FC = () => {
                 let isLast = index === pathnames.length - 1;
 
                 // Если это /locations/:locationId, используем имя из справочника
-                if (["new-entry", "locations","existing-entries"].some(t => t === pathnames[index - 1]) && /^\d+$/.test(part)) {
+                if (["new-entry", "locations", "existing-entries"].some(t => t === pathnames[index - 1]) && /^\d+$/.test(part)) {
                     label = locationDict[Number(part)]?.name ?? part;
                     isLast = true
                 }
