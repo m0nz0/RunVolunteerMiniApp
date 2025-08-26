@@ -5,7 +5,7 @@ import {Button, Form, Spinner} from "react-bootstrap";
 import NameInputService from "../../Services/NameInputService";
 import {OnInputNameData, VerstAthlete, VerstIdInfo} from "../../types";
 import {DateService} from "../../Common/dateService";
-import {icons} from "../../Const/Icons";
+import {Icons} from "../../Const/Icons";
 
 interface Props {
 }
@@ -120,7 +120,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                 <div className="d-flex gap-2 flex-wrap">
                     {(data?.allUsersDict ?? []).map((label, idx) => (
                         <Button key={idx} variant="info">
-                            {label.key.isMain ? icons.Favorite : null} {label.value.full_name}
+                            {label.key.isMain ? Icons.Favorite : null} {label.value.full_name}
                         </Button>
                     ))}
                 </div>
@@ -149,7 +149,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                     <div className="d-grid gap-2">
                         {data?.verstUsers.map(v =>
                             <Button key={v.id} variant="info">
-                                {icons.Target} {v.full_name}
+                                {Icons.Target} {v.full_name}
                             </Button>)}
                     </div>
                 </Form.Group>

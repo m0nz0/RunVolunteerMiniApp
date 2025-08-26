@@ -1,10 +1,6 @@
 import {UserHelper} from "../Common/UserHelper";
 import {Position, PositionData} from "../types";
 
-export type DefautPosition = {
-    [key: number]: number[]
-}
-
 const url = {
     ALL_POSITIONS: "get-all-positions",
     POSITIONS_FOR_SCHEDULE: "get-positions-for-schedule"

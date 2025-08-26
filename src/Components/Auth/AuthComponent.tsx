@@ -1,8 +1,6 @@
 import React, {ChangeEvent, FC, useState} from "react";
 import './styles.css'
 import {Button, Form, InputGroup} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons'
 import {AllParams} from "../../types";
 import {HeaderColor} from "../../Const/HeaderColor";
 import {LoginText} from "../../Const/LoginText";
@@ -10,6 +8,7 @@ import {Target} from "../../Const/Target";
 import {Version} from "../../Const/Version";
 import {Action} from "../../Const/Action";
 import {Source} from "../../Const/Source";
+import {Icons} from "../../Const/Icons";
 
 type Props = {
     data: AllParams | any
@@ -250,7 +249,7 @@ export const AuthComponent: FC<Props> = (props) => {
                                           onChange={handlePasswordChange}/>
                             <InputGroup.Text id="id-eye"
                                              onClick={eyeClick}>
-                                <FontAwesomeIcon icon={isPassVisible ? faEye : faEyeSlash}/>
+                                {isPassVisible ? Icons.EyeOpen : Icons.EyeClose}
                             </InputGroup.Text>
                         </InputGroup>
                     </Form>

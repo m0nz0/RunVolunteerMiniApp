@@ -7,7 +7,7 @@ import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {PositionType, PositionTypeParams} from "../../Const/PositionType";
 import LinkAdapter from "../../Common/LinkAdapter";
 import {DateService} from "../../Common/dateService";
-import {icons} from "../../Const/Icons";
+import {Icons} from "../../Const/Icons";
 
 interface Props {
 }
@@ -56,8 +56,8 @@ export const PositionComponent: FC<Props> = (props) => {
                 даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
 
             <Alert variant={"info"}>
-                <p>{icons.ExclamationRed} - обязательная позиция</p>
-                <p>{icons.CheckGreen} - кто-то уже записался</p>
+                <p>{Icons.ExclamationRed} - обязательная позиция</p>
+                <p>{Icons.CheckGreen} - кто-то уже записался</p>
             </Alert>
 
             <Accordion alwaysOpen={false} defaultActiveKey={PositionType.Main.toString()}>
@@ -71,7 +71,7 @@ export const PositionComponent: FC<Props> = (props) => {
                                         .sort((a, b) => a.name.localeCompare(b.name))
                                         .map(x => {
                                                 let icon = positionData.team.some(t => t.positionId === x.id) ?
-                                                    icons.CheckGreen : positionType === PositionType.Main.toString() ? icons.ExclamationRed : null;
+                                                    Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
 
                                                 return <Button key={x.id} as={LinkAdapter as any}
                                                                to={`/new-entry/${locationId}/dates/${calendarId}/position/${x.id}`}

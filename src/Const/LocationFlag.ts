@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import {icons} from "./Icons";
+import {Icons} from "./Icons";
 
 export enum LocationFlag {
     Favorite,
@@ -12,11 +12,11 @@ export enum LocationFlag {
 }
 
 export const LocationFlagParams: { [key in LocationFlag]: { name: string, icon: ReactElement } } = {
-    [LocationFlag.Favorite]: {name: "Избранные локации", icon: icons.Favorite},
-    [LocationFlag.Directed]: {name: "Вы директор", icon: icons.Directed},
-    [LocationFlag.Requested]: {name: "Вы подяли заявку в директора", icon: icons.Requested},
-    [LocationFlag.Home]: {name: "Домашняя локация", icon: icons.Home},
-    [LocationFlag.IsPrepare]: {name: "Готовится к запуску", icon: icons.IsPrepare},
-    [LocationFlag.IsCancel]: {name: "Отменено", icon: icons.IsCancel},
-    [LocationFlag.IsBotActive]: {name: "Доступна запись через бота", icon: icons.CheckGreen},
+    [LocationFlag.Favorite]: {name: "Избранные локации", icon: Icons.Favorite},
+    [LocationFlag.Directed]: {name: "Вы директор", icon: Icons.Directed},
+    [LocationFlag.Requested]: {name: "Вы подяли заявку в директора", icon: Icons.Requested},
+    [LocationFlag.Home]: {name: "Домашняя локация", icon: Icons.Home},
+    [LocationFlag.IsPrepare]: {name: "Готовится к запуску", icon: Icons.IsPrepare},
+    [LocationFlag.IsCancel]: {name: "Отменено", icon: Icons.IsCancel},
+    [LocationFlag.IsBotActive]: {name: "Доступна запись через бота", icon: Icons.CheckGreen},
 };
