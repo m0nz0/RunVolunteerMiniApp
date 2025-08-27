@@ -4,8 +4,8 @@ import LocationService from "../../Services/LocationService";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "./LocationFlagComponent";
 import {FlagChecker, UserLocationDictItem} from "../../types";
-import {LocationCardComponent} from "./LocationCardComponent";
 import {LocationViewType} from "../../Const/LocationViewType";
+import {LocationMiniCardComponent} from "./LocationMiniCardComponent";
 
 interface Props {
     defaultSwitchedFilters: LocationFlag[]
@@ -99,7 +99,7 @@ export const LocationListComponent: FC<Props> = (props) => {
             });
     }
 
-    const handleCheckboxChange = (itemId: number) => {
+    const handleCheckboxChange = (itemId: LocationFlag) => {
         setCheckedItems(prevItems =>
             prevItems.map(x => {
                 return {id: x.id, flag: itemId === x.id ? !x.flag : x.flag}
@@ -126,8 +126,8 @@ export const LocationListComponent: FC<Props> = (props) => {
         <div className={"d-grid gap-2"}>
             {filteredLocations().map((loc) => {
                 return <div key={loc.verstId}>
-                    <LocationCardComponent location={loc}
-                                           locationViewType={props.locationViewType}/>
+                    <LocationMiniCardComponent location={loc}
+                                               locationViewType={props.locationViewType}/>
                 </div>
             })
             }

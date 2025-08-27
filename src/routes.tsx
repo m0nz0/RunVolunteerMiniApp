@@ -3,10 +3,120 @@ import {DatesComponent} from "./Components/Dates/DatesComponent";
 import {PositionComponent} from "./Components/Positions/PositionComponent";
 import {NameSelectorComponent} from "./Components/NameSelector/NameSelectorComponent";
 import {AllLocationsComponent} from "./Components/Location/AllLocationsComponent";
-import {LocationInfoComponent} from "./Components/Location/LocationInfoComponent";
 import {TeamComponent} from "./Components/Team/TeamComponent";
 import {LocationViewType} from "./Const/LocationViewType";
 import {AboutComponent} from "./Components/About/AboutComponent";
+import {LocationCardComponent} from "./Components/Location/LocationCardComponent";
+
+
+/*export enum RouteCode {
+    Main = "main",
+    Locations = "locations",
+    Location = "location",
+    About = "about",
+    ExistingItemsLocations = "existing-items-locations",
+    ExistingItemDates = "existing-item-dates",
+    Date = "date",
+    Team = "team",
+    NewEntryStart = "new-entry-start",
+    // NewLocation = "new-location",
+    // NewDate = "new-date",
+    NewPosition = "new-position",
+    NewName = "new-name",
+}
+
+type RouteConfig<Params extends Record<string, string | number> = any> = {
+    path: string,
+    label: string,
+    element: ComponentType<any>,
+    extraProps?: Record<string, any>;   // кастомные пропсы
+    children?: AppRoute[]
+    params?: Params;
+}
+
+export const routes: Record<RouteCode, RouteConfig> = {
+    [RouteCode.Main]: {
+        path: "/",
+        label: "Главная",
+        element: MenuComponent,
+    },
+    [RouteCode.Locations]: {
+        path: "/locations",
+        label: "Локации",
+        element: AllLocationsComponent,
+        extraProps: {locationViewType: LocationViewType.AllLocations},
+    },
+    [RouteCode.Location]: {
+        path: "/locations/:locationId",
+        label: "Локация",
+        element: LocationCardComponent,
+        params: {locationId: ""}
+    },
+    [RouteCode.About]: {
+        path: "/about",
+        label: "Помощь",
+        element: AboutComponent,
+    },
+// {
+//     path: "/my-entries",
+//     label: "Мои записи",
+//     element: MyEntriesComponent,
+//     extraProps: {pageSize: 20},
+// },
+
+    [RouteCode.ExistingItemsLocations]: {
+        path: "/existing-entries",
+        label: "Кто записан",
+        element: AllLocationsComponent,
+        extraProps: {locationViewType: LocationViewType.WithSchedules},
+        children: []
+    },
+    [RouteCode.ExistingItemDates]: {
+        path: "/existing-entries/:locationId/dates",
+        label: "Дата",
+        element: DatesComponent,
+        extraProps:
+            {
+                locationViewType: LocationViewType.WithSchedules
+            },
+        params: {locationId: ""}
+    },
+    [RouteCode.Team]: {
+        path: "/existing-entries/:locationId/dates/:calendarId/team",
+        label: "Команда",
+        element: TeamComponent,
+        params: {locationId: "", calendarId: ""}
+    },
+    [RouteCode.NewEntryStart]: {
+        path: "/new-entry",
+        label: "Записаться",
+        element: AllLocationsComponent,
+        extraProps:
+            {
+                locationViewType: LocationViewType.ForSchedule
+            }
+    },
+    [RouteCode.Date]: {
+        path: "/new-entry/:locationId/dates",
+        label: "Дата",
+        element: DatesComponent,
+        extraProps:
+            {
+                locationViewType: LocationViewType.ForSchedule
+            },
+        params: {locationId: ""}
+    },
+    [RouteCode.NewPosition]: {
+        path: "/new-entry/:locationId/dates/:calendarId/position",
+        label: "Позиции",
+        element: PositionComponent,
+    },
+    [RouteCode.NewName]: {
+        path: "/new-entry/:locationId/dates/:calendarId/position/:positionId",
+        label: "Запись",
+        element: NameSelectorComponent,
+    },
+}*/
 
 export interface AppRoute {
     path: string;
@@ -32,8 +142,8 @@ export const appRoutes: AppRoute[] = [
     {
         path: "/locations/:locationId",
         label: "Локация",
-        element: LocationInfoComponent,
-        extraProps: {forSchedule: false},
+        element: LocationCardComponent,
+        extraProps: {showFooter: true},
     },
     {
         path: "/about",
@@ -94,3 +204,10 @@ export const appRoutes: AppRoute[] = [
         element: NameSelectorComponent,
     },
 ]
+
+// export function buildPath<R extends AppRoute>(
+//     route: R,
+//     params: typeof routes[R]["params"]
+// ) {
+//     return generatePath(routes[route].template, params);
+// }

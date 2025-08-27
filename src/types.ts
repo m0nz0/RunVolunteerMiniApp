@@ -172,6 +172,7 @@ export interface TgUser {
     id: number,
     tgLogin: string
     verstIds: any[],
+    tgId: number
 }
 
 export interface Position {

@@ -2,13 +2,13 @@ import {ReactElement} from "react";
 import {Icons} from "./Icons";
 
 export enum LocationFlag {
-    Favorite,
-    Directed,
-    Requested,
-    Home,
-    IsPrepare,
-    IsCancel,
-    IsBotActive
+    Favorite="Favorite",
+    Directed="Directed",
+    Requested="Requested",
+    Home="Home",
+    IsPrepare="IsPrepare",
+    IsCancel="IsCancel",
+    IsBotActive="IsBotActive"
 }
 
 export const LocationFlagParams: { [key in LocationFlag]: { name: string, icon: ReactElement } } = {

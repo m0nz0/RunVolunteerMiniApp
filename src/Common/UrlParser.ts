@@ -7,9 +7,8 @@ export function extractUrlParams(): UrlParams {
     const urlSearchParams = new URLSearchParams(window.location.search);
 
     for (const [key, value] of urlSearchParams.entries()) {
-        // console.log(key, value);
         if (params[key]) {
-            // If key already exists, convert to array or add to existing array
+
             if (Array.isArray(params[key])) {
                 (params[key] as string[]).push(value);
             } else {

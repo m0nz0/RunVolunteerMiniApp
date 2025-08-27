@@ -1,11 +1,13 @@
 import {FC, useEffect, useState} from "react";
 import {TeamData} from "../../types";
-import {useLocation} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
 import {ListGroup, Spinner} from "react-bootstrap";
-import {DateService} from "../../Common/dateService";
+import {DateService} from "../../Common/DateService";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
+import {AppButtons} from "../../Const/AppButtons";
+import {UserHelper} from "../../Common/UserHelper";
 
 interface Props {
 }
@@ -14,14 +16,15 @@ export const TeamComponent: FC<Props> = (props) => {
     const [team, setTeam] = useState<TeamData>()
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const loc = useLocation()
+
+    const { locationId, calendarId } = useParams<{ locationId: string; calendarId: string }>();
 
     useEffect(() => {
             let isMounted = true;
 
             const loadData = async () => {
                 try {
-                    let data = await TeamService.getTeam(Number(loc.state.locationId), Number(loc.state.calendarId))
+                    let data = await TeamService.getTeam(Number(locationId), Number(calendarId))
                     setTeam(data)
                 } catch
                     (err) {
@@ -35,7 +38,7 @@ export const TeamComponent: FC<Props> = (props) => {
             return () => {
                 isMounted = false;
             };
-        }, []
+        }, [locationId, calendarId ]
     )
 
     if (loading) {
@@ -53,10 +56,12 @@ export const TeamComponent: FC<Props> = (props) => {
                 team?.schedules.map(s => s.positionId).some(s => s === p.id));
     }
 
-    return <div>
-        <h5 className={"text-center"}>Команда
-            локации {team?.location?.name} за {DateService.formatDayMonthNameYear(team?.date?.date ?? "")} </h5>
+    let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === UserHelper.getUser()?.id) && !team?.hasOtherLocations
 
+    return <div>
+        <h5 className={"text-center"}>
+            Команда локации <strong className={"text-danger"}>{team?.location?.name}</strong> за <strong
+            className={"text-danger"}>{DateService.formatDayMonthNameYear(team?.date?.date ?? "")}</strong></h5>
         <p>
             <NameWithBadgeComponent name={"Записалось волонтёров"}
                                     badgeColor="success"
@@ -101,13 +106,7 @@ export const TeamComponent: FC<Props> = (props) => {
                     </div>
                 })
             }
-            {/*<ListGroup.Item*/}
-            {/*    as={"li"}*/}
-            {/*    className="d-flex justify-content-between align-items-start">*/}
-            {/*    <NameWithBadgeComponent name={"Итого:"}*/}
-            {/*                            badgeValue={team?.schedules.length}*/}
-            {/*                            badgeColor={team?.schedules.length === 0 ? "danger" : "success"}/>*/}
-            {/*</ListGroup.Item>*/}
+            {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
         </ListGroup>
     </div>
 }

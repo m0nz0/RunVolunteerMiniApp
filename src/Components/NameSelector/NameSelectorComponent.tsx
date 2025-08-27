@@ -4,7 +4,7 @@ import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {Button, Form, Spinner} from "react-bootstrap";
 import NameInputService from "../../Services/NameInputService";
 import {OnInputNameData, VerstAthlete, VerstIdInfo} from "../../types";
-import {DateService} from "../../Common/dateService";
+import {DateService} from "../../Common/DateService";
 import {Icons} from "../../Const/Icons";
 
 interface Props {

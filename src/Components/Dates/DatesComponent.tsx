@@ -4,8 +4,9 @@ import {useParams} from "react-router-dom";
 import {CalendarData} from "../../types";
 import {Button, Spinner} from "react-bootstrap";
 import LinkAdapter from "../../Common/LinkAdapter";
-import {DateService} from "../../Common/dateService";
+import {DateService} from "../../Common/DateService";
 import {LocationViewType} from "../../Const/LocationViewType";
+import {AppButtons} from "../../Const/AppButtons";
 
 interface Props {
     locationViewType: LocationViewType
@@ -78,14 +79,11 @@ export const DatesComponent: FC<Props> = (props) => {
                                 toPosition :
                                 toViewTeam;
 
-
-                            return <Button key={x.id} as={LinkAdapter as any}
-                                           to={to}
-                                           variant="info"
-                                           state={{locationId: locationId, calendarId: x.id}}
-                                           size="lg">{DateService.formatDMY(x.date)}</Button>
-                            {/*{AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))}*/
+                            if (props.locationViewType === LocationViewType.ForSchedule) {
+                                return AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date))
                             }
+
+                            return AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))
                         })
                 }
             </div>

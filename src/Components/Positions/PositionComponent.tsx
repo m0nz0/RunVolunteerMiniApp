@@ -6,7 +6,7 @@ import {Accordion, Alert, Button, Spinner} from "react-bootstrap";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {PositionType, PositionTypeParams} from "../../Const/PositionType";
 import LinkAdapter from "../../Common/LinkAdapter";
-import {DateService} from "../../Common/dateService";
+import {DateService} from "../../Common/DateService";
 import {Icons} from "../../Const/Icons";
 
 interface Props {

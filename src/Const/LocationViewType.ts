@@ -14,19 +14,19 @@ export const LocationViewParams: {
     }
 } = {
     [LocationViewType.AllLocations]: {
-        header:"Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
-        defaultActiveFilters:[LocationFlag.Favorite, LocationFlag.IsBotActive],
-        hiddenFilters:[]
+        header: "Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
+        defaultActiveFilters: [LocationFlag.Favorite, LocationFlag.IsBotActive],
+        hiddenFilters: []
     },
     [LocationViewType.ForSchedule]: {
-        header:"Выбери локацию для записи.",
-        defaultActiveFilters:[LocationFlag.Favorite, LocationFlag.IsBotActive],
-        hiddenFilters:[LocationFlag.IsBotActive, LocationFlag.IsPrepare, LocationFlag.IsCancel]
+        header: "Выбери локацию для записи.",
+        defaultActiveFilters: [LocationFlag.Favorite, LocationFlag.IsBotActive],
+        hiddenFilters: [LocationFlag.IsBotActive, LocationFlag.IsPrepare, LocationFlag.IsCancel]
 
     },
     [LocationViewType.WithSchedules]: {
-        header:"Это список локаций, где есть записи в волонтёны. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
-        defaultActiveFilters:[LocationFlag.Favorite],
-        hiddenFilters:[LocationFlag.IsCancel, LocationFlag.IsPrepare, LocationFlag.IsBotActive]
+        header: "Это список локаций, где есть записи в волонтёны. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
+        defaultActiveFilters: [LocationFlag.Favorite],
+        hiddenFilters: [LocationFlag.IsCancel, LocationFlag.IsPrepare, LocationFlag.IsBotActive]
     },
 }
