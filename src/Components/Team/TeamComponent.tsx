@@ -17,7 +17,7 @@ export const TeamComponent: FC<Props> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const { locationId, calendarId } = useParams<{ locationId: string; calendarId: string }>();
+    const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
 
     useEffect(() => {
             let isMounted = true;
@@ -38,7 +38,7 @@ export const TeamComponent: FC<Props> = (props) => {
             return () => {
                 isMounted = false;
             };
-        }, [locationId, calendarId ]
+        }, [locationId, calendarId]
     )
 
     if (loading) {
@@ -60,8 +60,9 @@ export const TeamComponent: FC<Props> = (props) => {
 
     return <div>
         <h5 className={"text-center"}>
-            Команда локации <strong className={"text-danger"}>{team?.location?.name}</strong> за <strong
-            className={"text-danger"}>{DateService.formatDayMonthNameYear(team?.date?.date ?? "")}</strong></h5>
+            Команда
+            локации <strong>{team?.location?.name}</strong> за <strong>{DateService.formatDayMonthNameYear(team?.date?.date ?? "")}</strong>
+        </h5>
         <p>
             <NameWithBadgeComponent name={"Записалось волонтёров"}
                                     badgeColor="success"

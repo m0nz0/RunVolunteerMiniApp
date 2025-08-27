@@ -5,6 +5,7 @@ import {UserLocationDictItem} from "../../types";
 import {LocationViewType} from "../../Const/LocationViewType";
 import './styles.css'
 import {LocationCardBody} from "./LocationCardBody";
+import {useNavigate, useNavigation} from "react-router-dom";
 
 interface Props {
     location: UserLocationDictItem,
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export const LocationMiniCardComponent: FC<Props> = (props) => {
+
+    const navigate = useNavigate();
 
     let location = props.location;
     let locationViewType = props.locationViewType;
@@ -22,7 +25,7 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
             `/existing-entries/${location.verstId}/dates` :
             locationViewType === LocationViewType.ForSchedule ?
                 `/new-entry/${location.verstId}/dates` :
-                null;
+                "/";
 
     let state = locationViewType === LocationViewType.AllLocations ?
         {location: location, locationViewType: locationViewType} :
@@ -30,13 +33,17 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
             {location: location} :
             locationViewType === LocationViewType.ForSchedule ?
                 {location: location} :
-                null;
+                {};
+    const goByRoute = () => {
+        navigate(to, {
+            state: state
+        })
+    }
 
     return (
         <Card key={location.verstId}
-              as={LinkAdapter as any}
-              to={to}
-              state={state}>
+              onClick={goByRoute}
+              style={{cursor: "pointer"}}>
             <LocationCardBody location={location}/>
 
         </Card>)

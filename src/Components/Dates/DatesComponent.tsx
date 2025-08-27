@@ -7,6 +7,7 @@ import LinkAdapter from "../../Common/LinkAdapter";
 import {DateService} from "../../Common/DateService";
 import {LocationViewType} from "../../Const/LocationViewType";
 import {AppButtons} from "../../Const/AppButtons";
+import {useUserContext} from "../../Common/Context/UserContext";
 
 interface Props {
     locationViewType: LocationViewType
@@ -18,6 +19,7 @@ export const DatesComponent: FC<Props> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationId} = useParams<{ locationId: string }>();
+    const {updateUserDates} = useUserContext()
 
     useEffect(() => {
         let isMounted = true;
@@ -27,10 +29,13 @@ export const DatesComponent: FC<Props> = (props) => {
                 if (props.locationViewType === LocationViewType.ForSchedule) {
                     let data = await CalendarService.getDatesForSchedule(Number(locationId))
                     setDatesData(data)
+                    updateUserDates(data.dates)
                 } else if (props.locationViewType === LocationViewType.WithSchedules) {
                     let data = await CalendarService.getExistingDates(Number(locationId));
                     setDatesData({dates: data.dates, location: data.location, locations: [], schedules: []})
+                    updateUserDates(data.dates)
                 }
+
             } catch (err) {
                 if (isMounted) setError((err as Error).message);
             } finally {
