@@ -2,8 +2,7 @@ import {FC, useEffect, useState} from "react";
 import CalendarService from "../../Services/CalendarService";
 import {useParams} from "react-router-dom";
 import {CalendarData} from "../../types";
-import {Button, Spinner} from "react-bootstrap";
-import LinkAdapter from "../../Common/LinkAdapter";
+import {Spinner} from "react-bootstrap";
 import {DateService} from "../../Common/DateService";
 import {LocationViewType} from "../../Const/LocationViewType";
 import {AppButtons} from "../../Const/AppButtons";
@@ -61,10 +60,7 @@ export const DatesComponent: FC<Props> = (props) => {
     if (props.locationViewType === LocationViewType.WithSchedules && datesData?.dates.length === 0) {
         return <div className={"text-center"}>
             <h5>Еще никто не записался в волонтеры локации {datesData?.location.name}</h5>
-            <Button as={LinkAdapter as any}
-                    to={`/new-entry/${locationId}/dates`}
-                    variant="info"
-                    size="lg">Хотите стать первым?</Button>
+            {AppButtons.ToDateSelectWhenNoExistingDates(Number(locationId), "Хотите стать первым?")}
         </div>
     } else {
         return <div>

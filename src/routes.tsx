@@ -7,6 +7,8 @@ import {TeamComponent} from "./Components/Team/TeamComponent";
 import {LocationViewType} from "./Const/LocationViewType";
 import {AboutComponent} from "./Components/About/AboutComponent";
 import {LocationCardComponent} from "./Components/Location/LocationCardComponent";
+import {ProfileComponent} from "./Components/Profile/ProfileComponent";
+import {DirectorsComponent} from "./Components/Directors/DirectorsComponent";
 
 
 /*export enum RouteCode {
@@ -140,10 +142,20 @@ export const appRoutes: AppRoute[] = [
         extraProps: {locationViewType: LocationViewType.AllLocations},
     },
     {
+        path: "/profile",
+        label: "Профиль",
+        element: ProfileComponent,
+    },
+    {
         path: "/locations/:locationId",
         label: "Локация",
         element: LocationCardComponent,
         extraProps: {showFooter: true},
+    },
+    {
+        path: "/locations/:locationId/directors",
+        label: "Директора",
+        element: DirectorsComponent,
     },
     {
         path: "/about",

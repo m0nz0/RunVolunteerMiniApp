@@ -79,6 +79,11 @@ export interface GlobalLocationDictItem {
     name: string;
 }
 
+export interface LocationData {
+    user: TgUser,
+    locations: UserLocationDictItem[]
+}
+
 export interface UserLocationDictItem extends GlobalLocationDictItem {
     cityName: string,
     isFavorite: boolean,
@@ -134,6 +139,11 @@ export interface OnInputNameData {
     allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
 }
 
+export interface ProfileData{
+    tgUser: TgUser,
+    allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
+}
+
 export interface VerstIdInfo {
     verstId: number;
     isMain: boolean;
@@ -170,9 +180,13 @@ export interface ExistingDatesInfo {
 
 export interface TgUser {
     id: number,
-    tgLogin: string
-    verstIds: any[],
-    tgId: number
+    tgId: number,
+    tgLogin: string,
+    homeLocationId?: number,
+    isAdmin: boolean,
+    verstIds: VerstIdInfo[],
+    locationDirectors: { locationId: number }[]
+    favoriteLocations: { locationId: number }[]
 }
 
 export interface Position {

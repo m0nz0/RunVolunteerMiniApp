@@ -1,15 +1,15 @@
 import React, {FC} from "react";
 import {Card} from "react-bootstrap";
-import LinkAdapter from "../../Common/LinkAdapter";
-import {UserLocationDictItem} from "../../types";
+import {TgUser, UserLocationDictItem} from "../../types";
 import {LocationViewType} from "../../Const/LocationViewType";
 import './styles.css'
 import {LocationCardBody} from "./LocationCardBody";
-import {useNavigate, useNavigation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
     location: UserLocationDictItem,
     locationViewType: LocationViewType,
+    user: TgUser | undefined
 }
 
 export const LocationMiniCardComponent: FC<Props> = (props) => {
@@ -28,11 +28,11 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
                 "/";
 
     let state = locationViewType === LocationViewType.AllLocations ?
-        {location: location, locationViewType: locationViewType} :
+        {location: location, locationViewType: locationViewType, user: props.user} :
         locationViewType === LocationViewType.WithSchedules ?
-            {location: location} :
+            {location: location, user: props.user} :
             locationViewType === LocationViewType.ForSchedule ?
-                {location: location} :
+                {location: location, user: props.user} :
                 {};
     const goByRoute = () => {
         navigate(to, {

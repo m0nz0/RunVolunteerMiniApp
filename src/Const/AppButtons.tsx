@@ -31,10 +31,22 @@ export const AppButtons = {
             label="Локации"
         />
     ),
+    Profile: () => (
+        <AppButton
+            to={`/profile`}
+            label="Профиль"
+        />
+    ),
     NewEntryToSelectDate: (locationId: number, calendarId?: number) => (
         <AppButton
             to={`/new-entry/${locationId}/dates${calendarId ? `/${calendarId}` : ""}`}
             label="Записаться"
+        />
+    ),
+    ToDateSelectWhenNoExistingDates: (locationId: number, name: string) => (
+        <AppButton
+            to={`/new-entry/${locationId}/dates`}
+            label={name}
         />
     ),
     ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string) => (

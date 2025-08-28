@@ -3,7 +3,7 @@ import {Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService from "../../Services/LocationService";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {LocationFlagComponent} from "./LocationFlagComponent";
-import {FlagChecker, UserLocationDictItem} from "../../types";
+import {FlagChecker, TgUser, UserLocationDictItem} from "../../types";
 import {LocationViewType} from "../../Const/LocationViewType";
 import {LocationMiniCardComponent} from "./LocationMiniCardComponent";
 
@@ -16,6 +16,7 @@ interface Props {
 export const LocationListComponent: FC<Props> = (props) => {
 
     const [locations, setLocations] = useState<UserLocationDictItem[]>([]);
+    const [user, setUser] = useState<TgUser>()
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
@@ -28,7 +29,7 @@ export const LocationListComponent: FC<Props> = (props) => {
                 const data = await LocationService.getLocations(props.locationViewType);
                 // updateUserLocations(data);
 
-                let sorted = data
+                let sorted = data.locations
                     .sort((a, b) => {
                             let af = a.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
                             let bf = b.locationFlags.map(f => LocationFlag[f as keyof typeof LocationFlag]);
@@ -57,8 +58,9 @@ export const LocationListComponent: FC<Props> = (props) => {
                 setLocations(props.locationViewType === LocationViewType.ForSchedule ?
                     sorted.filter(value => value.botActive) :
                     sorted)
+                setUser(data.user)
 
-                let flags = [...new Set(data.map(x => x.locationFlags).flat())]
+                let flags = [...new Set(data.locations.map(x => x.locationFlags).flat())]
                     .map(x => LocationFlag[x as keyof typeof LocationFlag])
                     .filter(value => !props.hiddenFilters.some(hf => hf === value));
                 setCheckedItems(flags.map(x => {
@@ -127,7 +129,8 @@ export const LocationListComponent: FC<Props> = (props) => {
             {filteredLocations().map((loc) => {
                 return <div key={loc.verstId}>
                     <LocationMiniCardComponent location={loc}
-                                               locationViewType={props.locationViewType}/>
+                                               locationViewType={props.locationViewType}
+                                               user={user}/>
                 </div>
             })
             }

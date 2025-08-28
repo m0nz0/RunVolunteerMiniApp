@@ -1,30 +1,35 @@
 import React, {FC} from "react";
 import {ButtonGroup, ButtonToolbar, Card, Dropdown, DropdownButton} from "react-bootstrap";
-import {UserLocationDictItem} from "../../types";
+import {TgUser, UserLocationDictItem} from "../../types";
 import {LocationViewType} from "../../Const/LocationViewType";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {AppButtons} from "../../Const/AppButtons";
 
 interface Props {
     location: UserLocationDictItem,
-    locationViewType: LocationViewType
+    locationViewType: LocationViewType,
+    user: TgUser
 }
 
 export const LocationCardFooter: FC<Props> = (props) => {
 
     let addonList = []
     if (!props.location.botActive) {
-        addonList.push("on in bot")
+        if (props.user.isAdmin) {
+            addonList.push("on in bot")
+        }
     } else {
-        addonList.push("off in bot")
-        addonList.push("new entry")
+        if (props.user.isAdmin) {
+            addonList.push("off in bot")
+        }
+        addonList.push(AppButtons.ToDateSelectWhenNoExistingDates(props.location.verstId, "Записаться"));
         addonList.push("position admin")
         if (props.location.isFavorite) {
             addonList.push("remove from favotite")
         } else {
             addonList.push("add to favotite")
         }
-        if (!props.location.isRequested && !props.location.isDirected){
+        if (!props.location.isRequested && !props.location.isDirected) {
             addonList.push("new director")
         }
         addonList.push("view directors")
@@ -51,8 +56,9 @@ export const LocationCardFooter: FC<Props> = (props) => {
                                     size={"lg"}
                                     title="Дополнительно"
                                     id="location-addon">
-                        <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>
-                        <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>
+                        {addonList.map((item, index) => item)}
+                        {/*    <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>*/}
+                        {/*    <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>*/}
                     </DropdownButton>
                 </ButtonGroup>
             </ButtonToolbar>

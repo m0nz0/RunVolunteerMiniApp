@@ -53,7 +53,7 @@ export const AboutComponent: FC = () => {
                 </li>
             </ol>
             <br/>
-            <h4>Полезные ссылки:</h4>
+            <strong>Полезные ссылки:</strong>
             <ul>
                 <li><a href={"https://5verst.ru/"}>Главная 5 вёрст</a></li>
                 <li><a href={"https://nrms.5verst.ru/"}>NRMS</a></li>

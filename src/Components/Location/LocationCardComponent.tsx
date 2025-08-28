@@ -17,13 +17,17 @@ export const LocationCardComponent: FC<Props> = (props) => {
     const inputState = useLocation()
     const location = inputState?.state?.location;
     const locationViewType = inputState?.state?.locationViewType;
+    const user = inputState?.state?.user;
+
+    console.log(inputState.state)
 
     return (
         <Card>
             <LocationCardBody location={location}/>
 
             <LocationCardFooter location={location}
-                                locationViewType={locationViewType}/>
+                                locationViewType={locationViewType}
+                                user={user}/>
         </Card>)
 
 }

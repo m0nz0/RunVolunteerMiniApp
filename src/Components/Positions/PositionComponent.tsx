@@ -2,12 +2,12 @@ import {FC, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {PositionData} from "../../types";
 import PositionService from "../../Services/PositionService";
-import {Accordion, Alert, Button, Spinner} from "react-bootstrap";
+import {Accordion, Alert, Spinner} from "react-bootstrap";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {PositionType, PositionTypeParams} from "../../Const/PositionType";
-import LinkAdapter from "../../Common/LinkAdapter";
 import {DateService} from "../../Common/DateService";
 import {Icons} from "../../Const/Icons";
+import {AppButtons} from "../../Const/AppButtons";
 
 interface Props {
 }
@@ -70,17 +70,12 @@ export const PositionComponent: FC<Props> = (props) => {
                                     {value
                                         .sort((a, b) => a.name.localeCompare(b.name))
                                         .map(x => {
-                                                let icon = positionData.team.some(t => t.positionId === x.id) ?
-                                                    Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
+                                            let icon = positionData.team.some(t => t.positionId === x.id) ?
+                                                Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
 
-                                                return <Button key={x.id} as={LinkAdapter as any}
-                                                               to={`/new-entry/${locationId}/dates/${calendarId}/position/${x.id}`}
-                                                               variant="info"
-                                                               size="lg">{icon} {x.name}</Button>
-                                                {/*{AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id, {{icon} x.name})}*/
-                                                }
-                                            }
-                                        )
+                                            return AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id,
+                                                <div>{icon} x.name</div>);
+                                        })
                                     }
                                 </div>
                             </Accordion.Body>

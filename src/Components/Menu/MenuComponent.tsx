@@ -9,7 +9,8 @@ const listItemTextList = [
     AppButtons.NewEntry(),
     AppButtons.LocationsWithRecords(),
     AppButtons.Locations(),
-    AppButtons.About()
+    AppButtons.About(),
+    AppButtons.Profile()
 ]
 
 interface Props {
@@ -24,8 +25,8 @@ export const MenuComponent: React.FC = () => {
     let userName = user?.username;
     return (
         <div>
-            <h1 className={"text-center"} text->Привет,{userName && <span>{userName},</span>} чем я могу тебе
-                помочь?</h1>
+            <h5 className={"text-center"} text->Привет,{userName && <span>{userName},</span>} чем я могу тебе
+                помочь?</h5>
             <img className={'app-logo'} src={logo}/>
             <div className="d-grid gap-2 buttons-list">
                 {
