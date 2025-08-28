@@ -1,20 +1,11 @@
 import {FC, useEffect, useState} from "react";
 import {ProfileData} from "../../types";
-import {
-    Accordion,
-    AccordionBody,
-    AccordionHeader,
-    AccordionItem,
-    Alert,
-    Button,
-    ButtonGroup,
-    ButtonToolbar,
-    Spinner
-} from "react-bootstrap";
+import {Accordion, Button, ButtonGroup, ButtonToolbar, Spinner} from "react-bootstrap";
 import ProfileService from "../../Services/ProfileService";
 import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {Icons} from "../../Const/Icons";
 import LinkService from "../../Services/LinkService";
+import {AlertComponent} from "../../Common/AlertComonent";
 
 interface Props {
 }
@@ -25,11 +16,14 @@ export const ProfileComponent: FC<Props> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationDict} = useGlobalContext()// const {locationId} = useParams<{ locationId: string }>();
+    const [alert, setAllert] = useState(false)
     // const {updateUserDates} = useUserContext()
 
     useEffect(() => {
         let isMounted = true;
-
+        if (Object.entries(locationDict).length === 0) {
+            return;
+        }
         const loadData = async () => {
             try {
                 let data = await ProfileService.getProfile()
@@ -45,7 +39,7 @@ export const ProfileComponent: FC<Props> = (props) => {
         return () => {
             isMounted = false;
         };
-    }, [/*locationId, props.locationViewType*/]);
+    }, [locationDict]);
 
     if (loading) {
         return (
@@ -69,12 +63,13 @@ export const ProfileComponent: FC<Props> = (props) => {
     }
 
     const dummy = () => {
-        return <Alert>Not yet implemented</Alert>
+        setAllert(true)
     }
 
     // todo Прикрутить кнопки для ПД
 
     return <div>
+        {alert && <AlertComponent text={"Not yet implemented"}></AlertComponent>}
         <h5 className="text-center">Профиль</h5>
         <Accordion alwaysOpen={false} defaultActiveKey={"-1"}>
             <Accordion.Item eventKey={"-1"}>
@@ -86,6 +81,9 @@ export const ProfileComponent: FC<Props> = (props) => {
                             <ul>
                                 {profileData?.tgUser.favoriteLocations.map(f => {
                                     let location = locationDict[f.locationId]
+                                    if (!location) {
+                                        console.log(f.locationId, locationDict)
+                                    }
                                     return <li>{location.name}</li>
                                 })}
                             </ul>
@@ -101,16 +99,24 @@ export const ProfileComponent: FC<Props> = (props) => {
                             </ul>
                         </div>
                     </div>
+                    <div>
+                        <ButtonToolbar className={"d-grip gap-2"}>
+                            <ButtonGroup>
+                                {profileData?.tgUser.verstIds.length == 0 &&
+                                    <Button onClick={() => dummy()}>Привязать основной аккаунт</Button>}
+                            </ButtonGroup>
+                        </ButtonToolbar>
+                    </div>
                 </Accordion.Body>
             </Accordion.Item>
             {profileData?.tgUser.verstIds.map(value => {
                 let verstData = profileData?.allUsersDict.find(x => x.key.verstId === value.verstId)
-                return <AccordionItem eventKey={value.verstId.toString()}>
-                    <AccordionHeader>{value.isMain ? Icons.Favorite : null}&nbsp;{verstData?.value.full_name}&nbsp;
+                return <Accordion.Item eventKey={value.verstId.toString()}>
+                    <Accordion.Header>{value.isMain ? Icons.Favorite : null}&nbsp;{verstData?.value.full_name}&nbsp;
                         {value.isMain && <span className={"text-primary"}>основной аккаунт</span>}
                         {!value.isMain && <span className={"text-info"}>дополнительный аккаунт</span>}
-                    </AccordionHeader>
-                    <AccordionBody>
+                    </Accordion.Header>
+                    <Accordion.Body>
                         <div>
                             <div>
                                 <strong>Данные аккаунта 5 вёрст:</strong>
@@ -127,19 +133,19 @@ export const ProfileComponent: FC<Props> = (props) => {
                         <div style={{textAlign: "center"}}>
                             <img src={`data:image/jpeg;base64,${verstData?.value.qr_code}`}/>
                         </div>
-                        <ButtonToolbar className={"d-grip gap-2"}>
-                            <ButtonGroup>
-                                {value.isMain && <Button onClick={() => dummy()}>Добавить доп аккаунт</Button>}
-                            </ButtonGroup>
-                            <ButtonGroup>
-                                <Button onClick={() => unlink(verstData?.value.id)}>Отвязать аккаунт</Button>
-                            </ButtonGroup>
-                            <ButtonGroup>
-                                <Button onClick={() => dummy()}>Привязать аккаунт</Button>
-                            </ButtonGroup>
-                        </ButtonToolbar>
-                    </AccordionBody>
-                </AccordionItem>
+                        <div style={{justifyItems: "center"}}>
+                            <ButtonToolbar className={"d-grip gap-2"}>
+                                <ButtonGroup>
+                                    {value.isMain && <Button onClick={() => dummy()}>Добавить доп аккаунт</Button>}
+                                </ButtonGroup>
+                                <ButtonGroup>
+                                    <Button onClick={() => dummy()}>Отвязать аккаунт</Button>
+                                    {/*<Button onClick={() => unlink(verstData?.value.id)}>Отвязать аккаунт</Button>*/}
+                                </ButtonGroup>
+                            </ButtonToolbar>
+                        </div>
+                    </Accordion.Body>
+                </Accordion.Item>
             })}
 
         </Accordion>
