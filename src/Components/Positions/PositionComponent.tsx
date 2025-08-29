@@ -74,7 +74,7 @@ export const PositionComponent: FC<Props> = (props) => {
                                                 Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
 
                                             return AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id,
-                                                <div>{icon} x.name</div>);
+                                                <div>{icon} {x.name}</div>);
                                         })
                                     }
                                 </div>

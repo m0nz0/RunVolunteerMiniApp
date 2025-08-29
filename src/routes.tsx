@@ -150,7 +150,7 @@ export const appRoutes: AppRoute[] = [
         path: "/locations/:locationId",
         label: "Локация",
         element: LocationCardComponent,
-        extraProps: {showFooter: true},
+        extraProps: {},
     },
     {
         path: "/locations/:locationId/directors",

@@ -1,41 +1,51 @@
 import React, {FC} from "react";
 import {ButtonGroup, ButtonToolbar, Card, Dropdown, DropdownButton} from "react-bootstrap";
 import {TgUser, UserLocationDictItem} from "../../types";
-import {LocationViewType} from "../../Const/LocationViewType";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {AppButtons} from "../../Const/AppButtons";
+import LocationService from "../../Services/LocationService";
 
 interface Props {
     location: UserLocationDictItem,
-    locationViewType: LocationViewType,
     user: TgUser
 }
 
 export const LocationCardFooter: FC<Props> = (props) => {
 
-    let addonList = []
-    if (!props.location.botActive) {
-        if (props.user.isAdmin) {
-            addonList.push("on in bot")
-        }
-    } else {
-        if (props.user.isAdmin) {
-            addonList.push("off in bot")
-        }
-        addonList.push(AppButtons.ToDateSelectWhenNoExistingDates(props.location.verstId, "Записаться"));
-        addonList.push("position admin")
-        if (props.location.isFavorite) {
-            addonList.push("remove from favotite")
-        } else {
-            addonList.push("add to favotite")
-        }
-        if (!props.location.isRequested && !props.location.isDirected) {
-            addonList.push("new director")
-        }
-        addonList.push("view directors")
-        // todo
-        addonList.push("off in bot")
 
+    const handleOnOffClick = async () => {
+        let locationId = props.location.verstId;
+        let newActive = !props.location.botActive
+        await LocationService.locationOnOff(locationId, newActive)
+            .then(() => window.location.reload());
+
+    }
+
+    const handleFavoriteClick = async () => {
+        let locationId = props.location.verstId;
+        await LocationService.locationFavorite(locationId)
+            .then(() => window.location.reload());
+    }
+
+    let addonList = []
+
+    if (props.user.isAdmin) {
+        addonList.push(<div className={"w-100"}
+                            onClick={() => handleOnOffClick()}
+        >{props.location.botActive ? "Отключить" : "включить"} в боте</div>)
+    }
+
+
+    if (props.location.botActive) {
+        // todo addonList.push("position admin")
+        addonList.push(<div className={"w-100"}
+                            onClick={() => handleFavoriteClick()}
+        >{props.location.isFavorite ? "Исключить из избранного" : "Добавить в избранное"}</div>)
+
+        if (!props.location.isRequested && !props.location.isDirected) {
+// todo            addonList.push("new director")
+        }
+// todo        addonList.push("view directors")
     }
 
 
@@ -44,23 +54,18 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
     return (<Card.Footer>
             <ButtonToolbar className={"d-grip gap-2"}>
-                {canNewEntry && <ButtonGroup>
-                    {AppButtons.NewEntryToSelectDate(location.verstId)}
-                </ButtonGroup>}
-                <ButtonGroup>
-                    {AppButtons.WhoScheduled(location.verstId)}
-                </ButtonGroup>
-                <ButtonGroup>
-                    <DropdownButton as={ButtonGroup}
-                                    variant={"info"}
-                                    size={"lg"}
-                                    title="Дополнительно"
-                                    id="location-addon">
-                        {addonList.map((item, index) => item)}
-                        {/*    <Dropdown.Item eventKey="1">Dropdown link</Dropdown.Item>*/}
-                        {/*    <Dropdown.Item eventKey="2">Dropdown link</Dropdown.Item>*/}
-                    </DropdownButton>
-                </ButtonGroup>
+                {canNewEntry && AppButtons.NewEntryToSelectDate(location.verstId)}
+
+                {location.botActive && AppButtons.WhoScheduled(location.verstId)}
+
+                <DropdownButton as={ButtonGroup}
+                                variant={"info"}
+                                size={"sm"}
+                                title="Дополнительно"
+                                id="location-addon">
+                    {addonList.map((item, index) => <Dropdown.Item as={"div"}>{item}</Dropdown.Item>)}
+                </DropdownButton>
+
             </ButtonToolbar>
         </Card.Footer>
     )

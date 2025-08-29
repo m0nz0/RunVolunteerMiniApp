@@ -49,6 +49,12 @@ export const AppButtons = {
             label={name}
         />
     ),
+    ToLocationCard: (locationId: number) => (
+        <AppButton
+            to={`/location/${locationId}`}
+            label=""
+        />
+    ),
     ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string) => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team`}
@@ -84,7 +90,7 @@ export const AppButtons = {
     ),
     ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any) => (
         <AppButton
-            to={`/existing-entries/${locationId}/dates/${calendarId}/position/${positionId}`}
+            to={`/new-entry/${locationId}/dates/${calendarId}/position/${positionId}`}
             label={name}
         />
     )

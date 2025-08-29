@@ -27,17 +27,14 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
                 `/new-entry/${location.verstId}/dates` :
                 "/";
 
-    let state = locationViewType === LocationViewType.AllLocations ?
-        {location: location, locationViewType: locationViewType, user: props.user} :
+    let state =
         locationViewType === LocationViewType.WithSchedules ?
             {location: location, user: props.user} :
             locationViewType === LocationViewType.ForSchedule ?
                 {location: location, user: props.user} :
                 {};
     const goByRoute = () => {
-        navigate(to, {
-            state: state
-        })
+        navigate(to, {})
     }
 
     return (
@@ -45,7 +42,7 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
               onClick={goByRoute}
               style={{cursor: "pointer"}}>
             <LocationCardBody location={location}/>
-
+            LocationMiniCardComponent
         </Card>)
 
 }

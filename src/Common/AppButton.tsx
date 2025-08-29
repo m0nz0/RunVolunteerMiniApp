@@ -14,7 +14,7 @@ export const AppButton: FC<AppButtonProps> = ({to, label, variant = "info"}) => 
             as={LinkAdapter as any}
             to={to}
             variant={variant}
-            size="lg">
+            size="sm">
             {label}
         </Button>
     );

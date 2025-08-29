@@ -16,7 +16,7 @@ export const ProfileComponent: FC<Props> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationDict} = useGlobalContext()// const {locationId} = useParams<{ locationId: string }>();
-    const [alert, setAllert] = useState(false)
+    const [alert, setAlert] = useState(false)
     // const {updateUserDates} = useUserContext()
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export const ProfileComponent: FC<Props> = (props) => {
     }
 
     const dummy = () => {
-        setAllert(true)
+        setAlert(true)
     }
 
     // todo Прикрутить кнопки для ПД
@@ -118,13 +118,17 @@ export const ProfileComponent: FC<Props> = (props) => {
                     </Accordion.Header>
                     <Accordion.Body>
                         <div>
-                            <div>
+                            <div style={{display: "grid"}}>
                                 <strong>Данные аккаунта 5 вёрст:</strong>
-                                <span> {verstData?.value.full_name} | A{verstData?.value.id}</span>
+                                <span style={{paddingLeft: 20}}>
+                                    {verstData?.value.full_name} | A{verstData?.value.id}
+                                </span>
                             </div>
-                            <div>
+                            <div style={{display: "grid"}}>
                                 <strong>Домашняя локация:</strong>
-                                <span> {verstData?.value.home_event}</span>
+                                <span style={{paddingLeft: 20}}>
+                                    {verstData?.value.home_event}
+                                </span>
                             </div>
                             <br/>
                             <span>Посмотреть или изменить данные своего профиля (имя и домашнюю локацию) вы можете в <a
@@ -139,8 +143,7 @@ export const ProfileComponent: FC<Props> = (props) => {
                                     {value.isMain && <Button onClick={() => dummy()}>Добавить доп аккаунт</Button>}
                                 </ButtonGroup>
                                 <ButtonGroup>
-                                    <Button onClick={() => dummy()}>Отвязать аккаунт</Button>
-                                    {/*<Button onClick={() => unlink(verstData?.value.id)}>Отвязать аккаунт</Button>*/}
+                                    <Button onClick={() => unlink(verstData?.value.id)}>Отвязать аккаунт</Button>
                                 </ButtonGroup>
                             </ButtonToolbar>
                         </div>

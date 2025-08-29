@@ -9,6 +9,8 @@ export type DefautPosition = {
 const methodNames = {
     ALL_LOCATIONS: "get-all-locations",
     WITH_SHEDULES_LOCATIONS: "locations-for-view-team",
+    ON_OFF: "bot-on-off",
+    FAVORITE: "favorite",
 }
 export default class LocationService {
     static async getLocations(locationViewType: LocationViewType): Promise<LocationData> {
@@ -35,5 +37,56 @@ export default class LocationService {
         }
 
         return response.json();
+    }
+
+    static async locationOnOff(locationId: number, isActive: boolean): Promise<void> {
+
+        let userId = UserHelper.getUser()?.id;
+        let baseUrl = process.env.REACT_APP_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = methodNames.ON_OFF;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
+        console.log("location on off fetch url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                locationId: locationId,
+                isActive: isActive
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при загрузке данных");
+        }
+    }
+
+    static async locationFavorite(locationId: number): Promise<void> {
+
+        let userId = UserHelper.getUser()?.id;
+        let baseUrl = process.env.REACT_APP_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = methodNames.FAVORITE;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
+        console.log("location favorite fetch url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                locationId: locationId,
+                tgId: /*userId*/ 182817160
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при загрузке данных");
+        }
+
     }
 }
