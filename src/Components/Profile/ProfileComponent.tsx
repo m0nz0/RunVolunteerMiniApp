@@ -102,7 +102,7 @@ export const ProfileComponent: FC<Props> = (props) => {
                     <div>
                         <ButtonToolbar className={"d-grip gap-2"}>
                             <ButtonGroup>
-                                {profileData?.tgUser.verstIds.length == 0 &&
+                                {profileData?.tgUser.verstIds.length === 0 &&
                                     <Button onClick={() => dummy()}>Привязать основной аккаунт</Button>}
                             </ButtonGroup>
                         </ButtonToolbar>
