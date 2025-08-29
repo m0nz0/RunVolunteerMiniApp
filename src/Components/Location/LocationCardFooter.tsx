@@ -4,6 +4,7 @@ import {TgUser, UserLocationDictItem} from "../../types";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {AppButtons} from "../../Const/AppButtons";
 import LocationService from "../../Services/LocationService";
+import {useNavigate} from "react-router-dom";
 
 interface Props {
     location: UserLocationDictItem,
@@ -11,6 +12,10 @@ interface Props {
 }
 
 export const LocationCardFooter: FC<Props> = (props) => {
+
+    const navigate = useNavigate();
+    let location = props.location;
+    let canNewEntry = location.locationFlags.some(x => x === LocationFlag.IsBotActive)
 
 
     const handleOnOffClick = async () => {
@@ -45,12 +50,11 @@ export const LocationCardFooter: FC<Props> = (props) => {
         if (!props.location.isRequested && !props.location.isDirected) {
 // todo            addonList.push("new director")
         }
-// todo        addonList.push("view directors")
+        addonList.push(<div onClick={() => navigate(`/locations/${location.verstId}/directors`)}>Список
+            директоров</div>)
+        // AppButtons.ToDirectors(location.verstId, "Список директоров"))
     }
 
-
-    let location = props.location;
-    let canNewEntry = location.locationFlags.some(x => x === LocationFlag.IsBotActive)
 
     return (<Card.Footer>
             <ButtonToolbar className={"d-grip gap-2"}>

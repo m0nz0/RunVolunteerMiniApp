@@ -42,7 +42,6 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
               onClick={goByRoute}
               style={{cursor: "pointer"}}>
             <LocationCardBody location={location}/>
-            LocationMiniCardComponent
         </Card>)
 
 }

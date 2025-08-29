@@ -74,6 +74,13 @@ export interface VerstLocation {
     status: string
 }
 
+export interface DirectorsData {
+    location: VerstLocation;
+    verstDirectors: Record<number, VerstAthlete>,
+    directors: TgUser[]
+
+}
+
 export interface GlobalLocationDictItem {
     verstId: number;
     name: string;
@@ -139,7 +146,7 @@ export interface OnInputNameData {
     allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
 }
 
-export interface ProfileData{
+export interface ProfileData {
     tgUser: TgUser,
     allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
 }
@@ -182,6 +189,8 @@ export interface TgUser {
     id: number,
     tgId: number,
     tgLogin: string,
+    lastName: string,
+    firstName: string,
     homeLocationId?: number,
     isAdmin: boolean,
     verstIds: VerstIdInfo[],

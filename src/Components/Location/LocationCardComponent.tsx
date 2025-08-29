@@ -52,7 +52,6 @@ export const LocationCardComponent: FC<Props> = (props) => {
     }
     return (
         data && <Card>
-            LocationCardComponent
             <LocationCardBody location={data.locations[0]}/>
 
             <LocationCardFooter location={data.locations[0]}

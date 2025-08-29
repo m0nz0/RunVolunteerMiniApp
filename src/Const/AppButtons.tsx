@@ -93,7 +93,13 @@ export const AppButtons = {
             to={`/new-entry/${locationId}/dates/${calendarId}/position/${positionId}`}
             label={name}
         />
-    )
+    ),
+    ToDirectors: (locationId: number, name: string) => (
+        <AppButton
+            to={`/new-entry/${locationId}/directors`}
+            label={name}
+        />
+    ),
     // Edit: (positionId: number) => (
     //     <AppButton
     //         to={`/positions/edit/${positionId}`}

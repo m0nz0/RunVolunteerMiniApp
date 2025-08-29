@@ -1,5 +1,5 @@
 import {UserHelper} from "../Common/UserHelper";
-import {LocationData} from "../types";
+import {DirectorsData, LocationData} from "../types";
 import {LocationViewType} from "../Const/LocationViewType";
 
 export type DefautPosition = {
@@ -11,6 +11,7 @@ const methodNames = {
     WITH_SHEDULES_LOCATIONS: "locations-for-view-team",
     ON_OFF: "bot-on-off",
     FAVORITE: "favorite",
+    DIRECTORS: "directors",
 }
 export default class LocationService {
     static async getLocations(locationViewType: LocationViewType): Promise<LocationData> {
@@ -87,6 +88,27 @@ export default class LocationService {
         if (!response.ok) {
             throw new Error("Ошибка при загрузке данных");
         }
+    }
 
+    static async locationDirectors(locationId: number): Promise<DirectorsData> {
+
+        let baseUrl = process.env.REACT_APP_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = methodNames.DIRECTORS;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
+        console.log("location favorite fetch url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify(locationId),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при загрузке данных");
+        }
+        return response.json();
     }
 }
