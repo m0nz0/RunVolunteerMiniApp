@@ -18,7 +18,7 @@ export default class CalendarService {
         console.log("location dates for schedule url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
-            body: JSON.stringify(/*userId*/182817160),
+            body: JSON.stringify(userId),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -39,7 +39,7 @@ export default class CalendarService {
         console.log("location dates url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
-            body: JSON.stringify(/*userId*/182817160),
+            body: JSON.stringify(userId),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

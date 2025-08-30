@@ -15,7 +15,7 @@ export default class ProfileService {
         console.log("location fetch url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
-            body: JSON.stringify(/*userId*/182817160),
+            body: JSON.stringify(userId),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

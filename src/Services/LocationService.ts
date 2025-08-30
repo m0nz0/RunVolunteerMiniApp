@@ -12,6 +12,7 @@ const methodNames = {
     ON_OFF: "bot-on-off",
     FAVORITE: "favorite",
     DIRECTORS: "directors",
+    NEW_DIRECTOR: "new-director",
 }
 export default class LocationService {
     static async getLocations(locationViewType: LocationViewType): Promise<LocationData> {
@@ -26,7 +27,7 @@ export default class LocationService {
         console.log("location fetch url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
-            body: JSON.stringify(/*userId*/182817160),
+            body: JSON.stringify(userId),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -34,7 +35,7 @@ export default class LocationService {
         });
 
         if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
+            throw new Error("Ошибка при загрузке данных локаций");
         }
 
         return response.json();
@@ -61,7 +62,7 @@ export default class LocationService {
         });
 
         if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
+            throw new Error("Ошибка при включении/отключении");
         }
     }
 
@@ -77,7 +78,7 @@ export default class LocationService {
             method: "POST",
             body: JSON.stringify({
                 locationId: locationId,
-                tgId: /*userId*/ 182817160
+                tgId: userId
             }),
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +87,7 @@ export default class LocationService {
         });
 
         if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
+            throw new Error("Ошибка при обработке избраннго");
         }
     }
 
@@ -96,7 +97,7 @@ export default class LocationService {
         let controllerName = "MiniApp";
         let methodName = methodNames.DIRECTORS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location favorite fetch url", fetchUrl)
+        console.log("location directors fetch url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
             body: JSON.stringify(locationId),
@@ -107,8 +108,34 @@ export default class LocationService {
         });
 
         if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
+            throw new Error("Ошибка при загрузке списка директоров");
         }
         return response.json();
+    }
+
+    static async createDirectorsRequest(locationId: number): Promise<void> {
+
+        let userId = UserHelper.getUser()?.id;
+
+        let baseUrl = process.env.REACT_APP_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = methodNames.NEW_DIRECTOR;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
+        console.log("location new director fetch url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                locationId: locationId,
+                tgId: userId
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при создании заявки в директора");
+        }
     }
 }

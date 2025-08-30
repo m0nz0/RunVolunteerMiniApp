@@ -1,5 +1,5 @@
-import React, {FC} from "react";
-import {ButtonGroup, ButtonToolbar, Card, Dropdown, DropdownButton} from "react-bootstrap";
+import React, {FC, useState} from "react";
+import {Alert, Button, ButtonGroup, ButtonToolbar, Card, Dropdown, DropdownButton} from "react-bootstrap";
 import {TgUser, UserLocationDictItem} from "../../types";
 import {LocationFlag} from "../../Const/LocationFlag";
 import {AppButtons} from "../../Const/AppButtons";
@@ -16,7 +16,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
     const navigate = useNavigate();
     let location = props.location;
     let canNewEntry = location.locationFlags.some(x => x === LocationFlag.IsBotActive)
-
+    const [toast, setToast] = useState<boolean>(false)
 
     const handleOnOffClick = async () => {
         let locationId = props.location.verstId;
@@ -32,29 +32,55 @@ export const LocationCardFooter: FC<Props> = (props) => {
             .then(() => window.location.reload());
     }
 
-    let addonList = []
-
-    if (props.user.isAdmin) {
-        addonList.push(<div className={"w-100"}
-                            onClick={() => handleOnOffClick()}
-        >{props.location.botActive ? "Отключить" : "включить"} в боте</div>)
+    const handleDirectorClick = async () => {
+        await LocationService.createDirectorsRequest(location.verstId)
+            .then(() => setToast(true))
     }
 
+    let addonList = []
 
     if (props.location.botActive) {
         // todo addonList.push("position admin")
-        addonList.push(<div className={"w-100"}
-                            onClick={() => handleFavoriteClick()}
-        >{props.location.isFavorite ? "Исключить из избранного" : "Добавить в избранное"}</div>)
-
         if (!props.location.isRequested && !props.location.isDirected) {
-// todo            addonList.push("new director")
+            addonList.push(<Dropdown.Item as={"div"}
+                                          onClick={() => handleDirectorClick()}>new director</Dropdown.Item>)
         }
-        addonList.push(<div onClick={() => navigate(`/locations/${location.verstId}/directors`)}>Список
-            директоров</div>)
-        // AppButtons.ToDirectors(location.verstId, "Список директоров"))
+
+        addonList.push(<Dropdown.Item as={"div"}>
+            <div className={"w-100"}
+                 onClick={() => handleFavoriteClick()}
+            >{props.location.isFavorite ? "Исключить из избранного" : "Добавить в избранное"}</div>
+        </Dropdown.Item>)
+
+
+        addonList.push(<Dropdown.Item as={"div"}>
+            <div onClick={() => navigate(`/locations/${location.verstId}/directors`)}>
+                Список директоров
+            </div>
+        </Dropdown.Item>)
+
+        if (props.user.isAdmin) {
+
+            addonList.push(<Dropdown.Divider/>)
+            addonList.push(<Dropdown.Item as={"div"}>
+                <div className={"w-100"}
+                     onClick={() => handleOnOffClick()}
+                >{props.location.botActive ? "Отключить" : "Включить"} в боте
+                </div>
+            </Dropdown.Item>)
+        }
     }
 
+    if (toast) {
+        return <Alert variant={"info"}>
+            <p className={"text-center"}>Ваша заявка на роль директора локации {location.name} отправлена на
+                согласование. <br/>Дождитесь ее рассмотрения.";
+            </p>
+            <div className="d-flex justify-content-end">
+                <Button onClick={() => window.location.reload()}>Ок</Button>
+            </div>
+        </Alert>
+    }
 
     return (<Card.Footer>
             <ButtonToolbar className={"d-grip gap-2"}>
@@ -67,7 +93,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
                                 size={"sm"}
                                 title="Дополнительно"
                                 id="location-addon">
-                    {addonList.map((item, index) => <Dropdown.Item as={"div"}>{item}</Dropdown.Item>)}
+                    {addonList.map((item, index) => item)}
                 </DropdownButton>
 
             </ButtonToolbar>
