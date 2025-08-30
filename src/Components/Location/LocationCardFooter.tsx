@@ -43,7 +43,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
         // todo addonList.push("position admin")
         if (!props.location.isRequested && !props.location.isDirected) {
             addonList.push(<Dropdown.Item as={"div"}
-                                          onClick={() => handleDirectorClick()}>new director</Dropdown.Item>)
+                                          onClick={() => handleDirectorClick()}>Стать директором</Dropdown.Item>)
         }
 
         addonList.push(<Dropdown.Item as={"div"}>
