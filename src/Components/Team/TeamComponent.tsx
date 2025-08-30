@@ -108,6 +108,7 @@ export const TeamComponent: FC<Props> = (props) => {
                 })
             }
             {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
+            // todo сохранение roaster
         </ListGroup>
     </div>
 }
