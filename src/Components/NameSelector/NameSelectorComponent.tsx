@@ -18,6 +18,7 @@ const Who = {
 
 export const NameSelectorComponent: FC<Props> = () => {
 
+    // todo доделать сохраннеи записи
     const [data, setData] = useState<OnInputNameData>()
     const [selected, setSelected] = useState<keyof typeof Who | null>();
     const [otherName, setOtherName] = useState("");

@@ -9,6 +9,7 @@ import {AboutComponent} from "./Components/About/AboutComponent";
 import {LocationCardComponent} from "./Components/Location/LocationCardComponent";
 import {ProfileComponent} from "./Components/Profile/ProfileComponent";
 import {DirectorsComponent} from "./Components/Directors/DirectorsComponent";
+import {MyEntriesComponent} from "./Components/MyEntries/MyEntriesComponent";
 
 
 /*export enum RouteCode {
@@ -164,12 +165,11 @@ export const appRoutes: AppRoute[] = [
         extraProps: {pageSize: 20},
         children: []
     },
-    // {
-    //     path: "/my-entries",
-    //     label: "Мои записи",
-    //     element: MyEntriesComponent,
-    //     extraProps: {pageSize: 20},
-    // },
+    {
+        path: "/my-entries",
+        label: "Мои записи",
+        element: MyEntriesComponent,
+    },
     {
         path: "/existing-entries",
         label: "Кто записан",

@@ -8,16 +8,12 @@ import {AppButtons} from "../../Const/AppButtons";
 const listItemTextList = [
     AppButtons.NewEntry(),
     AppButtons.LocationsWithRecords(),
+    AppButtons.MyEntries(),
     AppButtons.Locations(),
     AppButtons.About(),
     AppButtons.Profile()
 ]
 
-interface Props {
-    tgUser: any
-    // onSelect: (component: "about" | "locations") => void;
-    // onBack: () => void;
-}
 
 export const MenuComponent: React.FC = () => {
 
@@ -31,7 +27,8 @@ export const MenuComponent: React.FC = () => {
             <div className="d-grid gap-2 buttons-list">
                 {
                     listItemTextList.map((x, i) => x)
-                }</div>
+                }
+            </div>
         </div>
     );
 }

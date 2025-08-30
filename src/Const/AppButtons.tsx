@@ -25,6 +25,12 @@ export const AppButtons = {
             label="Кто уже записан"
         />
     ),
+    MyEntries: () => (
+        <AppButton
+            to={`/my-entries`}
+            label="Мои записи"
+        />
+    ),
     Locations: () => (
         <AppButton
             to={`/locations`}
