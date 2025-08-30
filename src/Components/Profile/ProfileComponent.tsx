@@ -66,7 +66,7 @@ export const ProfileComponent: FC<Props> = (props) => {
         setAlert(true)
     }
 
-    // todo Прикрутить кнопки для ПД
+    // todo Прикрутить кнопки для ПД + большая доработка бэка
 
     return <div>
         {alert && <AlertComponent text={"Not yet implemented"}></AlertComponent>}
