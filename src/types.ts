@@ -123,10 +123,13 @@ export interface CalendarData {
     schedules: Team[]
 }
 
-export interface PositionData {
+export interface PositionAdminData {
     positions: Position[],
+    location: UserLocationDictItem
+}
+
+export interface PositionData extends PositionAdminData {
     calendar: CalendarInfo,
-    locations: UserLocationDictItem[]
     team: Team[]
 }
 
@@ -202,7 +205,7 @@ export interface Position {
     id: number,
     name: string,
     is_default: boolean,
-    parentId?: number,
+    parent_id?: number,
     positionType: PositionType
 }
 

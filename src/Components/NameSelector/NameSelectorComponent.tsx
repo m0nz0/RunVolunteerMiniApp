@@ -47,8 +47,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                     let data = await NameInputService.getDataForNameInput(Number(locationId), Number(calendarId))
                     setData(data)
                     setDefault(data?.allUsersDict ?? []);
-                } catch
-                    (err) {
+                } catch (err) {
                     if (isMounted) {
                         setError((err as Error).message);
                     }

@@ -23,7 +23,6 @@ export const LocationCardFooter: FC<Props> = (props) => {
         let newActive = !props.location.botActive
         await LocationService.locationOnOff(locationId, newActive)
             .then(() => window.location.reload());
-
     }
 
     const handleFavoriteClick = async () => {
@@ -40,7 +39,13 @@ export const LocationCardFooter: FC<Props> = (props) => {
     let addonList = []
 
     if (props.location.botActive) {
-        // todo addonList.push("position admin")
+
+        addonList.push(<Dropdown.Item as={"div"}>
+            <div onClick={() => navigate(`/locations/${location.verstId}/position-admin`)}>
+                Управление позициями
+            </div>
+        </Dropdown.Item>)
+
         if (!props.location.isRequested && !props.location.isDirected) {
             addonList.push(<Dropdown.Item as={"div"}
                                           onClick={() => handleDirectorClick()}>Стать директором</Dropdown.Item>)

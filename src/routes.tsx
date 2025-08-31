@@ -10,6 +10,7 @@ import {LocationCardComponent} from "./Components/Location/LocationCardComponent
 import {ProfileComponent} from "./Components/Profile/ProfileComponent";
 import {DirectorsComponent} from "./Components/Directors/DirectorsComponent";
 import {MyEntriesComponent} from "./Components/MyEntries/MyEntriesComponent";
+import {PositionAdminComponent} from "./Components/Positions/PositionAdminComponent";
 
 
 /*export enum RouteCode {
@@ -164,6 +165,11 @@ export const appRoutes: AppRoute[] = [
         element: AboutComponent,
         extraProps: {pageSize: 20},
         children: []
+    },
+    {
+        path: "/locations/:locationId/position-admin",
+        label: "Управление позициями",
+        element: PositionAdminComponent,
     },
     {
         path: "/my-entries",

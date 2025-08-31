@@ -15,9 +15,10 @@ export const ProfileComponent: FC<Props> = (props) => {
     const [profileData, setProfileData] = useState<ProfileData>()
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const {locationDict} = useGlobalContext()// const {locationId} = useParams<{ locationId: string }>();
+    const {locationDict} = useGlobalContext()
     const [alert, setAlert] = useState(false)
     // const {updateUserDates} = useUserContext()
+    // const {locationId} = useParams<{ locationId: string }>();
 
     useEffect(() => {
         let isMounted = true;

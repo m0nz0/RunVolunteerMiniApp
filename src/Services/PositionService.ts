@@ -1,9 +1,10 @@
 import {UserHelper} from "../Common/UserHelper";
-import {Position, PositionData} from "../types";
+import {Position, PositionAdminData, PositionData} from "../types";
 
 const url = {
     ALL_POSITIONS: "get-all-positions",
-    POSITIONS_FOR_SCHEDULE: "get-positions-for-schedule"
+    POSITIONS_FOR_SCHEDULE: "get-positions-for-schedule",
+    POSITION_ADMIN: "position-admin"
 }
 
 export default class PositionService {
@@ -18,6 +19,33 @@ export default class PositionService {
         const response = await fetch(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при загрузке данных");
+        }
+
+        return response.json();
+    }
+
+    static async getPositionsForAdmin(locationId: number): Promise<PositionAdminData> {
+
+        let userId = UserHelper.getUser()?.id;
+        let baseUrl = process.env.REACT_APP_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = url.POSITION_ADMIN;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}/`;
+        console.log("position fetch url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                tgId: userId,
+                locationId: locationId
+            }),
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',

@@ -3,7 +3,7 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 export enum PositionType {
     Main = 1,
     Additional = 2,
-    Rare
+    Rare = 3
 }
 
 export const PositionTypeParams: { [key in PositionType]: { name: string, icon: IconProp | null } } = {
