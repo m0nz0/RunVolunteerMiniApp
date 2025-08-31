@@ -5,7 +5,7 @@ import {Button, Form, Spinner, Table} from "react-bootstrap";
 import {PositionType, PositionTypeParams} from "../../Const/PositionType";
 import {useParams} from "react-router-dom";
 import {NameWithBadgeComponent} from "../Team/NameWithBadgeComponent";
-
+import './styles.css'
 
 export const PositionAdminComponent: FC = (props) => {
 
