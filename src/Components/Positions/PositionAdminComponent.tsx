@@ -79,12 +79,14 @@ export const PositionAdminComponent: FC = (props) => {
                 <th></th>
                 {Object.entries(PositionTypeParams)
                     .map(([type, {name, icon}]) =>
-                        <th><NameWithBadgeComponent name={name}
-                                                    badgeValue={Object.entries(selected)
-                                                        .filter(([position, positionType]) => positionType === Number(type) as PositionType)
-                                                        .length}
-                                                    badgeColor={"success"}
-                                                    isRight={true}/>
+                        <th>
+                            {name}
+                            {/*<NameWithBadgeComponent name={name}*/}
+                            {/*                        badgeValue={Object.entries(selected)*/}
+                            {/*                            .filter(([position, positionType]) => positionType === Number(type) as PositionType)*/}
+                            {/*                            .length}*/}
+                            {/*                        badgeColor={"success"}*/}
+                            {/*                        isRight={true}/>*/}
                         </th>)}
             </tr>
             </thead>
@@ -98,7 +100,8 @@ export const PositionAdminComponent: FC = (props) => {
                                 return <td className={"text-center"}>
                                     <Form.Check type={"radio"}
                                                 checked={selected[pos.id] === t}
-                                                onChange={() => handleChange(pos.id, t)}>
+                                                onChange={() => handleChange(pos.id, t)}
+                                                disabled={pos.id === 1}>
                                     </Form.Check>
                                 </td>
                             })}
