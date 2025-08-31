@@ -46,7 +46,7 @@ export const MyEntriesComponent: FC = () => {
                 {data.map(x => <EntryComponent key={x.id} team={x}/>)}
             </div>
         </div> :
-        <div  className={"text-center"}>
+        <div className={"text-center"}>
             <h5>У вас нет предстоящих записей</h5>
             {AppButtons.NewEntry()}
         </div>

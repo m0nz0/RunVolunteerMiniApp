@@ -1,9 +1,10 @@
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import PositionService from "../../Services/PositionService";
 import {PositionAdminData} from "../../types";
-import {Form, Spinner, Table} from "react-bootstrap";
+import {Button, Form, Spinner, Table} from "react-bootstrap";
 import {PositionType, PositionTypeParams} from "../../Const/PositionType";
 import {useParams} from "react-router-dom";
+import {NameWithBadgeComponent} from "../Team/NameWithBadgeComponent";
 
 
 export const PositionAdminComponent: FC = (props) => {
@@ -12,9 +13,12 @@ export const PositionAdminComponent: FC = (props) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<PositionAdminData>()
     const [selected, setSelected] = useState<Record<number, PositionType>>({});
-
-
     const {locationId} = useParams()
+
+    const savePositions = async () => {
+        await PositionService.savePositionsForAdmin(Number(locationId), selected)
+            .then(() => window.location.reload())
+    }
 
     useEffect(() => {
         let isMounted = true;
@@ -27,17 +31,13 @@ export const PositionAdminComponent: FC = (props) => {
                         .sort((a, b) => a.name.localeCompare(b.name)), location: adminData.location
                 }
                 setData(filtered)
-                // console.log("adminData", adminData)
-                console.log("filtered", filtered)
-                // console.log("data1", data)
 
                 setSelected(
-                    adminData.positions.reduce((acc, pos) => {
+                    filtered.positions.reduce((acc, pos) => {
                         acc[pos.id] = Number(pos.positionType) as PositionType
                         return acc;
                     }, {} as Record<number, PositionType>)
                 );
-                console.log("selected", selected)
             } catch
                 (err) {
                 if (isMounted) setError((err as Error).message);
@@ -68,30 +68,49 @@ export const PositionAdminComponent: FC = (props) => {
         }));
     };
 
-    return data && (<Table striped hover>
-        <thead>
-        <tr>
-            <th></th>
-            {Object.entries(PositionTypeParams)
-                .map(([type, {name, icon}]) => <th>{name}</th>)}
-        </tr>
-        </thead>
-        <tbody>
-        {data?.positions.map(pos => {
-                return <tr>
-                    <td>{pos.name}</td>
-                    {Object.entries(PositionTypeParams).map(
-                        (type) =>
-                            <td className={"text-center"}>
-                                <Form.Check type={"radio"}
-                                            checked={selected[pos.id] === Number(type) as PositionType}
-                                            onChange={() => handleChange(pos.id, Number(type) as PositionType)}>
-                                </Form.Check>
-                            </td>
-                    )}
-                </tr>
-            }
-        )}
-        </tbody>
-    </Table>)
+    return <div>
+        <div className="text-center">
+            <h5>Настройка позиций для локации {data?.location.name}</h5>
+            <span className={"text-danger"}>Не забудте сохранить после внесения изменений</span>
+        </div>
+        <Table striped hover>
+            <thead>
+            <tr>
+                <th></th>
+                {Object.entries(PositionTypeParams)
+                    .map(([type, {name, icon}]) =>
+                        <th><NameWithBadgeComponent name={name}
+                                                    badgeValue={Object.entries(selected)
+                                                        .filter(([position, positionType]) => positionType === Number(type) as PositionType)
+                                                        .length}
+                                                    badgeColor={"success"}
+                                                    isRight={true}/>
+                        </th>)}
+            </tr>
+            </thead>
+            <tbody>
+            {data?.positions.map(pos => {
+                    return <tr>
+                        <td>{pos.name}</td>
+                        {Object.keys(PositionTypeParams).map(
+                            (type) => {
+                                const t = Number(type) as PositionType;
+                                return <td className={"text-center"}>
+                                    <Form.Check type={"radio"}
+                                                checked={selected[pos.id] === t}
+                                                onChange={() => handleChange(pos.id, t)}>
+                                    </Form.Check>
+                                </td>
+                            })}
+                    </tr>
+                }
+            )}
+            </tbody>
+        </Table>
+        <div style={{textAlign: "right"}}>
+            <Button variant={"info"}
+                    onClick={() => savePositions()}
+                    size={"sm"}>Сохранить</Button>
+        </div>
+    </div>
 }
