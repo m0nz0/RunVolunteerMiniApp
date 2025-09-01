@@ -1,10 +1,11 @@
 import {TelegramHelper} from "../Common/TelegramHelper";
-import {OnInputNameData} from "../types";
+import {OnInputNameData, SaveData} from "../types";
 
 
 const controllerName: string = "MiniApp"
 const methodNames = {
     NAME_INPUT: "get-data-for-name-input",
+    SAVE: "save",
 }
 const baseUrl: string | undefined = process.env.REACT_APP_BOT_URL;
 
@@ -26,6 +27,26 @@ export default class NameInputService {
 
         if (!response.ok) {
             throw new Error("Ошибка при загрузке данных");
+        }
+
+        return response.json();
+    }
+
+    static async saveNewItem(body: SaveData): Promise<OnInputNameData> {
+
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}`;
+        console.log("save item url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при сохранени данных о записи");
         }
 
         return response.json();
