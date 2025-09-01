@@ -45,13 +45,13 @@ export const AppButtons = {
     ),
     LinkMain: () => (
         <AppButton
-            to={`/login/main`}
+            to={`/login-main`}
             label="Привязать основной аккаунт"
         />
     ),
     LinkAdditional: () => (
         <AppButton
-            to={`/login/additional`}
+            to={`/login-additional`}
             label="Привязать дополнительный аккаунт"
         />
     ),

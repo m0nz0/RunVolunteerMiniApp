@@ -224,13 +224,13 @@ export const appRoutes: AppRoute[] = [
         element: NameSelectorComponent,
     },
     {
-        path: "/login/main",
+        path: "/login-main",
         label: "Привязать основной аккаунт",
         element: AuthComponent,
         extraProps: {loginType: LoginType.MainAccount},
     },
     {
-        path: "/login/additional",
+        path: "/login-additional",
         label: "Привязать дополнительный аккаунт",
         element: AuthComponent,
         extraProps: {loginType: LoginType.AdditionalAccount},
