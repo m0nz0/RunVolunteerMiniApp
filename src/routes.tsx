@@ -236,7 +236,7 @@ export const appRoutes: AppRoute[] = [
         extraProps: {loginType: LoginType.AdditionalAccount},
     },
     {
-        path: "/login/nrms",
+        path: "/login-nrms",
         label: "Вход в NRMS",
         element: AuthComponent,
         extraProps: {loginType: LoginType.Nrms},

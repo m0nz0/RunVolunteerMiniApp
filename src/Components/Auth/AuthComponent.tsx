@@ -3,7 +3,8 @@ import './styles.css'
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Icons} from "../../Const/Icons";
 import {LoginType, LoginTypeDict} from "../../Const/LoginType";
-import VerstService from "../../Services/VerstService";
+import {TelegramHelper} from "../../Common/TelegramHelper";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
     loginType: LoginType,
@@ -19,53 +20,22 @@ export const AuthComponent: FC<Props> = (props) => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
 
+    const navigate = useNavigate();
+
     const eyeClick = () => {
         setPassVisible(!isPassVisible)
     }
 
     const singClick = async () => {
 
-        if (props.loginType === LoginType.MainAccount) {
-            let loginResult = await VerstService.authVerst(login, password)
-                .then(value => {
-                    console.log(value)
+        if (props.loginType === LoginType.MainAccount ||
+            props.loginType === LoginType.AdditionalAccount) {
+            await authVerstAndCallLinkController(login, password)
+                .then(() => {
+                    navigate("/profile");
                 })
-
-//         .then(resLogin => {
-//
-//             if (!resLogin.errorMessage) {
-//
-//                 console.log('Verst link. Verst auth success')
-//
-//                 let headers = {
-//                     'Content-Type': 'application/json',
-//                     'Access-Control-Allow-Origin': '*',
-//                     'Access-Control-Allow-Methods': '*'
-//                 };
-//
-//                 console.log('Verst link. Link start')
-//
-//                 let botUrl = process.env.REACT_APP_BOT_URL;
-//                 fetch(`${botUrl}${url}`, {
-//                     method: 'POST',
-//                     body: JSON.stringify({tg: tg.initDataUnsafe.user.id, vid: login}),
-//                     headers: headers,
-//                 })
-//                     .then(res => {
-//
-//                         console.log('Verst link. Link continue')
-//
-//                         tg.close()
-//                     })
-//                     .catch((err) => {
-//                         tg.showAlert(err.message);
-//
-//                     })
-//             } else {
-//                 tg.showAlert(resLogin.errorMessage);
-//             }
-//         })
-
+        } else if (props.loginType === LoginType.Nrms) {
+            console.log("NRMS login")
         }
     }
 
@@ -163,56 +133,52 @@ export const AuthComponent: FC<Props> = (props) => {
 //         })
     }
 
-// // авторизация verst и запрос на линковку
-// const authVerstAndCallLinkController = (login: string, pass: string, url: string, version: Version) => {
-//     let body = {username: 'A' + login, password: pass}
-//
-//     console.log('Verst link. Verst auth start')
-//     let verstAuthUrl = process.env.REACT_APP_VERST_AUTH_URL;
-//     console.log(verstAuthUrl)
-//     let baseUrl = process.env.REACT_APP_BASE_URL;
-//     console.log(baseUrl)
-//     fetch(`${baseUrl}${verstAuthUrl}`, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify(body)
-//     })
-//         .then(res => res.json())
-//         .then(resLogin => {
-//
-//             if (!resLogin.errorMessage) {
-//
-//                 console.log('Verst link. Verst auth success')
-//
-//                 let headers = {
-//                     'Content-Type': 'application/json',
-//                     'Access-Control-Allow-Origin': '*',
-//                     'Access-Control-Allow-Methods': '*'
-//                 };
-//
-//                 console.log('Verst link. Link start')
-//
-//                 let botUrl = process.env.REACT_APP_BOT_URL;
-//                 fetch(`${botUrl}${url}`, {
-//                     method: 'POST',
-//                     body: JSON.stringify({tg: tg.initDataUnsafe.user.id, vid: login}),
-//                     headers: headers,
-//                 })
-//                     .then(res => {
-//
-//                         console.log('Verst link. Link continue')
-//
-//                         tg.close()
-//                     })
-//                     .catch((err) => {
-//                         tg.showAlert(err.message);
-//
-//                     })
-//             } else {
-//                 tg.showAlert(resLogin.errorMessage);
-//             }
-//         })
-// }
+    // авторизация verst и запрос на линковку
+    const authVerstAndCallLinkController = async (login: string, pass: string) => {
+        let body = {username: 'A' + login, password: pass}
+
+        console.log('Verst link. Verst auth start')
+        let verstAuthUrl = process.env.REACT_APP_VERST_AUTH_URL;
+        console.log(verstAuthUrl)
+        let baseUrl = process.env.REACT_APP_BASE_URL;
+        console.log(baseUrl)
+        await fetch(`${baseUrl}${verstAuthUrl}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        })
+            .then(res => res.json())
+            .then(async resLogin => {
+
+                if (!resLogin.errorMessage) {
+
+                    console.log('Verst link. Verst auth success')
+
+                    let headers = {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': '*'
+                    };
+
+                    console.log('Verst link. Link start')
+
+                    let botUrl = process.env.REACT_APP_BOT_URL;
+                    await fetch(`${botUrl}${props.loginType === LoginType.AdditionalAccount ?
+                        process.env.REACT_APP_ADDITIONAL_LINK_URL :
+                        process.env.REACT_APP_MAIN_LINK_URL}`, {
+                        method: 'POST',
+                        body: JSON.stringify({tg: TelegramHelper.getUser()?.id, vid: login}),
+                        headers: headers,
+                    })
+                        .catch((err) => {
+                            throw new Error(err.message);
+
+                        })
+                } else {
+                    throw new Error(resLogin.errorMessage);
+                }
+            })
+    }
 //
 // // авторизация Verst и отправка данных обратно в бота
 // const authVerstAndSendDataBackToBot = (login: string, pass: string, version: Version) => {

@@ -106,7 +106,6 @@ export const ProfileComponent: FC<Props> = (props) => {
                             <ButtonGroup>
                                 {profileData?.tgUser.verstIds.length === 0 &&
                                     AppButtons.LinkMain()
-                                    // <Button onClick={() => handleLinkMain()}>Привязать основной аккаунт</Button>
                                 }
                             </ButtonGroup>
                         </ButtonToolbar>
@@ -144,7 +143,7 @@ export const ProfileComponent: FC<Props> = (props) => {
                         <div style={{justifyItems: "center"}}>
                             <ButtonToolbar className={"d-grip gap-2"}>
                                 <ButtonGroup>
-                                    {value.isMain && <Button onClick={() => dummy()}>Добавить доп аккаунт</Button>}
+                                    {value.isMain && AppButtons.LinkAdditional()}
                                 </ButtonGroup>
                                 <ButtonGroup>
                                     <Button onClick={() => unlink(verstData?.value.id)}>Отвязать аккаунт</Button>
