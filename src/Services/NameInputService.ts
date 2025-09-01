@@ -34,7 +34,7 @@ export default class NameInputService {
 
     static async saveNewItem(body: SaveData): Promise<OnInputNameData> {
 
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}`;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.SAVE}`;
         console.log("save item url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
