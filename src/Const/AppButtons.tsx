@@ -43,6 +43,18 @@ export const AppButtons = {
             label="Профиль"
         />
     ),
+    LinkMain: () => (
+        <AppButton
+            to={`/login/main`}
+            label="Привязать основной аккаунт"
+        />
+    ),
+    LinkAdditional: () => (
+        <AppButton
+            to={`/login/additional`}
+            label="Привязать дополнительный аккаунт"
+        />
+    ),
     NewEntryToSelectDate: (locationId: number, calendarId?: number) => (
         <AppButton
             to={`/new-entry/${locationId}/dates${calendarId ? `/${calendarId}` : ""}`}

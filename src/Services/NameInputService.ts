@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 import {OnInputNameData} from "../types";
 
 
@@ -12,7 +12,7 @@ export default class NameInputService {
 
     static async getDataForNameInput(locationId: number, calendarId: number): Promise<OnInputNameData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}/${locationId}/calendar/${calendarId}`;
         console.log("for name input url", fetchUrl)
         const response = await fetch(fetchUrl, {

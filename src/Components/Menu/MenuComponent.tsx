@@ -2,7 +2,7 @@ import React from "react";
 import '../Menu/styles.css'
 import logo from '../../ico.png'
 import './styles.css'
-import {UserHelper} from "../../Common/UserHelper";
+import {TelegramHelper} from "../../Common/TelegramHelper";
 import {AppButtons} from "../../Const/AppButtons";
 
 const listItemTextList = [
@@ -17,7 +17,7 @@ const listItemTextList = [
 
 export const MenuComponent: React.FC = () => {
 
-    let user = UserHelper.getUser();
+    let user = TelegramHelper.getUser();
     let userName = user?.username;
     return (
         <div>

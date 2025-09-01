@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 import {DirectorsData, LocationData} from "../types";
 import {LocationViewType} from "../Const/LocationViewType";
 
@@ -17,7 +17,7 @@ const methodNames = {
 export default class LocationService {
     static async getLocations(locationViewType: LocationViewType): Promise<LocationData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = locationViewType === LocationViewType.AllLocations ||
@@ -43,7 +43,6 @@ export default class LocationService {
 
     static async locationOnOff(locationId: number, isActive: boolean): Promise<void> {
 
-        let userId = UserHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = methodNames.ON_OFF;
@@ -68,7 +67,7 @@ export default class LocationService {
 
     static async locationFavorite(locationId: number): Promise<void> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = methodNames.FAVORITE;
@@ -115,7 +114,7 @@ export default class LocationService {
 
     static async createDirectorsRequest(locationId: number): Promise<void> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
 
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";

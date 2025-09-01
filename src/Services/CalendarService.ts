@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 import {CalendarData, ExistingDatesInfo} from "../types";
 
 
@@ -13,7 +13,7 @@ export default class CalendarService {
 
     static async getDatesForSchedule(locationId: number): Promise<CalendarData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DATES_FOR_SCHEDULE}/${locationId}`;
         console.log("location dates for schedule url", fetchUrl)
         const response = await fetch(fetchUrl, {
@@ -34,7 +34,7 @@ export default class CalendarService {
 
     static async getExistingDates(locationId: number): Promise<ExistingDatesInfo> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.EXISTING_DATES}/${locationId}`;
         console.log("location dates url", fetchUrl)
         const response = await fetch(fetchUrl, {

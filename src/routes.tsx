@@ -11,6 +11,8 @@ import {ProfileComponent} from "./Components/Profile/ProfileComponent";
 import {DirectorsComponent} from "./Components/Directors/DirectorsComponent";
 import {MyEntriesComponent} from "./Components/MyEntries/MyEntriesComponent";
 import {PositionAdminComponent} from "./Components/Positions/PositionAdminComponent";
+import {AuthComponent} from "./Components/Auth/AuthComponent";
+import {LoginType} from "./Const/LoginType";
 
 
 /*export enum RouteCode {
@@ -220,6 +222,24 @@ export const appRoutes: AppRoute[] = [
         path: "/new-entry/:locationId/dates/:calendarId/position/:positionId",
         label: "Запись",
         element: NameSelectorComponent,
+    },
+    {
+        path: "/login/main",
+        label: "Привязать основной аккаунт",
+        element: AuthComponent,
+        extraProps: {loginType: LoginType.MainAccount},
+    },
+    {
+        path: "/login/additional",
+        label: "Привязать дополнительный аккаунт",
+        element: AuthComponent,
+        extraProps: {loginType: LoginType.AdditionalAccount},
+    },
+    {
+        path: "/login/nrms",
+        label: "Вход в NRMS",
+        element: AuthComponent,
+        extraProps: {loginType: LoginType.Nrms},
     },
 ]
 

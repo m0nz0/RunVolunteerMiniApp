@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 
 const controllerName: string = "MiniApp"
 const methodNames = {
@@ -9,32 +9,35 @@ const baseUrl: string | undefined = process.env.REACT_APP_BOT_URL;
 
 export default class LinkServise {
 
-    // static async link(verstId: number): Promise<CalendarData> {
-    //
-    //     let userId = UserHelper.getUser()?.id;
-    //     let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DATES_FOR_SCHEDULE}/${locationId}`;
-    //     console.log("location dates for schedule url", fetchUrl)
-    //     const response = await fetch(fetchUrl, {
-    //         method: "POST",
-    //         body: JSON.stringify(userId),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json',
-    //         },
-    //     });
-    //
-    //     if (!response.ok) {
-    //         throw new Error("Ошибка при загрузке данных");
-    //     }
-    //
-    //     return response.json();
-    // }
+    static async link(verstId: number): Promise<void> {
+
+        let userId = TelegramHelper.getUser()?.id;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.LINK}`;
+        console.log("link url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                VerstId: verstId,
+                TgId: userId
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при привязке аккаунтов");
+        }
+
+        return response.json();
+    }
 
     static async unLink(verstId: number): Promise<boolean> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.UNLINK}`;
-        console.log("location dates for schedule url", fetchUrl)
+        console.log("unlink url", fetchUrl)
         const response = await fetch(fetchUrl, {
             method: "POST",
             body: JSON.stringify({

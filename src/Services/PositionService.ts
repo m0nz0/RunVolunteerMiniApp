@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 import {Position, PositionAdminData, PositionData} from "../types";
 import {PositionType} from "../Const/PositionType";
 
@@ -12,7 +12,7 @@ const url = {
 export default class PositionService {
     static async getPositionsForSchedule(locationId: number, calendarId: number): Promise<PositionData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = url.POSITIONS_FOR_SCHEDULE;
@@ -36,7 +36,7 @@ export default class PositionService {
 
     static async getPositionsForAdmin(locationId: number): Promise<PositionAdminData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = url.POSITION_ADMIN;
@@ -86,7 +86,7 @@ export default class PositionService {
 
     static async getAllPositions(): Promise<Position[]> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = url.ALL_POSITIONS;

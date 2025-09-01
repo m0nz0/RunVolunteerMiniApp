@@ -3,12 +3,17 @@ export const TgUserDict = {
     OTHER: 521243480
 }
 
-export class UserHelper {
+export class TelegramHelper {
     static getUser(): any {
-        let user = window?.Telegram?.WebApp?.initDataUnsafe?.user;
+        let user = this.getTg()?.initDataUnsafe?.user;
         let userId = user?.id;
         let userName = user?.username;
 
         return user ?? {id: TgUserDict.ME, userName: "TEST USER NAME"};
+    }
+
+    static getTg(): any {
+        let tg = window?.Telegram?.WebApp
+        return tg;
     }
 }

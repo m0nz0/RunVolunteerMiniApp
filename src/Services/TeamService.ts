@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 import {Team, TeamData} from "../types";
 
 
@@ -14,7 +14,7 @@ export default class TeamService {
 
     static async getTeam(locationId: number, calendarId: number): Promise<TeamData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_TEAM_URL}/${locationId}/calendar/${calendarId}`;
         console.log("view team for schedule url", fetchUrl)
         const response = await fetch(fetchUrl, {
@@ -35,7 +35,7 @@ export default class TeamService {
 
     static async getMySchedules(): Promise<Team[]> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_MY_SCHEDULES}`;
         console.log("view team for schedule url", fetchUrl)
         const response = await fetch(fetchUrl, {

@@ -7,7 +7,7 @@ import {DateService} from "../../Common/DateService";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 import {AppButtons} from "../../Const/AppButtons";
-import {UserHelper} from "../../Common/UserHelper";
+import {TelegramHelper} from "../../Common/TelegramHelper";
 
 interface Props {
 }
@@ -56,7 +56,7 @@ export const TeamComponent: FC<Props> = (props) => {
                 team?.schedules.map(s => s.positionId).some(s => s === p.id));
     }
 
-    let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === UserHelper.getUser()?.id) && !team?.hasOtherLocations
+    let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === TelegramHelper.getUser()?.id) && !team?.hasOtherLocations
 
     return <div>
         <h5 className={"text-center"}>

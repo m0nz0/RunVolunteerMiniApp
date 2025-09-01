@@ -6,6 +6,7 @@ import {useGlobalContext} from "../../Common/Context/GlobalContext";
 import {Icons} from "../../Const/Icons";
 import LinkService from "../../Services/LinkService";
 import {AlertComponent} from "../../Common/AlertComonent";
+import {AppButtons} from "../../Const/AppButtons";
 
 interface Props {
 }
@@ -104,7 +105,9 @@ export const ProfileComponent: FC<Props> = (props) => {
                         <ButtonToolbar className={"d-grip gap-2"}>
                             <ButtonGroup>
                                 {profileData?.tgUser.verstIds.length === 0 &&
-                                    <Button onClick={() => dummy()}>Привязать основной аккаунт</Button>}
+                                    AppButtons.LinkMain()
+                                    // <Button onClick={() => handleLinkMain()}>Привязать основной аккаунт</Button>
+                                }
                             </ButtonGroup>
                         </ButtonToolbar>
                     </div>

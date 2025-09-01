@@ -1,4 +1,4 @@
-import {UserHelper} from "../Common/UserHelper";
+import {TelegramHelper} from "../Common/TelegramHelper";
 import {ProfileData} from "../types";
 
 const methodNames = {
@@ -7,7 +7,7 @@ const methodNames = {
 export default class ProfileService {
     static async getProfile(): Promise<ProfileData> {
 
-        let userId = UserHelper.getUser()?.id;
+        let userId = TelegramHelper.getUser()?.id;
         let baseUrl = process.env.REACT_APP_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = methodNames.GET_PROFILE;
