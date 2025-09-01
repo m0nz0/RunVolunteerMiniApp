@@ -64,10 +64,6 @@ export const ProfileComponent: FC<Props> = (props) => {
 
     }
 
-    const dummy = () => {
-        setAlert(true)
-    }
-
     // todo Прикрутить кнопки для ПД + большая доработка бэка
 
     return <div>
@@ -146,7 +142,10 @@ export const ProfileComponent: FC<Props> = (props) => {
                                     {value.isMain && AppButtons.LinkAdditional()}
                                 </ButtonGroup>
                                 <ButtonGroup>
-                                    <Button onClick={() => unlink(verstData?.value.id)}>Отвязать аккаунт</Button>
+                                    <Button variant={"info"}
+                                            size={"sm"}
+                                            onClick={() => unlink(verstData?.value.id)}>
+                                        Отвязать аккаунт</Button>
                                 </ButtonGroup>
                             </ButtonToolbar>
                         </div>
