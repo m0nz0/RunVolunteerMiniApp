@@ -27,8 +27,8 @@ export const PositionAdminComponent: FC = (props) => {
             try {
                 const adminData = await PositionService.getPositionsForAdmin(Number(locationId))
                 let filtered = {
-                    positions: adminData.positions.filter(x => x.parent_id == null)
-                        .sort((a, b) => a.name.localeCompare(b.name)), location: adminData.location
+                    positions: adminData.positions.sort((a, b) => a.name.localeCompare(b.name)),
+                    location: adminData.location
                 }
                 setData(filtered)
 
