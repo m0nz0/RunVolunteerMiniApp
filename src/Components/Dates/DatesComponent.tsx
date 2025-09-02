@@ -88,6 +88,9 @@ export const DatesComponent: FC<Props> = (props) => {
                         })
                 }
             </div>
+            <div className={"d-grid gap-2 buttons-list"}>
+                {datesData?.location.isDirected && AppButtons.ToDirectorsSchedule(Number(locationId), "График директоров", "secondary")}
+            </div>
         </div>
     }
 }

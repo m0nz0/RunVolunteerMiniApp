@@ -1,5 +1,5 @@
 import {TelegramHelper} from "../Common/TelegramHelper";
-import {Team, TeamData} from "../types";
+import {DirectorScheduleData, Team, TeamData} from "../types";
 
 
 const controllerName: string = "MiniApp"
@@ -7,6 +7,7 @@ const methodNames = {
     GET_TEAM_URL: "view-team",
     GET_MY_SCHEDULES: "my-schedules",
     UNDO: "undo-schedule",
+    DIRECTOR_SCHEDULES: "director-schedule",
 }
 const baseUrl: string | undefined = process.env.REACT_APP_BOT_URL;
 
@@ -49,6 +50,30 @@ export default class TeamService {
 
         if (!response.ok) {
             throw new Error("Ошибка при загрузке данных");
+        }
+
+        return response.json();
+    }
+
+    static async getDirectorSchedule(locationId: number): Promise<DirectorScheduleData> {
+
+        let userId = TelegramHelper.getUser()?.id;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DIRECTOR_SCHEDULES}`;
+        console.log("view team for schedule url", fetchUrl)
+        const response = await fetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                locationId: locationId,
+                tgId: userId
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Ошибка при загрузке графика директоров");
         }
 
         return response.json();

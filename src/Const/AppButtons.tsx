@@ -67,6 +67,13 @@ export const AppButtons = {
             label={name}
         />
     ),
+    ToDirectorsSchedule: (locationId: number, name: string, variant?: string) => (
+        <AppButton
+            to={`/existing-entries/${locationId}/dates/directors`}
+            label={name}
+            variant={variant}
+        />
+    ),
     ToLocationCard: (locationId: number) => (
         <AppButton
             to={`/location/${locationId}`}

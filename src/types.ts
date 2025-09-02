@@ -159,6 +159,13 @@ export interface VerstIdInfo {
     isMain: boolean;
 }
 
+export interface DirectorScheduleData {
+
+    schedules: Team[];
+    location: UserLocationDictItem
+    dates: CalendarInfo[]
+}
+
 export interface VerstAthlete {
     id: number;
     first_name: string;

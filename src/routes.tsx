@@ -13,6 +13,7 @@ import {MyEntriesComponent} from "./Components/MyEntries/MyEntriesComponent";
 import {PositionAdminComponent} from "./Components/Positions/PositionAdminComponent";
 import {AuthComponent} from "./Components/Auth/AuthComponent";
 import {LoginType} from "./Const/LoginType";
+import {DirectorsScheduleComponent} from "./Components/Team/DirectorsScheduleComponent";
 
 
 /*export enum RouteCode {
@@ -191,6 +192,11 @@ export const appRoutes: AppRoute[] = [
         element: DatesComponent,
         children: [],
         extraProps: {locationViewType: LocationViewType.WithSchedules}
+    },
+    {
+        path: "/existing-entries/:locationId/dates/directors",
+        label: "График директоров",
+        element: DirectorsScheduleComponent,
     },
     {
         path: "/existing-entries/:locationId/dates/:calendarId/team",

@@ -6,15 +6,16 @@ interface AppButtonProps {
     to: string;
     label: any;
     variant?: string;
+    size?: "sm" | "lg" | undefined;
 }
 
-export const AppButton: FC<AppButtonProps> = ({to, label, variant = "info"}) => {
+export const AppButton: FC<AppButtonProps> = ({to, label, variant = "info", size = "sm"}) => {
     return (
         <Button
             as={LinkAdapter as any}
             to={to}
             variant={variant}
-            size="sm">
+            size={size}>
             {label}
         </Button>
     );
