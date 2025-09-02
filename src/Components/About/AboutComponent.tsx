@@ -4,6 +4,7 @@ interface Props {
     onBack: () => void;
 }
 
+// todo ссылкиы типа профиль, локации
 export const AboutComponent: FC = () => {
     return (
         <div>
