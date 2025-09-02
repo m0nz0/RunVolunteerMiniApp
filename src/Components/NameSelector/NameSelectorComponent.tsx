@@ -81,14 +81,6 @@ export const NameSelectorComponent: FC<Props> = () => {
 
         let valid = false
         if (locationId && calendarId && position) {
-            console.log("base valid")
-
-            console.log(
-                !verstId,
-                otherName != null,
-                otherName !== "",
-                (otherName ?? "").length >= 5,
-                !verstId && otherName != null && otherName !== "" && otherName.length >= 5)
 
             let idSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x !== "Other" as keyof typeof Who);
             let nameSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x === "Other" as keyof typeof Who)
@@ -106,19 +98,29 @@ export const NameSelectorComponent: FC<Props> = () => {
 
         setIsValid(valid)
 
-        if (valid) {
-            let body: SaveData = {
-                name: otherName,
-                verstId: verstId,
-                locationId: Number(locationId),
-                calendarId: Number(calendarId),
-                positionId: Number(positionId),
-                tgId: TelegramHelper.getUser().id
-            };
-            console.log("body to save", body)
-            // todo send to save
-            await NameInputService.saveNewItem(body);
-        }
+    }
+
+    const saveAsId = async (id: number) => {
+        let body: SaveData = {
+            verstId: id,
+            locationId: Number(locationId),
+            calendarId: Number(calendarId),
+            positionId: Number(positionId),
+            tgId: TelegramHelper.getUser().id
+        };
+        console.log("body to save", body)
+        await NameInputService.saveNewItem(body);
+    }
+    const saveAsName = async () => {
+        let body: SaveData = {
+            name: otherName,
+            locationId: Number(locationId),
+            calendarId: Number(calendarId),
+            positionId: Number(positionId),
+            tgId: TelegramHelper.getUser().id
+        };
+        console.log("body to save", body)
+        await NameInputService.saveNewItem(body);
     }
 
     const onRadioSelect = (who: string) => {
@@ -179,10 +181,9 @@ export const NameSelectorComponent: FC<Props> = () => {
                         .filter(x => x.key.isMain).map((label, idx) => (
                             <Button key={idx}
                                     variant="info"
-                                    onClick={() => {
-                                        setSelected(selected)
-                                        setVerstId(label.key.verstId);
-                                        setOtherName(null);
+                                    onClick={async () => {
+                                        setOtherName(null)
+                                        await saveAsId(label.key.verstId)
                                     }}>
                                 {label.key.isMain ? Icons.Favorite : null} {label.value.full_name}
                             </Button>
@@ -195,10 +196,9 @@ export const NameSelectorComponent: FC<Props> = () => {
                         .filter(x => !x.key.isMain).map((label, idx) => (
                             <Button key={idx}
                                     variant="info"
-                                    onClick={() => {
-                                        setSelected(selected)
-                                        setVerstId(label.key.verstId);
+                                    onClick={async () => {
                                         setOtherName(null);
+                                        await saveAsId(label.key.verstId);
                                     }}>
                                 {label.key.isMain ? Icons.Favorite : null} {label.value.full_name}
                             </Button>
@@ -222,13 +222,15 @@ export const NameSelectorComponent: FC<Props> = () => {
                                 placeholder="Введите имя"
                                 value={otherName ?? ""}
                                 onChange={(e) => {
-                                    setSelected(selected)
                                     setVerstId(null);
                                     setOtherName(e.target.value);
                                 }}
                                 aria-describedby={"btn-save"}
                             />
-                            {isValid && <Button variant={"info"} size={"sm"} id={"btn-save"}>Сохранить</Button>}
+                            {isValid && <Button variant={"info"}
+                                                size={"sm"}
+                                                id={"btn-save"}
+                                                onClick={async () => await saveAsName()}>Сохранить</Button>}
                         </InputGroup>
                     </Form.Group>
                 </div>
@@ -241,10 +243,9 @@ export const NameSelectorComponent: FC<Props> = () => {
                         {data?.verstUsers.map(v =>
                             <Button key={v.id}
                                     variant="info"
-                                    onClick={() => {
-                                        setSelected(selected)
-                                        setVerstId(v.id);
+                                    onClick={async () => {
                                         setOtherName(null);
+                                        await saveAsId(v.id);
                                     }}>
                                 {Icons.Target} {v.id} {v.full_name}
                             </Button>)}

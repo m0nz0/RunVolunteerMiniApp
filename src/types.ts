@@ -222,7 +222,7 @@ export interface SaveData {
     locationId: number,
     calendarId: number,
     positionId: number,
-    name: string | null,
-    verstId: number | null,
+    name?: string | null,
+    verstId?: number | null,
     tgId: number
 }
