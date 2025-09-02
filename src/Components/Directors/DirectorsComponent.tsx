@@ -69,7 +69,9 @@ export const DirectorsComponent: FC<Props> = (props) => {
         <div>
             {data && data.directors ?
                 <div>
-                    <strong>Директора локации {data?.location.name}</strong>
+                    <p className={"text-center"}>
+                        <h5>Директора локации {data?.location.name}</h5>
+                    </p>
                     <ul>
                         {data &&
                             data.directors.length > 0

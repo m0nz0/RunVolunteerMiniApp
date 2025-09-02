@@ -40,15 +40,16 @@ export const MyEntriesComponent: FC = () => {
         );
     }
 
-    return data.length > 0 ? <div>
-            <h5 className={"text-center"}>Это список ваших предстоящих волонётрств</h5>
+    return data.length > 0 ?
+        <p className={"text-center"}>
+            <h5>Это список ваших предстоящих волонётрств</h5>
             <div className={"d-grid gap-2"}>
                 {data.map(x => <EntryComponent key={x.id} team={x}/>)}
             </div>
-        </div> :
-        <div className={"text-center"}>
+        </p> :
+        <p className={"text-center"}>
             <h5>У вас нет предстоящих записей</h5>
             {AppButtons.NewEntry()}
-        </div>
+        </p>
 
 }

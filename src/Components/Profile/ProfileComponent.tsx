@@ -17,7 +17,6 @@ export const ProfileComponent: FC<Props> = (props) => {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationDict} = useGlobalContext()
-    const [alert, setAlert] = useState(false)
     // const {updateUserDates} = useUserContext()
     // const {locationId} = useParams<{ locationId: string }>();
 
@@ -67,8 +66,9 @@ export const ProfileComponent: FC<Props> = (props) => {
     // todo Прикрутить кнопки для ПД + большая доработка бэка
 
     return <div>
-        {alert && <AlertComponent text={"Not yet implemented"}></AlertComponent>}
-        <h5 className="text-center">Профиль</h5>
+        <p className={"text-center"}>
+            <h5>Профиль</h5>
+        </p>
         <Accordion alwaysOpen={false} defaultActiveKey={"-1"}>
             <Accordion.Item eventKey={"-1"}>
                 <Accordion.Header>Данные в боте</Accordion.Header>

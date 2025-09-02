@@ -52,9 +52,10 @@ export const PositionComponent: FC<Props> = (props) => {
 
     return (
         positionData && <div>
-            <h5 className={"text-center"}>Выбор позиции для локации {locationDict[Number(locationId)].name},
-                даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
-
+            <p className={"text-center"}>
+                <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
+                    даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
+            </p>
             <Alert variant={"info"}>
                 <p>{Icons.ExclamationRed} - обязательная позиция</p>
                 <p>{Icons.CheckGreen} - кто-то уже записался</p>

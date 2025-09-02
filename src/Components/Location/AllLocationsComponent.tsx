@@ -11,7 +11,9 @@ export const AllLocationsComponent: FC<Props> = (props) => {
 
     let data = LocationViewParams[props.locationViewType]
     return <div>
-        <h5 className="text-center">{data.header}</h5>
+        <p className={"text-center"}>
+            <h5>{data.header}</h5>
+        </p>
         <LocationListComponent defaultSwitchedFilters={data.defaultActiveFilters}
                                hiddenFilters={data.hiddenFilters}
                                locationViewType={props.locationViewType}/>

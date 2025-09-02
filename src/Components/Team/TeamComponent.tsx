@@ -59,10 +59,11 @@ export const TeamComponent: FC<Props> = (props) => {
     let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === TelegramHelper.getUser()?.id) && !team?.hasOtherLocations
 
     return <div>
-        <h5 className={"text-center"}>
-            Команда
-            локации <strong>{team?.location?.name}</strong> за <strong>{DateService.formatDayMonthNameYear(team?.date?.date ?? "")}</strong>
-        </h5>
+        <p className={"text-center"}>
+            <h5>
+                Команда локации {team?.location?.name} за {DateService.formatDayMonthNameYear(team?.date?.date ?? "")}
+            </h5>
+        </p>
         <p>
             <NameWithBadgeComponent name={"Записалось волонтёров"}
                                     badgeColor="success"
@@ -108,7 +109,7 @@ export const TeamComponent: FC<Props> = (props) => {
                 })
             }
             {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
-            // todo сохранение roaster
         </ListGroup>
+        {/*todo сохранение roaster*/}
     </div>
 }
