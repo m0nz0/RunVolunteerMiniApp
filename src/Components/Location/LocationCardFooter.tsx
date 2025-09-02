@@ -98,7 +98,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
                                 size={"sm"}
                                 title="Дополнительно"
                                 id="location-addon">
-                    {addonList.map((item, index) => item)}
+                    {addonList.map((item, index) => <div style={{cursor: "pointer"}}>item</div>)}
                 </DropdownButton>
 
             </ButtonToolbar>

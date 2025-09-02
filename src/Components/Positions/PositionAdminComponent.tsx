@@ -71,7 +71,7 @@ export const PositionAdminComponent: FC = (props) => {
     return <div>
         <div className="text-center">
             <h5>Настройка позиций для локации {data?.location.name}</h5>
-            <span className={"text-danger"}>Не забудте сохранить после внесения изменений</span>
+            <span className={"text-danger"}>Не забудьте сохранить после внесения изменений</span>
         </div>
         <Table striped hover>
             <thead>
