@@ -8,6 +8,7 @@ import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 import {AppButtons} from "../../Const/AppButtons";
 import {TelegramHelper} from "../../Common/TelegramHelper";
+import {PositionType} from "../../Const/PositionType";
 
 interface Props {
 }
@@ -52,7 +53,7 @@ export const TeamComponent: FC<Props> = (props) => {
 
     function thisPositions() {
         return team?.positions
-            .filter(p => p.is_default ||
+            .filter(p => p.positionType == PositionType.Main ||
                 team?.schedules.map(s => s.positionId).some(s => s === p.id));
     }
 
