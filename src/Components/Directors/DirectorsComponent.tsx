@@ -3,6 +3,7 @@ import {DirectorsData} from "../../types";
 import {useParams} from "react-router-dom";
 import LocationService from "../../Services/LocationService";
 import {Alert, Button, Spinner} from "react-bootstrap";
+import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 
 interface Props {
 }
@@ -81,11 +82,12 @@ export const DirectorsComponent: FC<Props> = (props) => {
                                     let name = verstData ? verstData.full_name : tgName;
 
                                     return <li>
-                                        <span>{name}</span>
-                                        {x.tgLogin &&
-                                            <span> | <a href={`https://t.me/${x.tgLogin}`}>@{x.tgLogin}</a></span>}
-                                        {verstData && <span> | <a
-                                            href={`https://5verst.ru/userstats/${verstData.id}`}>A{verstData.id}</a></span>}
+                                    <ScheduleUserCardComponent user={x} scheduledName={verstData?.full_name} />
+                                        {/*<span>{name}</span>*/}
+                                        {/*{x.tgLogin &&*/}
+                                        {/*    <span> | <a href={`https://t.me/${x.tgLogin}`}>@{x.tgLogin}</a></span>}*/}
+                                        {/*{verstData && <span> | <a*/}
+                                        {/*    href={`https://5verst.ru/userstats/${verstData.id}`}>A{verstData.id}</a></span>}*/}
                                     </li>
                                 }
                             )}

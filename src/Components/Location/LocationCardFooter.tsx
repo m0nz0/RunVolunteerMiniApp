@@ -40,11 +40,13 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
     if (props.location.botActive) {
 
-        addonList.push(<Dropdown.Item as={"div"}>
-            <div onClick={() => navigate(`/locations/${location.verstId}/position-admin`)}>
-                Управление позициями
-            </div>
-        </Dropdown.Item>)
+        if (location.isDirected) {
+            addonList.push(<Dropdown.Item as={"div"}>
+                <div onClick={() => navigate(`/locations/${location.verstId}/position-admin`)}>
+                    Управление позициями
+                </div>
+            </Dropdown.Item>)
+        }
 
         if (!props.location.isRequested && !props.location.isDirected) {
             addonList.push(<Dropdown.Item as={"div"}
@@ -93,13 +95,14 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
                 {location.botActive && AppButtons.WhoScheduled(location.verstId)}
 
-                <DropdownButton as={ButtonGroup}
-                                variant={"info"}
-                                size={"sm"}
-                                title="Дополнительно"
-                                id="location-addon">
-                    {addonList.map((item, index) => <div style={{cursor: "pointer"}}>{item}</div>)}
-                </DropdownButton>
+                {addonList.length > 0 &&
+                    <DropdownButton as={ButtonGroup}
+                                    variant={"info"}
+                                    size={"sm"}
+                                    title="Дополнительно"
+                                    id="location-addon">
+                        {addonList.map((item, index) => <div style={{cursor: "pointer"}}>{item}</div>)}
+                    </DropdownButton>}
 
             </ButtonToolbar>
         </Card.Footer>
