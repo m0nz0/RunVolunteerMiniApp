@@ -111,15 +111,11 @@ export const TeamComponent: FC<Props> = (props) => {
                     </div>
                 })
             }
-            {/*<ButtonToolbar  className={"d-grip gap-2"}>*/}
-                <ButtonGroup vertical className={"gap-2"}>
-                    {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
-                    {/*</ButtonGroup>*/}
-                    {/*<ButtonGroup>*/}
-                    {canTrySaveNrms && AppButtons.SaveNrms(Number(locationId), Number(calendarId))}
-                </ButtonGroup>
-                {/*</ButtonToolbar>*/}
-                    </ListGroup>
-                {/*todo сохранение roaster*/}
+            <ButtonGroup vertical className={"gap-2"}>
+                {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
+                {canTrySaveNrms && AppButtons.AuthNrms(Number(locationId), Number(calendarId))}
+            </ButtonGroup>
+        </ListGroup>
+        {/*todo сохранение roaster*/}
     </div>
 }

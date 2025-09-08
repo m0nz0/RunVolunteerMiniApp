@@ -4,7 +4,8 @@ import {Button, Form, InputGroup} from "react-bootstrap";
 import {Icons} from "../../Const/Icons";
 import {LoginType, LoginTypeDict} from "../../Const/LoginType";
 import {TelegramHelper} from "../../Common/TelegramHelper";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import VerstService from "../../Services/VerstService";
 
 type Props = {
     loginType: LoginType,
@@ -19,6 +20,7 @@ export const AuthComponent: FC<Props> = (props) => {
     const [isPassVisible, setPassVisible] = useState(false);
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+    const {locationId, calendarId} = useParams();
 
     const navigate = useNavigate();
 
@@ -35,7 +37,15 @@ export const AuthComponent: FC<Props> = (props) => {
                     navigate("/profile");
                 })
         } else if (props.loginType === LoginType.Nrms) {
-            console.log("NRMS login")
+            let token = await VerstService.getToken(login, password);
+            console.log("NRMS login: ", token)
+            if (token && locationId && calendarId) {
+                navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`, {
+                    state: {
+                        token: token,
+                    }
+                });
+            }
         }
     }
 
@@ -76,6 +86,31 @@ export const AuthComponent: FC<Props> = (props) => {
         return LoginTypeDict[props.loginType]
     }
 
+    const getToken = async (login: string, pass: string): Promise<string> => {
+        let body = {username: 'A' + login, password: pass}
+
+        console.log('Save team. Nrms auth start ')
+
+        let baseUrl = process.env.REACT_APP_BASE_URL;
+        let authUrl = process.env.REACT_APP_NRMS_AUTH_URL;
+        console.log(baseUrl, authUrl, `${baseUrl}${authUrl}`)
+        return fetch(`${baseUrl}${authUrl}`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        })
+            .then(res => res.json())
+            .then(resLogin => {
+
+                if (!resLogin.errorMessage) {
+                    console.log('Save team. Nrms auth success')
+
+                    return resLogin?.result?.token;
+
+                }
+                return "null";
+            })
+    }
 
 // // получение токена и сохранение команды
     const authNrmsAndCallNrmsController = (login: string, pass: string, calendarId: number, locationId: number) => {

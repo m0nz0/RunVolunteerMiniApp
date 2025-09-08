@@ -14,6 +14,7 @@ import {PositionAdminComponent} from "./Components/Positions/PositionAdminCompon
 import {AuthComponent} from "./Components/Auth/AuthComponent";
 import {LoginType} from "./Const/LoginType";
 import {DirectorsScheduleComponent} from "./Components/Team/DirectorsScheduleComponent";
+import {RosterComponent} from "./Components/Roster/RosterComponent";
 
 
 export enum RouteCode {
@@ -42,7 +43,8 @@ export enum RouteCode {
     LinkMain = "link-main",
     LinkAdditional = "link-additional",
     LoginNrms = "login-nrms",
-    CheckRoster="CheckRoster",
+    CheckRoster = "CheckRoster",
+    PreviewRoster="PreviewRoster",
 }
 
 /*
@@ -283,10 +285,16 @@ export const appRoutes: AppRoute[] = [
     },
     {
         routeCode: RouteCode.CheckRoster,
-        path: "/existing-entries/:locationId/dates/:calendarId/team/check-roster",
+        path: "/existing-entries/:locationId/dates/:calendarId/team/auth-roster",
         label: "Вход в NRMS",
         element: AuthComponent,
         extraProps: {loginType: LoginType.Nrms}
+    },
+    {
+        routeCode: RouteCode.PreviewRoster,
+        path: "/existing-entries/:locationId/dates/:calendarId/team/preview-roster",
+        label: "Проверка данных для завливки",
+        element: RosterComponent,
     },
 ]
 
