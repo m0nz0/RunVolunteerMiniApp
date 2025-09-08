@@ -139,6 +139,7 @@ export interface TeamData {
     positions: Position[],
     date: CalendarInfo,
     hasOtherLocations: boolean,
+    verstAthlete: VerstAthlete
 
 }
 

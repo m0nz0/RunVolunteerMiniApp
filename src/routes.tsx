@@ -42,6 +42,7 @@ export enum RouteCode {
     LinkMain = "link-main",
     LinkAdditional = "link-additional",
     LoginNrms = "login-nrms",
+    CheckRoster="CheckRoster",
 }
 
 /*
@@ -139,7 +140,7 @@ export const routes: Record<RouteCode, RouteConfig> = {
 }*/
 
 export interface AppRoute {
-    roteCode: RouteCode,
+    routeCode: RouteCode,
     path: string;
     label: string,//| ((params: Record<string, string>) => string); // текст или функция
     element: React.ComponentType<any>;  // компонент (позже отрендерим)
@@ -149,40 +150,40 @@ export interface AppRoute {
 
 export const appRoutes: AppRoute[] = [
     {
-        roteCode: RouteCode.Main,
+        routeCode: RouteCode.Main,
         path: "/",
         label: "Главная",
         element: MenuComponent,
         extraProps: {welcome: "Добро пожаловать!"},
     },
     {
-        roteCode: RouteCode.Locations,
+        routeCode: RouteCode.Locations,
         path: "/locations",
         label: "Локации",
         element: AllLocationsComponent,
         extraProps: {locationViewType: LocationViewType.AllLocations},
     },
     {
-        roteCode: RouteCode.Profile,
+        routeCode: RouteCode.Profile,
         path: "/profile",
         label: "Профиль",
         element: ProfileComponent,
     },
     {
-        roteCode: RouteCode.Location,
+        routeCode: RouteCode.Location,
         path: "/locations/:locationId",
         label: "Локация",
         element: LocationCardComponent,
         extraProps: {},
     },
     {
-        roteCode: RouteCode.Directors,
+        routeCode: RouteCode.Directors,
         path: "/locations/:locationId/directors",
         label: "Директора",
         element: DirectorsComponent,
     },
     {
-        roteCode: RouteCode.About,
+        routeCode: RouteCode.About,
         path: "/about",
         label: "Помощь",
         element: AboutComponent,
@@ -190,19 +191,19 @@ export const appRoutes: AppRoute[] = [
         children: []
     },
     {
-        roteCode: RouteCode.PositionAdmin,
+        routeCode: RouteCode.PositionAdmin,
         path: "/locations/:locationId/position-admin",
         label: "Управление позициями",
         element: PositionAdminComponent,
     },
     {
-        roteCode: RouteCode.MyEntries,
+        routeCode: RouteCode.MyEntries,
         path: "/my-entries",
         label: "Мои записи",
         element: MyEntriesComponent,
     },
     {
-        roteCode: RouteCode.ExistingEntries,
+        routeCode: RouteCode.ExistingEntries,
         path: "/existing-entries",
         label: "Кто записан",
         element: AllLocationsComponent,
@@ -210,7 +211,7 @@ export const appRoutes: AppRoute[] = [
         children: []
     },
     {
-        roteCode: RouteCode.ExistingItemsSelectDate,
+        routeCode: RouteCode.ExistingItemsSelectDate,
         path: "/existing-entries/:locationId/dates",
         label: "Дата",
         element: DatesComponent,
@@ -218,19 +219,19 @@ export const appRoutes: AppRoute[] = [
         extraProps: {locationViewType: LocationViewType.WithSchedules}
     },
     {
-        roteCode: RouteCode.DirectorsSchedule,
+        routeCode: RouteCode.DirectorsSchedule,
         path: "/existing-entries/:locationId/dates/directors",
         label: "График директоров",
         element: DirectorsScheduleComponent,
     },
     {
-        roteCode: RouteCode.Team,
+        routeCode: RouteCode.Team,
         path: "/existing-entries/:locationId/dates/:calendarId/team",
         label: "Команда",
         element: TeamComponent,
     },
     {
-        roteCode: RouteCode.NewEntrySelectLocation,
+        routeCode: RouteCode.NewEntrySelectLocation,
         path: "/new-entry",
         label: "Записаться",
         element:
@@ -239,7 +240,7 @@ export const appRoutes: AppRoute[] = [
         children: []
     },
     {
-        roteCode: RouteCode.NewEntrySelectDate,
+        routeCode: RouteCode.NewEntrySelectDate,
         path: "/new-entry/:locationId/dates",
         label: "Дата",
         element: DatesComponent,
@@ -247,38 +248,45 @@ export const appRoutes: AppRoute[] = [
         extraProps: {locationViewType: LocationViewType.ForSchedule}
     },
     {
-        roteCode: RouteCode.NewEntrySelectPosition,
+        routeCode: RouteCode.NewEntrySelectPosition,
         path: "/new-entry/:locationId/dates/:calendarId/position",
         label: "Позиции",
         element: PositionComponent,
         children: []
     },
     {
-        roteCode: RouteCode.NewEntryInputName,
+        routeCode: RouteCode.NewEntryInputName,
         path: "/new-entry/:locationId/dates/:calendarId/position/:positionId",
         label: "Запись",
         element: NameSelectorComponent,
     },
     {
-        roteCode: RouteCode.LinkMain,
+        routeCode: RouteCode.LinkMain,
         path: "/login-main",
         label: "Привязать основной аккаунт",
         element: AuthComponent,
         extraProps: {loginType: LoginType.MainAccount},
     },
     {
-        roteCode: RouteCode.LinkAdditional,
+        routeCode: RouteCode.LinkAdditional,
         path: "/login-additional",
         label: "Привязать дополнительный аккаунт",
         element: AuthComponent,
         extraProps: {loginType: LoginType.AdditionalAccount},
     },
     {
-        roteCode: RouteCode.LoginNrms,
+        routeCode: RouteCode.LoginNrms,
         path: "/login-nrms",
         label: "Вход в NRMS",
         element: AuthComponent,
         extraProps: {loginType: LoginType.Nrms},
+    },
+    {
+        routeCode: RouteCode.CheckRoster,
+        path: "/existing-entries/:locationId/dates/:calendarId/team/check-roster",
+        label: "Вход в NRMS",
+        element: AuthComponent,
+        extraProps: {loginType: LoginType.Nrms}
     },
 ]
 

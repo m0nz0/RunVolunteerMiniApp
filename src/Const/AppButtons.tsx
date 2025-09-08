@@ -132,4 +132,11 @@ export const AppButtons = {
     //         variant="warning"
     //     />
     // )
+    SaveNrms: (locationId: number, calendarId: number) => (
+        <AppButton
+            to={`/existing-entries/${locationId}/dates/${calendarId}/team/check-roster`}
+            label={"Сохранить в NRMS"}
+            variant={"secondary"}
+        />
+    )
 };

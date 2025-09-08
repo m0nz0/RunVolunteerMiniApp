@@ -2,7 +2,7 @@ import {FC, useEffect, useState} from "react";
 import {TeamData} from "../../types";
 import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
-import {ListGroup, Spinner} from "react-bootstrap";
+import {ButtonGroup, ListGroup, Spinner} from "react-bootstrap";
 import {DateService} from "../../Common/DateService";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
@@ -59,6 +59,8 @@ export const TeamComponent: FC<Props> = (props) => {
 
     let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === TelegramHelper.getUser()?.id) && !team?.hasOtherLocations
 
+    let canTrySaveNrms = team?.verstAthlete?.id != null
+
     return <div>
         <p className={"text-center"}>
             <h5>
@@ -109,8 +111,15 @@ export const TeamComponent: FC<Props> = (props) => {
                     </div>
                 })
             }
-            {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
-        </ListGroup>
-        {/*todo сохранение roaster*/}
+            {/*<ButtonToolbar  className={"d-grip gap-2"}>*/}
+                <ButtonGroup vertical className={"gap-2"}>
+                    {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
+                    {/*</ButtonGroup>*/}
+                    {/*<ButtonGroup>*/}
+                    {canTrySaveNrms && AppButtons.SaveNrms(Number(locationId), Number(calendarId))}
+                </ButtonGroup>
+                {/*</ButtonToolbar>*/}
+                    </ListGroup>
+                {/*todo сохранение roaster*/}
     </div>
 }
