@@ -40,6 +40,7 @@ export const AuthComponent: FC<Props> = (props) => {
             let token = await VerstService.getToken(login, password);
             console.log("NRMS login: ", token)
             if (token && locationId && calendarId) {
+                localStorage.setItem("token", token)
                 navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`, {
                     state: {
                         token: token,
