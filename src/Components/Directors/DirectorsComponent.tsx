@@ -74,7 +74,8 @@ export const DirectorsComponent: FC = () => {
                                     let verstData = data.verstDirectors[x.tgId];
 
                                     return <li>
-                                        <ScheduleUserCardComponent user={x} scheduledName={verstData?.full_name}/>
+                                        <ScheduleUserCardComponent user={x}
+                                                                   verstInfo={verstData}/>
                                     </li>
                                 }
                             )}

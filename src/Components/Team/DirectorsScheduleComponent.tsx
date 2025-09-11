@@ -59,8 +59,10 @@ export const DirectorsScheduleComponent: FC = () => {
                 {dirs.length === 0 && <ul>{Icons.ExclamationRed}Нет</ul>}
                 {dirs.length > 0 &&
                     <ul>
-                        {dirs.map(d => <li key={d.id}><ScheduleUserCardComponent user={d.tgUser}
-                                                                                 scheduledName={d.name}/></li>)}
+                        {dirs.map(d => <li key={d.id}>
+                            <ScheduleUserCardComponent schedule={d}
+                                                       user={d.tgUser}/>
+                        </li>)}
                     </ul>}
             </div>
         })}

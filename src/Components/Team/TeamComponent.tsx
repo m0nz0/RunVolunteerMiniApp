@@ -102,7 +102,7 @@ export const TeamComponent: FC = () => {
                                                         badgeColor={positionUsers.length === 0 ? "danger" : "success"}/>
                                 {positionUsers
                                     .map(u =>
-                                        <ScheduleUserCardComponent user={u.tgUser} scheduledName={u.name}/>
+                                        <ScheduleUserCardComponent schedule={u}/>
                                     )
                                 }
                             </div>
