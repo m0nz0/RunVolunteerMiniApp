@@ -10,8 +10,8 @@ const listItemTextList = [
     AppButtons.LocationsWithRecords(),
     AppButtons.MyEntries(),
     AppButtons.Locations(),
+    AppButtons.Profile(),
     AppButtons.About(),
-    AppButtons.Profile()
 ]
 
 
