@@ -1,6 +1,10 @@
-const req = (require as any).context("../assets/icons", false, /\.(png|jpe?g|svg)$/);
+// импортируем все картинки из папки
+const modules = import.meta.glob<string>("../assets/icons/*.{png,jpg,jpeg,svg}", {
+    eager: true,
+    import: "default",
+});
 
-export const images: string[] = req.keys().map(req);
+export const images: string[] = Object.values(modules);
 
 export function getRandomImage(): string {
     const index = Math.floor(Math.random() * images.length);

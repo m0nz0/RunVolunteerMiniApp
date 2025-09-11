@@ -1,19 +1,16 @@
 import {FC, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {PositionData} from "../../types";
+import {PositionData} from "@/types";
 import PositionService from "../../Services/PositionService";
 import {Accordion, Alert, Spinner} from "react-bootstrap";
-import {useGlobalContext} from "../../Common/Context/GlobalContext";
-import {PositionType, PositionTypeParams} from "../../Const/PositionType";
-import {DateService} from "../../Common/DateService";
-import {Icons} from "../../Const/Icons";
-import {AppButtons} from "../../Const/AppButtons";
+import {useGlobalContext} from "@/Common/Context/GlobalContext";
+import {PositionType, PositionTypeParams} from "@/Const/PositionType";
+import {DateService} from "@/Common/DateService";
+import {Icons} from "@/Const/Icons";
+import {AppButtons} from "@/Const/AppButtons";
+import {toast} from "react-toastify";
 
-interface Props {
-}
-
-export const PositionComponent: FC<Props> = (props) => {
-    const [error, setError] = useState<string | null>(null);
+export const PositionComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const {locationId, calendarId} = useParams<{ locationId: string, calendarId: string }>();
     const [positionData, setPositionData] = useState<PositionData>()
@@ -28,7 +25,10 @@ export const PositionComponent: FC<Props> = (props) => {
 
                 setPositionData(data)
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    console.error(err)
+                    toast.error("Ошибка получения позиций для записи")
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -56,9 +56,11 @@ export const PositionComponent: FC<Props> = (props) => {
                 <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
                     даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
             </p>
-            <Alert variant={"info"}>
-                <p>{Icons.ExclamationRed} - обязательная позиция</p>
-                <p>{Icons.CheckGreen} - кто-то уже записался</p>
+            <Alert variant={"info"} style={{"justifySelf": "center"}}>
+                {/*<p>{Icons.ExclamationRed} - обязательная позиция</p>*/}
+                {/*<p>{Icons.CheckGreen} - кто-то уже записался</p>*/}
+                <span style={{"paddingRight": "16"}}>{Icons.ExclamationRed} - обязательная позиция</span>
+                <span>{Icons.CheckGreen} - кто-то уже записался</span>
             </Alert>
 
             <Accordion alwaysOpen={false} defaultActiveKey={PositionType.Main.toString()}>

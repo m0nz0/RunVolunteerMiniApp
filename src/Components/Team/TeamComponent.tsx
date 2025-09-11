@@ -1,21 +1,18 @@
 import {FC, useEffect, useState} from "react";
-import {TeamData} from "../../types";
+import {TeamData} from "@/types";
 import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
 import {ButtonGroup, ListGroup, Spinner} from "react-bootstrap";
-import {DateService} from "../../Common/DateService";
+import {DateService} from "@/Common/DateService";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
-import {AppButtons} from "../../Const/AppButtons";
-import {TelegramHelper} from "../../Common/TelegramHelper";
-import {PositionType} from "../../Const/PositionType";
+import {AppButtons} from "@/Const/AppButtons";
+import {TelegramHelper} from "@/Common/TelegramHelper";
+import {PositionType} from "@/Const/PositionType";
+import {toast} from "react-toastify";
 
-interface Props {
-}
-
-export const TeamComponent: FC<Props> = (props) => {
+export const TeamComponent: FC = () => {
     const [team, setTeam] = useState<TeamData>()
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
@@ -27,9 +24,11 @@ export const TeamComponent: FC<Props> = (props) => {
                 try {
                     let data = await TeamService.getTeam(Number(locationId), Number(calendarId))
                     setTeam(data)
-                } catch
-                    (err) {
-                    if (isMounted) setError((err as Error).message);
+                } catch (err) {
+                    if (isMounted) {
+                        console.error(err)
+                        toast.error("Ошибка получения данных команды")
+                    }
                 } finally {
                     if (isMounted) setLoading(false);
                 }

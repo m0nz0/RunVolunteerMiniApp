@@ -25,7 +25,7 @@ export const LocationViewParams: {
 
     },
     [LocationViewType.WithSchedules]: {
-        header: "Это список локаций, где есть записи в волонтёны. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
+        header: "Это список локаций, где есть записи в волонтёры. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
         defaultActiveFilters: [LocationFlag.Favorite],
         hiddenFilters: [LocationFlag.IsCancel, LocationFlag.IsPrepare, LocationFlag.IsBotActive]
     },

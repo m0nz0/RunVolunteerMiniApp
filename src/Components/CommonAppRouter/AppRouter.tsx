@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { AppRoute, appRoutes } from "../../routes";
+import { AppRoute, appRoutes } from "@/routes";
 
 const renderRoutes = (routes: AppRoute[]): React.ReactNode =>
     routes.map(({ path, element: Element, extraProps, children }) => (

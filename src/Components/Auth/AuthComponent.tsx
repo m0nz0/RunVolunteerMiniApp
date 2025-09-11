@@ -1,11 +1,11 @@
 import React, {ChangeEvent, FC, useState} from "react";
 import './styles.css'
 import {Button, Form, InputGroup} from "react-bootstrap";
-import {Icons} from "../../Const/Icons";
-import {LoginType, LoginTypeDict} from "../../Const/LoginType";
-import {TelegramHelper} from "../../Common/TelegramHelper";
+import {Icons} from "@/Const/Icons";
+import {LoginType, LoginTypeDict} from "@/Const/LoginType";
+import {TelegramHelper} from "@/Common/TelegramHelper";
 import {useNavigate, useParams} from "react-router-dom";
-import VerstService from "../../Services/VerstService";
+import {useAuth} from "@/Common/useAuth";
 
 type Props = {
     loginType: LoginType,
@@ -14,13 +14,11 @@ type Props = {
 
 export const AuthComponent: FC<Props> = (props) => {
 
-    // let tg = TelegramHelper.getTg();
-    // tg.disableVerticalSwipes();
-    // tg.expand();
     const [isPassVisible, setPassVisible] = useState(false);
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const {locationId, calendarId} = useParams();
+    const {loginNrms} = useAuth();
 
     const navigate = useNavigate();
 
@@ -37,42 +35,14 @@ export const AuthComponent: FC<Props> = (props) => {
                     navigate("/profile");
                 })
         } else if (props.loginType === LoginType.Nrms) {
-            let token = await VerstService.getToken(login, password);
+            let token = await loginNrms(login, password);
             console.log("NRMS login: ", token)
             if (token && locationId && calendarId) {
-                localStorage.setItem("token", token)
-                navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`, {
-                    state: {
-                        token: token,
-                    }
-                });
+                navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`);
             }
         }
     }
 
-    //
-    //     // if (!login) {
-    //     //     tg.showAlert('Введите логин')
-    //     // }
-    //     // if (!password) {
-    //     //     tg.showAlert('Введите пароль')
-    //     // }
-    //
-    //     if ((props.data.action === Action.Auth || props.data.action === Action.AdditionalLink) && props.data.source === Source.Inline && props.data.target === Target.Verst) {
-    //         let url = (props.data.action === Action.Auth ?
-    //             process.env.REACT_APP_VERST_AUTH_URL :
-    //             process.env.REACT_APP_ADDITIONAL_LINK_URL) as string;
-    //         authVerstAndCallLinkController(login, password, url, props.data.version);
-    //     } else if (props.data.action === Action.CheckRoster) {
-    //         if (props.data.calendarId && props.data.locationId) {
-    //             authNrmsAndCallNrmsController(login, password, props.data.calendarId, props.data.locationId, props.data.version)
-    //         } else {
-    //             tg.showAlert("Не удалось определить дату или локацию")
-    //         }
-    //     } else {
-    //         tg.showAlert("Действие не поддерживается")
-    //     }
-// }
     const handleLoginChange = (e: ChangeEvent<HTMLInputElement>): void => {
         if (e.target.value.match(/^\d{0,9}$/)) {
             setLogin(e.target.value);
@@ -87,96 +57,14 @@ export const AuthComponent: FC<Props> = (props) => {
         return LoginTypeDict[props.loginType]
     }
 
-    const getToken = async (login: string, pass: string): Promise<string> => {
-        let body = {username: 'A' + login, password: pass}
-
-        console.log('Save team. Nrms auth start ')
-
-        let baseUrl = process.env.REACT_APP_BASE_URL;
-        let authUrl = process.env.REACT_APP_NRMS_AUTH_URL;
-        console.log(baseUrl, authUrl, `${baseUrl}${authUrl}`)
-        return fetch(`${baseUrl}${authUrl}`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
-        })
-            .then(res => res.json())
-            .then(resLogin => {
-
-                if (!resLogin.errorMessage) {
-                    console.log('Save team. Nrms auth success')
-
-                    return resLogin?.result?.token;
-
-                }
-                return "null";
-            })
-    }
-
-// // получение токена и сохранение команды
-    const authNrmsAndCallNrmsController = (login: string, pass: string, calendarId: number, locationId: number) => {
-//     let body = {username: 'A' + login, password: pass}
-//
-//     console.log('Save team. Nrms auth start ')
-//
-//     let baseUrl = process.env.REACT_APP_BASE_URL;
-//     fetch(`${baseUrl}${process.env.NRMS_AUTH_URL}`, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify(body)
-//     })
-//         .then(res => res.json())
-//         .then(resLogin => {
-//
-//             if (!resLogin.errorMessage) {
-//                 console.log('Save team. Nrms auth success')
-//
-//                 let token = resLogin.result.token;
-//                 let saveNrmsRequest = {
-//                     c: calendarId,
-//                     pv: locationId,
-//                     to: token,
-//                     tg: tg.initDataUnsafe.user.id
-//                 }
-//
-//                 let headers = {
-//                     'Content-Type': 'application/json',
-//                     'Access-Control-Allow-Origin': '*',
-//                     'Access-Control-Allow-Methods': '*'
-//                 };
-//
-//                 console.log('Save team. Save team start')
-//                 let botUrl = process.env.REACT_APP_BOT_URL;
-//                 fetch(`${botUrl}${process.env.REACT_APP_SAVE_TEAM_URL}`, {
-//                     method: 'POST',
-//                     body: JSON.stringify(saveNrmsRequest),
-//                     headers: headers,
-//                 })
-//                     .then(res => {
-//                         console.log('Save team. Save team continue')
-//                         tg.close()
-//                     })
-//                     .catch((err) => {
-//                         tg.showAlert(err.message);
-//
-//                     })
-//             } else {
-//                 if (resLogin.errorCode === -1) {
-//                     tg.showAlert("Ошибка авторизации");
-//                 }
-//                 tg.showAlert(resLogin.errorMessage);
-//             }
-//         })
-    }
-
     // авторизация verst и запрос на линковку
     const authVerstAndCallLinkController = async (login: string, pass: string) => {
         let body = {username: 'A' + login, password: pass}
 
         console.log('Verst link. Verst auth start')
-        let verstAuthUrl = process.env.REACT_APP_VERST_AUTH_URL;
+        let verstAuthUrl = import.meta.env.VITE_VERST_AUTH_URL;
         console.log(verstAuthUrl)
-        let baseUrl = process.env.REACT_APP_BASE_URL;
+        let baseUrl = import.meta.env.VITE_BASE_URL;
         console.log(baseUrl)
         await fetch(`${baseUrl}${verstAuthUrl}`, {
             method: 'POST',
@@ -198,10 +86,10 @@ export const AuthComponent: FC<Props> = (props) => {
 
                     console.log('Verst link. Link start')
 
-                    let botUrl = process.env.REACT_APP_BOT_URL;
+                    let botUrl = import.meta.env.VITE_BOT_URL;
                     await fetch(`${botUrl}${props.loginType === LoginType.AdditionalAccount ?
-                        process.env.REACT_APP_ADDITIONAL_LINK_URL :
-                        process.env.REACT_APP_MAIN_LINK_URL}`, {
+                        import.meta.env.VITE_ADDITIONAL_LINK_URL :
+                        import.meta.env.VITE_MAIN_LINK_URL}`, {
                         method: 'POST',
                         body: JSON.stringify({tg: TelegramHelper.getUser()?.id, vid: login}),
                         headers: headers,
@@ -222,8 +110,8 @@ export const AuthComponent: FC<Props> = (props) => {
 //
 //     console.log('Verst link button. Verst auth start')
 //
-//     let baseUrl = process.env.REACT_APP_BASE_URL;
-//     fetch(`${baseUrl}${process.env.REACT_APP_VERST_AUTH_URL}`, {
+//     let baseUrl = import.meta.env.VITE_BASE_URL;
+//     fetch(`${baseUrl}${import.meta.env.VITE_VERST_AUTH_URL}`, {
 //         method: 'POST',
 //         headers: {'Content-Type': 'application/json'},
 //         body: JSON.stringify(body)

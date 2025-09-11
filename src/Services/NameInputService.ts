@@ -1,5 +1,6 @@
-import {TelegramHelper} from "../Common/TelegramHelper";
-import {OnInputNameData, SaveData} from "../types";
+import {TelegramHelper} from "@/Common/TelegramHelper";
+import {OnInputNameData, SaveData} from "@/types";
+import {apiFetch} from "@/Common/api";
 
 
 const controllerName: string = "MiniApp"
@@ -7,7 +8,7 @@ const methodNames = {
     NAME_INPUT: "get-data-for-name-input",
     SAVE: "save",
 }
-const baseUrl: string | undefined = process.env.REACT_APP_BOT_URL;
+const baseUrl: string | undefined = import.meta.env.VITE_BOT_URL;
 
 export default class NameInputService {
 
@@ -16,40 +17,21 @@ export default class NameInputService {
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}/${locationId}/calendar/${calendarId}`;
         console.log("for name input url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        return await apiFetch<OnInputNameData>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
-
-        return response.json();
+        })
     }
 
-    static async saveNewItem(body: SaveData): Promise<OnInputNameData> {
+    static async saveNewItem(body: SaveData): Promise<void> {
 
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.SAVE}`;
         console.log("save item url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        await apiFetch(fetchUrl, {
             method: "POST",
             body: JSON.stringify(body),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при сохранени данных о записи");
-        }
-
-        return response.json();
+        })
     }
-
 }

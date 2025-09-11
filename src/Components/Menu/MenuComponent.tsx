@@ -1,9 +1,9 @@
 import React from "react";
 import '../Menu/styles.css'
 import './styles.css'
-import {TelegramHelper} from "../../Common/TelegramHelper";
-import {AppButtons} from "../../Const/AppButtons";
-import {getRandomImage} from "../../Common/icons";
+import {TelegramHelper} from "@/Common/TelegramHelper";
+import {AppButtons} from "@/Const/AppButtons";
+import {getRandomImage} from "@/Common/icons";
 
 const listItemTextList = [
     AppButtons.NewEntry(),
@@ -26,7 +26,7 @@ export const MenuComponent: React.FC = () => {
             <img className={'app-logo'} src={getRandomImage()}/>
             <div className="d-grid gap-2 buttons-list">
                 {
-                    listItemTextList.map((x, i) => x)
+                    listItemTextList.map(x => x)
                 }
             </div>
         </p>

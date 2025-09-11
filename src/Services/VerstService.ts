@@ -1,72 +1,56 @@
-import {TelegramHelper} from "../Common/TelegramHelper";
+import {apiFetch} from "@/Common/api";
+import {RosterLocationResponse} from "@/types";
 
 const methodNames = {
     ALL_LOCATIONS: "event/list",
+    COMPARE_ROSTER: "event/list",
 }
 export default class VerstService {
     static async getLocations(): Promise<any> {
 
-        let userId = TelegramHelper.getUser()?.id;
-        let baseUrl = process.env.REACT_APP_BASE_URL;
+        let baseUrl = import.meta.env.VITE_BASE_URL;
         let controllerName = "website";
         let methodName = methodNames.ALL_LOCATIONS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
         console.log("location fetch url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+        return await apiFetch<any>(fetchUrl, {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
-
-        return response.json();
+        })
     }
 
-    static async getToken(login: string, pass: string): Promise<string> {
+    static async getNrmsToken(login: string, pass: string): Promise<any> {
 
-        let baseUrl = process.env.REACT_APP_BASE_URL;
-        let authUrl = process.env.REACT_APP_NRMS_AUTH_URL;
+        let baseUrl = import.meta.env.VITE_BASE_URL;
+        let authUrl = import.meta.env.VITE_NRMS_AUTH_URL;
         let body = {username: 'A' + login, password: pass}
+        let fetchUrl = `${baseUrl}${authUrl}`;
 
-        return await fetch(`${baseUrl}${authUrl}`, {
+        return await apiFetch<any>(fetchUrl, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body)
         })
-            .then(value => value.json())
-            .then(value => {
-                if (value.errorMessage) {
-                    throw new Error(value.errorMessage)
-                }
-
-                return value?.result?.token;
-            })
     }
 
-    static async getAllowedLocations(token: string): Promise<any[]> {
+    static async getAllowedLocations(): Promise<RosterLocationResponse> {
 
-        let baseUrl = process.env.REACT_APP_BASE_URL;
-        let authUrl = process.env.REACT_APP_ALOWED_NRMS_LOCATIONS_URL;
+        let baseUrl = import.meta.env.VITE_BASE_URL;
+        let authUrl = import.meta.env.VITE_ALOWED_NRMS_LOCATIONS_URL;
+        let fetchUrl = `${baseUrl}${authUrl}`
 
-        return await fetch(`${baseUrl}${authUrl}`, {
+        return await apiFetch<RosterLocationResponse>(fetchUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-            },
         })
-            .then(value => value.json())
-            .then(value => {
-                if (value.errorMessage) {
-                    throw new Error(value.errorMessage)
-                }
+    }
 
-                return (value?.result?.event_list || []);
-            })
+    static async saveRoster(saveData: any): Promise<void> {
+
+        let baseUrl = import.meta.env.VITE_BASE_URL;
+        let saveUrl = import.meta.env.VITE_NRMS_SAVE_URL;
+        let fetchUrl = `${baseUrl}${saveUrl}`
+
+        return await apiFetch(fetchUrl, {
+            method: 'POST',
+            body: JSON.stringify(saveData)
+        })
     }
 }

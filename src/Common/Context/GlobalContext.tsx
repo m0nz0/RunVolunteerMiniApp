@@ -2,6 +2,7 @@ import React, {createContext, useContext, useEffect, useState} from "react";
 import {Position, VerstLocation} from "../../types";
 import VerstService from "../../Services/VerstService";
 import PositionService from "../../Services/PositionService";
+import {toast} from "react-toastify";
 
 interface GlobalContextType {
     locationDict: Record<number, VerstLocation>;
@@ -18,14 +19,20 @@ export const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({childre
         await VerstService.getLocations()
             .then(value =>
                 setLocationDict(Object.fromEntries((value?.result?.data ?? []).map((x: VerstLocation) => [x.id, x])))
-            );
+            ).catch(reason => {
+                console.error(reason)
+                toast.error("Ошибка получения списка локаций 5 вёрст")
+            });
     };
 
     const fetchPositions = async () => {
         await PositionService.getAllPositions()
             .then(value =>
                 setPositionDict(Object.fromEntries((value ?? []).map((x: Position) => [x.id, x])))
-            );
+            ).catch(reason => {
+                console.error(reason)
+                toast.error("Ошибка получения списка позиций 5 вёрст")
+            });
     };
 
     useEffect(() => {

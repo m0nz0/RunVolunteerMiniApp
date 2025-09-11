@@ -1,5 +1,6 @@
-import {TelegramHelper} from "../Common/TelegramHelper";
-import {CalendarData, ExistingDatesInfo} from "../types";
+import {TelegramHelper} from "@/Common/TelegramHelper";
+import {CalendarData, ExistingDatesInfo} from "@/types";
+import {apiFetch} from "@/Common/api";
 
 
 const controllerName: string = "MiniApp"
@@ -7,7 +8,7 @@ const methodNames = {
     DATES_FOR_SCHEDULE: "get-dates-for-schedule",
     EXISTING_DATES: "get-existing-dates"
 }
-const baseUrl: string | undefined = process.env.REACT_APP_BOT_URL;
+const baseUrl: string | undefined = import.meta.env.VITE_BOT_URL;
 
 export default class CalendarService {
 
@@ -16,20 +17,10 @@ export default class CalendarService {
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DATES_FOR_SCHEDULE}/${locationId}`;
         console.log("location dates for schedule url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+        return await apiFetch<CalendarData>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
-
-        return response.json();
+        })
     }
 
     static async getExistingDates(locationId: number): Promise<ExistingDatesInfo> {
@@ -37,19 +28,10 @@ export default class CalendarService {
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.EXISTING_DATES}/${locationId}`;
         console.log("location dates url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        return await apiFetch<ExistingDatesInfo>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
-
-        return response.json();
+        })
     }
 }

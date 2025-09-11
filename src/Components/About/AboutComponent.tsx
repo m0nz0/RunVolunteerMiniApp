@@ -1,11 +1,7 @@
 import {FC} from "react";
 import {Link} from "react-router-dom";
-import {RouteHelper} from "../../Common/RouteHelper";
-import {RouteCode} from "../../routes";
-
-interface Props {
-    onBack: () => void;
-}
+import {RouteHelper} from "@/Common/RouteHelper";
+import {RouteCode} from "@/routes";
 
 export const AboutComponent: FC = () => {
     return (

@@ -1,24 +1,18 @@
 import {FC, useEffect, useState} from "react";
-import {ProfileData} from "../../types";
+import {ProfileData} from "@/types";
 import {Accordion, Button, ButtonGroup, ButtonToolbar, Spinner} from "react-bootstrap";
 import ProfileService from "../../Services/ProfileService";
-import {useGlobalContext} from "../../Common/Context/GlobalContext";
-import {Icons} from "../../Const/Icons";
+import {useGlobalContext} from "@/Common/Context/GlobalContext";
+import {Icons} from "@/Const/Icons";
 import LinkService from "../../Services/LinkService";
-import {AlertComponent} from "../../Common/AlertComonent";
-import {AppButtons} from "../../Const/AppButtons";
+import {AppButtons} from "@/Const/AppButtons";
+import {toast} from "react-toastify";
 
-interface Props {
-}
-
-export const ProfileComponent: FC<Props> = (props) => {
+export const ProfileComponent: FC = () => {
 
     const [profileData, setProfileData] = useState<ProfileData>()
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationDict} = useGlobalContext()
-    // const {updateUserDates} = useUserContext()
-    // const {locationId} = useParams<{ locationId: string }>();
 
     useEffect(() => {
         let isMounted = true;
@@ -30,7 +24,10 @@ export const ProfileComponent: FC<Props> = (props) => {
                 let data = await ProfileService.getProfile()
                 setProfileData(data)
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    console.error(err)
+                    toast.error("Ошибка получения данных профиля")
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -54,15 +51,13 @@ export const ProfileComponent: FC<Props> = (props) => {
     const unlink = async (verstId: number | undefined) => {
 
         if (verstId) {
-            await LinkService.unLink(verstId).then(value => {
+            await LinkService.unLink(verstId).then(() => {
                 window.location.reload();
             })
         } else {
-            setError("Не задан verstId при отвязке аккаунтов")
+            toast.error("Не задан verstId при отвязке аккаунтов")
         }
-
     }
-
     // todo Прикрутить кнопки для ПД + большая доработка бэка
 
     return <div>

@@ -7,6 +7,7 @@ import {UserProvider} from "./Common/Context/UserContext";
 import {AppRouter} from "./Components/CommonAppRouter/AppRouter";
 import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
 import './styles.css'
+import {ToastContainer} from "react-toastify";
 
 declare global {
     interface Window {
@@ -29,7 +30,15 @@ export const App: React.FC = () => {
                         <BreadcrumbsComponent/>
                         <AppRouter/>
                     </Container>
-                </BrowserRouter>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        pauseOnHover
+                        theme="colored"
+                    />                </BrowserRouter>
             </UserProvider>
         </GlobalProvider>
     );

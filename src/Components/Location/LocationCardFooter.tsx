@@ -1,8 +1,8 @@
 import React, {FC, useState} from "react";
 import {Alert, Button, ButtonGroup, ButtonToolbar, Card, Dropdown, DropdownButton} from "react-bootstrap";
-import {TgUser, UserLocationDictItem} from "../../types";
-import {LocationFlag} from "../../Const/LocationFlag";
-import {AppButtons} from "../../Const/AppButtons";
+import {TgUser, UserLocationDictItem} from "@/types";
+import {LocationFlag} from "@/Const/LocationFlag";
+import {AppButtons} from "@/Const/AppButtons";
 import LocationService from "../../Services/LocationService";
 import {useNavigate} from "react-router-dom";
 
@@ -101,7 +101,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
                                     size={"sm"}
                                     title="Дополнительно"
                                     id="location-addon">
-                        {addonList.map((item, index) => <div style={{cursor: "pointer"}}>{item}</div>)}
+                        {addonList.map((item, index) => <div key={index} style={{cursor: "pointer"}}>{item}</div>)}
                     </DropdownButton>}
 
             </ButtonToolbar>

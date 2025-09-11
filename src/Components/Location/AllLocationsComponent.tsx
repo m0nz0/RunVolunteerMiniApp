@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {LocationListComponent} from "./LocationListComponent";
-import {LocationViewParams, LocationViewType} from "../../Const/LocationViewType";
+import {LocationViewParams, LocationViewType} from "@/Const/LocationViewType";
 
 interface Props {
     locationViewType: LocationViewType

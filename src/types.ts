@@ -1,25 +1,7 @@
-import {Version} from "./Const/Version";
-import {Action} from "./Const/Action";
-import {Target} from "./Const/Target";
-import {Source} from "./Const/Source";
 import {LocationFlag} from "./Const/LocationFlag";
-import {DefautPosition} from "./Services/LocationService";
+import {DefaultPosition} from "./Services/LocationService";
 import {PositionType} from "./Const/PositionType";
-
-export type AllParams = {
-    calendarId: number | undefined,
-    locationId: number | undefined,
-    source: Source,
-    target: Target,
-    action: Action,
-    version: Version,
-    verstId: string | undefined,
-}
-
-export type VerstResponse = {
-    token: string,
-    error: string
-}
+import {NrmsAction} from "@/Const/Source";
 
 interface WebApp {
     MainButton: any;
@@ -53,6 +35,21 @@ interface WebApp {
     disableVerticalSwipes: any;
 
     showAlert: any
+}
+
+export interface RosterCompareData {
+    date: CalendarInfo,
+    location: UserLocationDictItem,
+    positions: Position[],
+    data: Record<number, Record<string, VolunteerCompareResult>>
+}
+
+export interface VolunteerCompareResult {
+    tgId?: number,
+    verstData: VerstAthlete,
+    action: NrmsAction,
+    inNrms: boolean,
+    inBot: boolean
 }
 
 interface Window {
@@ -105,7 +102,7 @@ export interface UserLocationDictItem extends GlobalLocationDictItem {
     lat: number,
     lon: number,
     href: string,
-    defaultPositions: DefautPosition,
+    defaultPositions: DefaultPosition,
     directorTgIds: number[],
     locationFlags: string[]
 }
@@ -233,4 +230,18 @@ export interface SaveData {
     name?: string | null,
     verstId?: number | null,
     tgId: number
+}
+
+export interface RosterLocation {
+    id: number;
+    name: string;
+    url: string;
+}
+
+export interface RosterLocationResponse {
+    result: RosterLocationResult
+}
+
+export interface RosterLocationResult {
+    event_list: RosterLocation[]
 }

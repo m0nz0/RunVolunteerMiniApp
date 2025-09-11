@@ -1,12 +1,15 @@
 import {FC, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {useGlobalContext} from "../../Common/Context/GlobalContext";
+import {useNavigate, useParams} from "react-router-dom";
+import {useGlobalContext} from "@/Common/Context/GlobalContext";
 import {Button, Form, InputGroup, Spinner} from "react-bootstrap";
 import NameInputService from "../../Services/NameInputService";
-import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from "../../types";
-import {DateService} from "../../Common/DateService";
-import {Icons} from "../../Const/Icons";
-import {TelegramHelper} from "../../Common/TelegramHelper";
+import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from "@/types";
+import {DateService} from "@/Common/DateService";
+import {Icons} from "@/Const/Icons";
+import {TelegramHelper} from "@/Common/TelegramHelper";
+import {toast} from "react-toastify";
+import {RouteHelper} from "@/Common/RouteHelper";
+import {RouteCode} from "@/routes";
 
 interface Props {
 }
@@ -14,7 +17,7 @@ interface Props {
 const Who = {
     Main: "Записать меня",
     Additional: "Записать дополнительный аккаунт",
-    Other: "Записть другого человека по имени",
+    Other: "Записать другого человека по имени",
     Top: "Записать одного из инициативных волонтёров"
 }
 
@@ -25,15 +28,14 @@ export const NameSelectorComponent: FC<Props> = () => {
     const [verstId, setVerstId] = useState<number | null>(null)
     const [otherName, setOtherName] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const [isValid, setIsValid] = useState<boolean>(false)
+    const navigate = useNavigate();
 
     const {locationId, calendarId, positionId} = useParams<{
         locationId: string,
         calendarId: string,
         positionId: string
     }>();
-
 
     const {locationDict, positionDict} = useGlobalContext()
 
@@ -50,7 +52,10 @@ export const NameSelectorComponent: FC<Props> = () => {
                     setDefault(data?.allUsersDict ?? []);
                 } catch (err) {
                     if (isMounted) {
-                        setError((err as Error).message);
+                        if (isMounted) {
+                            console.error(err)
+                            toast.error("Ошибка получения данных для записи")
+                        }
                     }
                 } finally {
                     if (isMounted) {
@@ -68,18 +73,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     )
 
     useEffect(() => {
-        validate();
-    }, [verstId, otherName]);
-
-    const setDefault = (p: { key: VerstIdInfo; value: VerstAthlete }[]) => {
-        const hasAdditional = p.some(x => !x.key.isMain)
-        const hasMain = p.some(x => x.key.isMain)
-        setSelected(hasMain ? "Main" : hasAdditional ? "Additional" : "Other")
-    }
-
-    const validate = async () => {
-
-        let valid = false
+        let valid: boolean
         if (locationId && calendarId && position) {
 
             let idSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x !== "Other" as keyof typeof Who);
@@ -98,6 +92,12 @@ export const NameSelectorComponent: FC<Props> = () => {
 
         setIsValid(valid)
 
+    }, [verstId, otherName]);
+
+    const setDefault = (p: { key: VerstIdInfo; value: VerstAthlete }[]) => {
+        const hasAdditional = p.some(x => !x.key.isMain)
+        const hasMain = p.some(x => x.key.isMain)
+        setSelected(hasMain ? "Main" : hasAdditional ? "Additional" : "Other")
     }
 
     const saveAsId = async (id: number) => {
@@ -108,8 +108,14 @@ export const NameSelectorComponent: FC<Props> = () => {
             positionId: Number(positionId),
             tgId: TelegramHelper.getUser().id
         };
-        console.log("body to save", body)
-        await NameInputService.saveNewItem(body);
+        try {
+            await NameInputService.saveNewItem(body);
+            toast.success("Большое спасибо, что вы записались в волонтёры.", {
+                onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
+            })
+        } catch (err) {
+            toast.error("Не удалось сохранить данные по id")
+        }
     }
     const saveAsName = async () => {
         let body: SaveData = {
@@ -119,8 +125,14 @@ export const NameSelectorComponent: FC<Props> = () => {
             positionId: Number(positionId),
             tgId: TelegramHelper.getUser().id
         };
-        console.log("body to save", body)
-        await NameInputService.saveNewItem(body);
+        try {
+            await NameInputService.saveNewItem(body);
+            toast.success("Большое спасибо, что вы записались в волонтёры.", {
+                onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
+            })
+        } catch (err) {
+            toast.error("Не удалось сохранить данные по имени")
+        }
     }
 
     const onRadioSelect = (who: string) => {
@@ -139,7 +151,7 @@ export const NameSelectorComponent: FC<Props> = () => {
         );
     }
 
-    return (<div>
+    return (!loading && <div>
         <p className={"text-center"}>
             <h5>Мы подошли к последнему этапу записи. Надо выбрать кого записать.</h5>
         </p>
@@ -150,7 +162,7 @@ export const NameSelectorComponent: FC<Props> = () => {
         </div>
         <br/>
         <Form>
-            {Object.entries(Who).filter(([key, label]) => {
+            {Object.entries(Who).filter(([key]) => {
                 if (key === "Main") {
                     return (data?.allUsersDict ?? []).filter(x => x.key.isMain).length > 0;
                 } else if (key === "Additional") {

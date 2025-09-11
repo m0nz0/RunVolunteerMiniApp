@@ -1,4 +1,9 @@
-export enum Source {
-    Inline = 'Inline',
-    Reply = 'Reply'
+export enum NrmsAction {
+    Add = "Add",
+
+    Remove = "Remove",
+
+    Skip = "Skip",
+
+    Replace = "Replace"
 }

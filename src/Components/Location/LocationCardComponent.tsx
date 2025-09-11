@@ -1,36 +1,36 @@
 import React, {FC, useEffect, useState} from "react";
 import {Card, Spinner} from "react-bootstrap";
-import {LocationData, UserLocationDictItem} from "../../types";
-import {LocationViewType} from "../../Const/LocationViewType";
+import {LocationData, UserLocationDictItem} from "@/types";
+import {LocationViewType} from "@/Const/LocationViewType";
 import './styles.css'
 import {LocationCardBody} from "./LocationCardBody";
 import {LocationCardFooter} from "./LocationCardFooter";
 import {useParams} from "react-router-dom";
 import LocationService from "../../Services/LocationService";
+import {toast} from "react-toastify";
 
 interface Props {
     location: UserLocationDictItem,
     locationViewType: LocationViewType,
 }
 
-export const LocationCardComponent: FC<Props> = (props) => {
+export const LocationCardComponent: FC<Props> = () => {
 
     const {locationId} = useParams<{ locationId: string }>();
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<LocationData>()
 
     useEffect(() => {
         let isMounted = true;
-        // if (Object.entries(locationDict).length === 0) {
-        //     return;
-        // }
         const loadData = async () => {
             try {
                 let data = await LocationService.getLocations(LocationViewType.AllLocations)
                 setData({user: data.user, locations: data.locations.filter(x => x.verstId === Number(locationId))})
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    toast.error("Ошибка при загрузке данных локаций");
+                }
+
             } finally {
                 if (isMounted) setLoading(false);
             }

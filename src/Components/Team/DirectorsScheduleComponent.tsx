@@ -1,18 +1,15 @@
 import {FC, useEffect, useState} from "react";
-import {DirectorScheduleData, Team} from "../../types";
+import {DirectorScheduleData} from "@/types";
 import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
 import {Spinner} from "react-bootstrap";
-import {DateService} from "../../Common/DateService";
+import {DateService} from "@/Common/DateService";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
-import {Icons} from "../../Const/Icons";
+import {Icons} from "@/Const/Icons";
+import {toast} from "react-toastify";
 
-interface Props {
-}
-
-export const DirectorsScheduleComponent: FC<Props> = (props) => {
+export const DirectorsScheduleComponent: FC = () => {
     const [data, setData] = useState<DirectorScheduleData>()
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     const {locationId} = useParams<{ locationId: string }>();
@@ -26,7 +23,10 @@ export const DirectorsScheduleComponent: FC<Props> = (props) => {
                     setData(data)
                 } catch
                     (err) {
-                    if (isMounted) setError((err as Error).message);
+                    if (isMounted) {
+                        console.error(err)
+                        toast.error("Ошибка получения графика директоров")
+                    }
                 } finally {
                     if (isMounted) setLoading(false);
                 }
@@ -54,12 +54,13 @@ export const DirectorsScheduleComponent: FC<Props> = (props) => {
         </p>
         <div>{data?.dates.map(d => {
             let dirs = data?.schedules.filter(x => x.calendarId === d.id)
-            return <div>
+            return <div key={d.id}>
                 <span>{DateService.formatDayMonthNameYear(d.date)}</span>
                 {dirs.length === 0 && <ul>{Icons.ExclamationRed}Нет</ul>}
                 {dirs.length > 0 &&
                     <ul>
-                        {dirs.map(d => <li><ScheduleUserCardComponent user={d.tgUser} scheduledName={d.name}/></li>)}
+                        {dirs.map(d => <li key={d.id}><ScheduleUserCardComponent user={d.tgUser}
+                                                                                 scheduledName={d.name}/></li>)}
                     </ul>}
             </div>
         })}

@@ -11,7 +11,13 @@ import {
     faHourglass,
     faLocationDot,
     faRotate,
-    faStar
+    faStar,
+    faArrowUp,
+    faArrowDown,
+    faArrowsUpDown,
+    faXmark,
+    faArrowsRotate,
+    faQuestion
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -27,4 +33,12 @@ export const Icons = {
     CoordinatePin: <FontAwesomeIcon icon={faLocationDot} style={{color: "red"}}/>,
     EyeOpen: <FontAwesomeIcon icon={faEye}/>,
     EyeClose: <FontAwesomeIcon icon={faEyeSlash}/>,
+    ArrowUp: <FontAwesomeIcon icon={faArrowUp}/>,
+    ArrowDown: <FontAwesomeIcon icon={faArrowDown}/>,
+    ArrowUpDown: <FontAwesomeIcon icon={faArrowsUpDown}/>,
+    RedCross: <FontAwesomeIcon icon={faXmark} style={{color: "red"}}/>,
+    Question: <FontAwesomeIcon icon={faQuestion} style={{color: "red"}}/>,
+    Rotate: <FontAwesomeIcon icon={faArrowsRotate} style={{color: "goldenrod"}}/>,
+
+
 }

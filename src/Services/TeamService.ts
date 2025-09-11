@@ -1,5 +1,6 @@
-import {TelegramHelper} from "../Common/TelegramHelper";
-import {DirectorScheduleData, Team, TeamData} from "../types";
+import {TelegramHelper} from "@/Common/TelegramHelper";
+import {DirectorScheduleData, Team, TeamData} from "@/types";
+import {apiFetch} from "@/Common/api";
 
 
 const controllerName: string = "MiniApp"
@@ -9,7 +10,7 @@ const methodNames = {
     UNDO: "undo-schedule",
     DIRECTOR_SCHEDULES: "director-schedule",
 }
-const baseUrl: string | undefined = process.env.REACT_APP_BOT_URL;
+const baseUrl: string | undefined = import.meta.env.VITE_BOT_URL;
 
 export default class TeamService {
 
@@ -18,20 +19,11 @@ export default class TeamService {
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_TEAM_URL}/${locationId}/calendar/${calendarId}`;
         console.log("view team for schedule url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        return await apiFetch<TeamData>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
-
-        return response.json();
+        })
     }
 
     static async getMySchedules(): Promise<Team[]> {
@@ -39,20 +31,11 @@ export default class TeamService {
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_MY_SCHEDULES}`;
         console.log("view team for schedule url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        return await apiFetch<Team[]>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
-
-        return response.json();
+        })
     }
 
     static async getDirectorSchedule(locationId: number): Promise<DirectorScheduleData> {
@@ -60,41 +43,24 @@ export default class TeamService {
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DIRECTOR_SCHEDULES}`;
         console.log("view team for schedule url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        return await apiFetch<DirectorScheduleData>(fetchUrl, {
             method: "POST",
             body: JSON.stringify({
                 locationId: locationId,
                 tgId: userId
             }),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке графика директоров");
-        }
-
-        return response.json();
+        })
     }
 
-    static async undoSchedule(scheduleId: number): Promise<void> {
+    static async undoSchedule(scheduleId: number): Promise<Team> {
 
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_MY_SCHEDULES}`;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.UNDO}`;
         console.log("view team for schedule url", fetchUrl)
-        const response = await fetch(fetchUrl, {
+
+        return await apiFetch<Team>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(scheduleId),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Ошибка при загрузке данных");
-        }
+        })
     }
-
 }

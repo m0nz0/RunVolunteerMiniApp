@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {LocationFlag, LocationFlagParams} from "../../Const/LocationFlag";
+import {LocationFlag, LocationFlagParams} from "@/Const/LocationFlag";
 
 interface Props {
     flag: LocationFlag,

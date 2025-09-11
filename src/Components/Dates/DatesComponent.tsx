@@ -1,12 +1,13 @@
 import {FC, useEffect, useState} from "react";
 import CalendarService from "../../Services/CalendarService";
 import {useParams} from "react-router-dom";
-import {CalendarData} from "../../types";
+import {CalendarData} from "@/types";
 import {Spinner} from "react-bootstrap";
-import {DateService} from "../../Common/DateService";
-import {LocationViewType} from "../../Const/LocationViewType";
-import {AppButtons} from "../../Const/AppButtons";
-import {useUserContext} from "../../Common/Context/UserContext";
+import {DateService} from "@/Common/DateService";
+import {LocationViewType} from "@/Const/LocationViewType";
+import {AppButtons} from "@/Const/AppButtons";
+import {useUserContext} from "@/Common/Context/UserContext";
+import {toast} from "react-toastify";
 
 interface Props {
     locationViewType: LocationViewType
@@ -15,7 +16,6 @@ interface Props {
 export const DatesComponent: FC<Props> = (props) => {
 
     const [datesData, setDatesData] = useState<CalendarData>()
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationId} = useParams<{ locationId: string }>();
     const {updateUserDates} = useUserContext()
@@ -36,7 +36,10 @@ export const DatesComponent: FC<Props> = (props) => {
                 }
 
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    console.log(err)
+                    toast.error("Ошибка получения списка дат")
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -75,18 +78,15 @@ export const DatesComponent: FC<Props> = (props) => {
                     datesData.dates.sort((a, b) => DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
                         .map(x => {
 
-                            let toPosition = `/new-entry/${locationId}/dates/${x.id}/position`;
-                            let toViewTeam = `/existing-entries/${locationId}/dates/${x.id}/team`;
-
-                            let to = props.locationViewType === LocationViewType.ForSchedule ?
-                                toPosition :
-                                toViewTeam;
-
                             if (props.locationViewType === LocationViewType.ForSchedule) {
-                                return AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date))
+                                return <div className={"d-grid"} key={x.id}>
+                                    {AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date))}
+                                </div>
                             }
 
-                            return AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))
+                            return <div className={"d-grid "} key={x.id}>
+                                {AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))}
+                            </div>
                         })
                 }
             </div>

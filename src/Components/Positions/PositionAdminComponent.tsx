@@ -1,23 +1,28 @@
 import React, {FC, useEffect, useState} from "react";
 import PositionService from "../../Services/PositionService";
-import {PositionAdminData} from "../../types";
+import {PositionAdminData} from "@/types";
 import {Button, Form, Spinner, Table} from "react-bootstrap";
-import {PositionType, PositionTypeParams} from "../../Const/PositionType";
+import {PositionType, PositionTypeParams} from "@/Const/PositionType";
 import {useParams} from "react-router-dom";
-import {NameWithBadgeComponent} from "../Team/NameWithBadgeComponent";
 import './styles.css'
+import {toast} from "react-toastify";
 
-export const PositionAdminComponent: FC = (props) => {
+export const PositionAdminComponent: FC = () => {
 
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<PositionAdminData>()
     const [selected, setSelected] = useState<Record<number, PositionType>>({});
     const {locationId} = useParams()
 
     const savePositions = async () => {
+        try {
+
         await PositionService.savePositionsForAdmin(Number(locationId), selected)
-            .then(() => window.location.reload())
+            .then(() => window.location.reload())}
+        catch (err){
+            console.error(err)
+            toast.error("Ошибка сохранения позиций")
+        }
     }
 
     useEffect(() => {
@@ -40,7 +45,10 @@ export const PositionAdminComponent: FC = (props) => {
                 );
             } catch
                 (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    console.error(err)
+                    toast.error("Ошибка получения позиций для управления")
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }

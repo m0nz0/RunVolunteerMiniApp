@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {Card} from "react-bootstrap";
-import {TgUser, UserLocationDictItem} from "../../types";
-import {LocationViewType} from "../../Const/LocationViewType";
+import {TgUser, UserLocationDictItem} from "@/types";
+import {LocationViewType} from "@/Const/LocationViewType";
 import './styles.css'
 import {LocationCardBody} from "./LocationCardBody";
 import {useNavigate} from "react-router-dom";
@@ -27,12 +27,6 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
                 `/new-entry/${location.verstId}/dates` :
                 "/";
 
-    let state =
-        locationViewType === LocationViewType.WithSchedules ?
-            {location: location, user: props.user} :
-            locationViewType === LocationViewType.ForSchedule ?
-                {location: location, user: props.user} :
-                {};
     const goByRoute = () => {
         navigate(to, {})
     }

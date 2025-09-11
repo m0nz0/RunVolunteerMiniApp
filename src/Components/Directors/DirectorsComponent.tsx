@@ -1,20 +1,16 @@
 import React, {FC, useEffect, useState} from "react";
-import {DirectorsData} from "../../types";
+import {DirectorsData} from "@/types";
 import {useParams} from "react-router-dom";
 import LocationService from "../../Services/LocationService";
-import {Alert, Button, Spinner} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
+import {toast} from "react-toastify";
 
-interface Props {
-}
-
-export const DirectorsComponent: FC<Props> = (props) => {
+export const DirectorsComponent: FC = () => {
 
     const [data, setData] = useState<DirectorsData>()
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const {locationId} = useParams<{ locationId: string }>();
-    const [toast, setToast] = useState<boolean>(false)
 
     useEffect(() => {
         let isMounted = true;
@@ -25,7 +21,9 @@ export const DirectorsComponent: FC<Props> = (props) => {
                 setData(data)
 
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    toast.error((err as Error).message)
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }
@@ -40,7 +38,14 @@ export const DirectorsComponent: FC<Props> = (props) => {
     const handleDirectorClick = async () => {
         if (data?.location.id) {
             await LocationService.createDirectorsRequest(data?.location.id)
-                .then(() => setToast(true))
+                .then(() =>
+                    toast.info(<p className={"text-center"}>Ваша заявка на роль директора
+                        локации {data?.location.name} отправлена на
+                        согласование. <br/>Дождитесь ее рассмотрения.";
+                    </p>, {
+                        onClose: () => window.location.reload()
+                    }),
+                )
         } else {
             throw new Error("Нет данных локации")
         }
@@ -55,17 +60,6 @@ export const DirectorsComponent: FC<Props> = (props) => {
         );
     }
 
-    if (toast) {
-        return <Alert variant={"info"}>
-            <p className={"text-center"}>Ваша заявка на роль директора локации {data?.location.name} отправлена на
-                согласование. <br/>Дождитесь ее рассмотрения.";
-            </p>
-            <div className="d-flex justify-content-end">
-                <Button onClick={() => window.location.reload()}>Ок</Button>
-            </div>
-        </Alert>
-    }
-
     return (
         <div>
             {data && data.directors ?
@@ -78,16 +72,9 @@ export const DirectorsComponent: FC<Props> = (props) => {
                             data.directors.length > 0
                             && data.directors.map(x => {
                                     let verstData = data.verstDirectors[x.tgId];
-                                    let tgName = `${x.firstName ?? ""} ${x.lastName ?? ""}`.trim();
-                                    let name = verstData ? verstData.full_name : tgName;
 
                                     return <li>
-                                    <ScheduleUserCardComponent user={x} scheduledName={verstData?.full_name} />
-                                        {/*<span>{name}</span>*/}
-                                        {/*{x.tgLogin &&*/}
-                                        {/*    <span> | <a href={`https://t.me/${x.tgLogin}`}>@{x.tgLogin}</a></span>}*/}
-                                        {/*{verstData && <span> | <a*/}
-                                        {/*    href={`https://5verst.ru/userstats/${verstData.id}`}>A{verstData.id}</a></span>}*/}
+                                        <ScheduleUserCardComponent user={x} scheduledName={verstData?.full_name}/>
                                     </li>
                                 }
                             )}

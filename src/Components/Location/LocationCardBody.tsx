@@ -1,9 +1,9 @@
 import React, {FC} from "react";
 import {Card} from "react-bootstrap";
 import {LocationFlagComponent} from "./LocationFlagComponent";
-import {LocationFlag} from "../../Const/LocationFlag";
-import {CoordinatesComponent} from "../Coordinates/CoordinatesComponent";
-import {UserLocationDictItem} from "../../types";
+import {LocationFlag} from "@/Const/LocationFlag";
+import {CoordinatesComponent} from "@/Components/Coordinates/CoordinatesComponent";
+import {UserLocationDictItem} from "@/types";
 
 interface Props {
     location: UserLocationDictItem

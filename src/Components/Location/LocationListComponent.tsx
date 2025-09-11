@@ -1,11 +1,12 @@
 import {FC, useEffect, useState} from "react";
 import {Form, FormCheck, Spinner} from "react-bootstrap";
 import LocationService from "../../Services/LocationService";
-import {LocationFlag} from "../../Const/LocationFlag";
+import {LocationFlag} from "@/Const/LocationFlag";
 import {LocationFlagComponent} from "./LocationFlagComponent";
-import {FlagChecker, TgUser, UserLocationDictItem} from "../../types";
-import {LocationViewType} from "../../Const/LocationViewType";
+import {FlagChecker, TgUser, UserLocationDictItem} from "@/types";
+import {LocationViewType} from "@/Const/LocationViewType";
 import {LocationMiniCardComponent} from "./LocationMiniCardComponent";
+import {toast} from "react-toastify";
 
 interface Props {
     defaultSwitchedFilters: LocationFlag[]
@@ -18,7 +19,6 @@ export const LocationListComponent: FC<Props> = (props) => {
     const [locations, setLocations] = useState<UserLocationDictItem[]>([]);
     const [user, setUser] = useState<TgUser>()
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const [checkedItems, setCheckedItems] = useState<FlagChecker[]>([]);
 
     useEffect(() => {
@@ -67,7 +67,9 @@ export const LocationListComponent: FC<Props> = (props) => {
                     return {id: x, flag: props.defaultSwitchedFilters.some(f => f === x)}
                 }))
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    toast.error("Ошибка при загрузке данных локаций");
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }

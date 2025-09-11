@@ -1,13 +1,13 @@
 import React, {FC, useEffect, useState} from "react";
-import {Team} from "../../types";
 import TeamService from "../../Services/TeamService";
 import {EntryComponent} from "./EntryComponent";
 import {Spinner} from "react-bootstrap";
-import {AppButtons} from "../../Const/AppButtons";
+import {AppButtons} from "@/Const/AppButtons";
+import {toast} from "react-toastify";
+import {Team} from "@/types";
 
 export const MyEntriesComponent: FC = () => {
     const [data, setData] = useState<Team[]>([])
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -19,7 +19,10 @@ export const MyEntriesComponent: FC = () => {
                 setData(data)
 
             } catch (err) {
-                if (isMounted) setError((err as Error).message);
+                if (isMounted) {
+                    console.error(err)
+                    toast.error("Ошибка получения моих записей")
+                }
             } finally {
                 if (isMounted) setLoading(false);
             }

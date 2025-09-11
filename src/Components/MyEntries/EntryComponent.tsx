@@ -1,10 +1,10 @@
-import React, {FC, useState} from "react";
-import {Team} from "../../types";
-import {Alert, Button, ButtonGroup, ButtonToolbar, Card} from "react-bootstrap";
-import {DateService} from "../../Common/DateService";
-import {AppButtons} from "../../Const/AppButtons";
+import React, {FC} from "react";
+import {Team} from "@/types";
+import {Button, ButtonGroup, ButtonToolbar, Card} from "react-bootstrap";
+import {DateService} from "@/Common/DateService";
+import {AppButtons} from "@/Const/AppButtons";
 import TeamService from "../../Services/TeamService";
-import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 interface Props {
     team: Team
@@ -12,24 +12,21 @@ interface Props {
 
 export const EntryComponent: FC<Props> = (props: any) => {
 
-    const [toast, setToast] = useState<boolean>(false);
-    const navigate = useNavigate();
-
     const handleUndo = async (itemId: number) => {
         await TeamService.undoSchedule(itemId)
-            .then(value => () => setToast(true))
-    }
-
-    if (toast) {
-        return <Alert variant={"info"}>
-            <p className={"text-center"}>Ваша запись в волонтёры
-                локации {props.location.name} на {DateService.formatDayMonthNameYear(props.team.calendar.date)} на
-                позицию {props.team.position.name} отменена<br/>Очень жаль.<br/>Увидимся в сследующий раз";
-            </p>
-            <div className="d-flex justify-content-end">
-                <Button onClick={() => navigate("/my-entries")}>Ок</Button>
-            </div>
-        </Alert>
+            .then(value => {
+                toast.warn(
+                    <p className={"text-center"}>
+                        Ваша запись в волонтёры
+                        локации {value.location.name} на {DateService.formatDayMonthNameYear(value.calendar.date)} на
+                        позицию {value.position.name} отменена<br/>Очень жаль.<br/>Увидимся в следующий раз";
+                    </p>
+                    , {onClose: () => window.location.reload()})
+            })
+            .catch(reason => {
+                console.error(reason);
+                toast.error("Ошибка отмены записи")
+            })
     }
 
     return (<Card style={{cursor: "pointer"}}>
@@ -50,7 +47,6 @@ export const EntryComponent: FC<Props> = (props: any) => {
         <Card.Footer>
             <ButtonToolbar className={"d-grip gap-2"}>
                 <ButtonGroup>
-                    {/*<Button variant={"info"} size={"sm"}>Посмотреть команду</Button>*/}
                     {AppButtons.ToTeamFromExistingDate(props.team.locationId, props.team.calendarId, "Посмотреть команду")}
                 </ButtonGroup>
                 <ButtonGroup>

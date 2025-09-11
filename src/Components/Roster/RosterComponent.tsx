@@ -1,44 +1,124 @@
 import React, {FC, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import VerstService from "../../Services/VerstService";
-import {Alert, Spinner} from "react-bootstrap";
-import {AppButtons} from "../../Const/AppButtons";
+import {Button, Container, Form, Spinner, Table} from "react-bootstrap";
+import {toast} from "react-toastify";
+import RosterService from "@/Services/RosterService";
+import {RosterCompareData} from "@/types";
+import {DateService} from "@/Common/DateService";
+import {Icons} from "@/Const/Icons";
+import {NrmsAction} from "@/Const/Source";
+import {useAuth} from "@/Common/useAuth";
+import './styles.css'
 
 interface Props {
 }
 
-export const RosterComponent: FC<Props> = (props: any) => {
+interface SelectedItem {
+    positionId: number;
+    verstId: number;
+}
 
-    const location = useLocation();
-    const [error, setError] = useState<string | null>(null);
+export const RosterComponent: FC<Props> = () => {
+
     const [loading, setLoading] = useState<boolean>(true);
-    const [allowedLocations, setAllowedLocations] = useState<any[]>()
+    const [roster, setRoster] = useState<RosterCompareData>()
     const {locationId, calendarId} = useParams();
+    const {token} = useAuth();
+
+    const [selected, setSelected] = useState<SelectedItem[]>([])
+
+    const handleChange = (positionId: number, verstId: number) => {
+        setSelected((prev) => {
+            const exists = prev.some(
+                (item) => item.positionId === positionId && item.verstId === verstId
+            );
+            if (exists) {
+                // убираем
+                return prev.filter(
+                    (item) =>
+                        !(item.positionId === positionId && item.verstId === verstId)
+                );
+            } else {
+                // добавляем
+                return [...prev, {positionId: positionId, verstId: verstId}];
+            }
+        });
+    };
+
+    const isChecked = (positionId: number, verstId: number) =>
+        selected.some(
+            (item) => item.positionId === positionId && item.verstId === verstId
+        );
+
+    const toSaveBody = () => {
+        return {
+            event_id: locationId,
+            toLocalDate: DateService.formatDMY(roster?.date?.date ?? ""),
+            upload_status_id: 1,
+            volunteers: selected.map(x => ({
+                    verst_id: x.verstId,
+                    role_id: x.positionId
+                })
+            )
+        }
+    }
 
     useEffect(() => {
-            let isMounted = true;
+        let isMounted = true;
 
-            const loadData = async () => {
-                try {
-                    let data = await VerstService.getAllowedLocations(location.state.token)
-                    setAllowedLocations(data)
-                    if (!data.some(x => x.id === (Number)(locationId))) {
-                        setError("Загрузка данной локации в NRMS для вас недоступна")
-                    }
-                } catch
-                    (err) {
-                    if (isMounted) setError((err as Error).message);
-                } finally {
-                    if (isMounted) setLoading(false);
+
+        const loadData = async () => {
+
+            if (!token) {
+                console.log("no token")
+                toast.error("Вы не авторизовались в NRMS или ваш сеанс истёк, пожалуйста, авторизуйтесь снова");
+                setLoading(false);
+                return;
+            }
+
+            try {
+                // шаг 1: получаем доступные локации
+                const data = (await VerstService.getAllowedLocations(token))?.result?.event_list ?? [];
+                if (!isMounted) return;
+
+                // шаг 2: проверяем доступ к текущей локации
+                const hasAccess = data.some(
+                    x => x.id === Number(locationId)
+                );
+
+                if (!hasAccess) {
+                    toast.error("Загрузка данной локации в NRMS для вас недоступна");
+                    return; // останавливаемся, roster не грузим
                 }
-            };
 
-            loadData();
-            return () => {
-                isMounted = false;
-            };
-        }, [location.state.token]
-    )
+                // шаг 3: загружаем roster
+                const roster = await RosterService.getComparedRoster(
+                    token,
+                    Number(locationId),
+                    Number(calendarId)
+                );
+
+                if (!isMounted) {
+                    return;
+                }
+                setRoster(roster);
+
+            } catch (err) {
+                toast.error((err as Error).message);
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [token, locationId, calendarId]);
 
     if (loading) {
         return (
@@ -49,24 +129,67 @@ export const RosterComponent: FC<Props> = (props: any) => {
         );
     }
 
-    if (error) {
-        return <Alert variant={"danger"}>
-            <p className={"text-center"}>{error}</p>
-            <div className="d-flex justify-content-center">
-                {AppButtons.ToTeamFromExistingDate((Number)(locationId), (Number)(calendarId), "К команде")}
-            </div>
-        </Alert>
+    const handleSave = async () => {
+        try {
+            await VerstService.saveRoster(toSaveBody())
+        } catch (error) {
+            console.error(error);
+            toast.error("Ошибка сохранения команды в NRMS")
+        }
     }
 
-    return (
-        <div>
-            <p> token: {location.state.token}</p>
-            <p> locationId: {locationId}</p>
-            <p> calendarId: {calendarId}</p>
-            <p>Это будет будущее сравление ростера</p>
-            {
-                allowedLocations?.map(x => <p>{x.name}</p>)
-            }
-        </div>
+    return ((roster && roster.data && roster.date) && <Container>
+            <p className={"text-center"}>
+                <h5>Предварительные данные по записям в волонтеры
+                    от {DateService.formatDayMonthNameYear(roster.date.date)} для локации {roster.location.name}</h5>
+            </p>
+            <div>
+                <Table>
+                    <thead>
+                    <tr>
+                        <th>Позиция</th>
+                        <th>Имя</th>
+                        <th>Бот</th>
+                        <th>Уже в NRMS</th>
+                        <th>Готов к загрузке</th>
+                        <th>Выгружать в NRMS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {Object.entries(roster.data).map(([positionId, data]) => {
+                        let position = roster.positions.find(x => x.id === Number(positionId))
+                        if (!position) {
+                            throw new Error("Позиция не найдена")
+                        }
+                        const users = Object.entries(data);
+                        let usersCount = users.length
+                        return users.map(([volunteerName, volunteerData], idx) => {
+                            return <tr>
+                                {idx == 0 &&
+                                    <td style={{"verticalAlign": "middle"}}
+                                        rowSpan={usersCount}>{position?.name}</td>}
+                                <td>{volunteerName}</td>
+                                <td style={{"textAlign": "center"}}>{volunteerData.inBot && Icons.CheckGreen}</td>
+                                <td style={{"textAlign": "center"}}>{volunteerData.inNrms && Icons.CheckGreen}</td>
+                                <td style={{"textAlign": "center"}}>{volunteerData.action == NrmsAction.Skip && Icons.RedCross}</td>
+                                <td style={{"textAlign": "center"}}>
+                                    {volunteerData.action !== NrmsAction.Skip &&
+                                        <Form.Check type={"switch"}
+                                                    checked={isChecked(position?.parent_id ?? position.id, volunteerData.verstData?.id)}
+                                                    onChange={() => handleChange(position?.parent_id ?? position.id, volunteerData.verstData?.id)}>
+                                        </Form.Check>}</td>
+                            </tr>
+                        })
+                    })}
+                    <tr></tr>
+                    </tbody>
+                </Table>
+            </div>
+            <div className={"text-center"}>
+                {selected.length > 0 &&
+                    <Button variant={"info"} onClick={handleSave} size={"sm"}>Сохранить в NRMS</Button>}
+            </div>
+            <pre>{JSON.stringify(toSaveBody(), null, 2)}</pre>
+        </Container>
     )
 }

@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Icons} from "../../Const/Icons";
+import {Icons} from "@/Const/Icons";
 
 interface Props {
     lat: number,

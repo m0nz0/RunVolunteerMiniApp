@@ -1,21 +1,20 @@
 import React from "react";
 import {Breadcrumb} from "react-bootstrap";
 import {Link, matchPath, useLocation} from "react-router-dom";
-import {appRoutes} from "../routes";
-import {useGlobalContext} from "../Common/Context/GlobalContext";
-import {useUserContext} from "../Common/Context/UserContext";
-import {DateService} from "../Common/DateService";
+import {appRoutes} from "@/routes";
+import {useGlobalContext} from "@/Common/Context/GlobalContext";
+import {useUserContext} from "@/Common/Context/UserContext";
+import {DateService} from "@/Common/DateService";
 
 
 const BreadcrumbsComponent: React.FC = () => {
     const {locationDict} = useGlobalContext();
     const {userDatesDict} = useUserContext();
     const {userPositionDict} = useUserContext();
-    // const params = useParams<{ locationId?: string }>();
     const location = useLocation();
 
 
-    const pathnames = location.pathname.split("/").filter(Boolean);
+    const pathNames = location.pathname.split("/").filter(Boolean);
 
     const findRouteLabel = (url: string): string | undefined => {
         for (const route of appRoutes) {
@@ -33,26 +32,26 @@ const BreadcrumbsComponent: React.FC = () => {
                 Главная
             </Breadcrumb.Item>
 
-            {pathnames.map((part, index) => {
+            {pathNames.map((part, index) => {
 
-                const url = "/" + pathnames.slice(0, index + 1).join("/");
+                const url = "/" + pathNames.slice(0, index + 1).join("/");
 
                 let label = findRouteLabel(url) ?? part;
 
-                let isLast = index === pathnames.length - 1;
+                let isLast = index === pathNames.length - 1;
 
                 // Если это /locations/:locationId, используем имя из справочника
-                if (["new-entry", "locations", "existing-entries"].some(t => t === pathnames[index - 1]) && /^\d+$/.test(part)) {
+                if (["new-entry", "locations", "existing-entries"].some(t => t === pathNames[index - 1]) && /^\d+$/.test(part)) {
                     label = locationDict[Number(part)]?.name ?? part;
                     isLast = true
                 }
                 // Если это /dates/:calendarId, используем имя из справочника
-                if (pathnames[index - 1] === "dates" && /^\d+$/.test(part)) {
+                if (pathNames[index - 1] === "dates" && /^\d+$/.test(part)) {
                     label = DateService.formatDayMonthNameYear(userDatesDict[Number(part)]?.date) ?? part;
                     isLast = true
                 }
                 // Если это /position/:positionId, используем имя из справочника
-                if (pathnames[index - 1] === "position" && /^\d+$/.test(part)) {
+                if (pathNames[index - 1] === "position" && /^\d+$/.test(part)) {
                     // console.log(part, userPositionDict)
                     label = userPositionDict[Number(part)]?.name ?? part;
                     isLast = true
