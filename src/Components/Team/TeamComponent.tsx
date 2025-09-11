@@ -1,15 +1,15 @@
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {TeamData} from "@/types";
 import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
 import {ButtonGroup, ListGroup, Spinner} from "react-bootstrap";
 import {DateService} from "@/Common/DateService";
-import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 import {AppButtons} from "@/Const/AppButtons";
 import {TelegramHelper} from "@/Common/TelegramHelper";
 import {PositionType} from "@/Const/PositionType";
 import {toast} from "react-toastify";
+import {UserCardComponent} from "@/Components/UserCard/UserCardComponent";
 
 export const TeamComponent: FC = () => {
     const [team, setTeam] = useState<TeamData>()
@@ -102,8 +102,9 @@ export const TeamComponent: FC = () => {
                                                         badgeColor={positionUsers.length === 0 ? "danger" : "success"}/>
                                 {positionUsers
                                     .map(u =>
-                                        <ScheduleUserCardComponent schedule={u}/>
-                                    )
+                                        <UserCardComponent name={u.name}
+                                                           verstId={u.verstId}
+                                                           tgLogin={u.tgUser.tgLogin}/>)
                                 }
                             </div>
                         </ListGroup.Item>

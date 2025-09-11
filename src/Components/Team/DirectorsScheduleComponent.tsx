@@ -1,10 +1,10 @@
-import {FC, useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import {DirectorScheduleData} from "@/types";
 import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
 import {Spinner} from "react-bootstrap";
 import {DateService} from "@/Common/DateService";
-import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
+import {UserCardComponent} from "../UserCard/UserCardComponent";
 import {Icons} from "@/Const/Icons";
 import {toast} from "react-toastify";
 
@@ -60,8 +60,9 @@ export const DirectorsScheduleComponent: FC = () => {
                 {dirs.length > 0 &&
                     <ul>
                         {dirs.map(d => <li key={d.id}>
-                            <ScheduleUserCardComponent schedule={d}
-                                                       user={d.tgUser}/>
+                            <UserCardComponent name={d.name}
+                                               verstId={d.verstId}
+                                               tgLogin={d.tgUser?.tgLogin}/>
                         </li>)}
                     </ul>}
             </div>

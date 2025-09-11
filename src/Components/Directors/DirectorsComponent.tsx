@@ -3,7 +3,7 @@ import {DirectorsData} from "@/types";
 import {useParams} from "react-router-dom";
 import LocationService from "../../Services/LocationService";
 import {Button, Spinner} from "react-bootstrap";
-import {ScheduleUserCardComponent} from "../UserCard/ScheduleUserCardComponent";
+import {UserCardComponent} from "../UserCard/UserCardComponent";
 import {toast} from "react-toastify";
 
 export const DirectorsComponent: FC = () => {
@@ -74,8 +74,10 @@ export const DirectorsComponent: FC = () => {
                                     let verstData = data.verstDirectors[x.tgId];
 
                                     return <li>
-                                        <ScheduleUserCardComponent user={x}
-                                                                   verstInfo={verstData}/>
+                                        <UserCardComponent
+                                            name={verstData?.full_name ?? ((x.firstName ?? "") + " " + (x.lastName ?? "")).trim()}
+                                            verstId={verstData?.id}
+                                            tgLogin={x.tgLogin}/>
                                     </li>
                                 }
                             )}
