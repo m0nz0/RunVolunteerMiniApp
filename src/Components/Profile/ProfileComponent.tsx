@@ -65,7 +65,7 @@ export const ProfileComponent: FC = () => {
             <h5>Профиль</h5>
         </p>
         <Accordion alwaysOpen={false} defaultActiveKey={"-1"}>
-            <Accordion.Item eventKey={"-1"}>
+            <Accordion.Item key={"-1"} eventKey={"-1"}>
                 <Accordion.Header>Данные в боте</Accordion.Header>
                 <Accordion.Body>
                     <div>
@@ -77,7 +77,7 @@ export const ProfileComponent: FC = () => {
                                     if (!location) {
                                         console.log(f.locationId, locationDict)
                                     }
-                                    return <li>{location.name}</li>
+                                    return <li key={location.id}>{location.name}</li>
                                 })}
                             </ul>
                         </div>
@@ -87,7 +87,7 @@ export const ProfileComponent: FC = () => {
                             <ul>
                                 {profileData?.tgUser.locationDirectors.map(f => {
                                     let location = locationDict[f.locationId]
-                                    return <li>{location.name}</li>
+                                    return <li key={location.id}>{location.name}</li>
                                 })}
                             </ul>
                         </div>
@@ -105,7 +105,7 @@ export const ProfileComponent: FC = () => {
             </Accordion.Item>
             {profileData?.tgUser.verstIds.map(value => {
                 let verstData = profileData?.allUsersDict.find(x => x.key.verstId === value.verstId)
-                return <Accordion.Item eventKey={value.verstId.toString()}>
+                return <Accordion.Item key={value.verstId.toString()} eventKey={value.verstId.toString()}>
                     <Accordion.Header>{value.isMain ? Icons.Favorite : null}&nbsp;{verstData?.value.full_name}&nbsp;
                         {value.isMain && <span className={"text-primary"}>основной аккаунт</span>}
                         {!value.isMain && <span className={"text-info"}>дополнительный аккаунт</span>}

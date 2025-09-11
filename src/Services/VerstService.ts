@@ -12,7 +12,7 @@ export default class VerstService {
         let controllerName = "website";
         let methodName = methodNames.ALL_LOCATIONS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location fetch url", fetchUrl)
+        // console.log("locations fetch url", fetchUrl)
         return await apiFetch<any>(fetchUrl, {
             method: "POST",
         })

@@ -25,7 +25,7 @@ export default class LocationService {
         locationViewType === LocationViewType.ForSchedule ? methodNames.ALL_LOCATIONS :
             methodNames.WITH_SCHEDULES_LOCATIONS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location fetch url", fetchUrl)
+        // console.log("location fetch url", fetchUrl)
 
         return apiFetch<LocationData>(fetchUrl, {
             method: "POST",
@@ -39,7 +39,7 @@ export default class LocationService {
         let controllerName = "MiniApp";
         let methodName = methodNames.ON_OFF;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location on off fetch url", fetchUrl)
+        // console.log("location on off fetch url", fetchUrl)
         await apiFetch<LocationData>(fetchUrl, {
             method: "POST",
             body: JSON.stringify({
@@ -56,7 +56,7 @@ export default class LocationService {
         let controllerName = "MiniApp";
         let methodName = methodNames.FAVORITE;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location favorite fetch url", fetchUrl)
+        // console.log("location favorite fetch url", fetchUrl)
 
         await apiFetch(fetchUrl, {
             method: "POST",
@@ -74,7 +74,7 @@ export default class LocationService {
         let controllerName = "MiniApp";
         let methodName = methodNames.DIRECTORS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location directors fetch url", fetchUrl)
+        // console.log("location directors fetch url", fetchUrl)
 
         return await apiFetch<DirectorsData>(fetchUrl, {
             method: "POST",
@@ -91,7 +91,7 @@ export default class LocationService {
         let controllerName = "MiniApp";
         let methodName = methodNames.NEW_DIRECTOR;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location new director fetch url", fetchUrl)
+        // console.log("location new director fetch url", fetchUrl)
 
         await apiFetch<DirectorsData>(fetchUrl, {
             method: "POST",

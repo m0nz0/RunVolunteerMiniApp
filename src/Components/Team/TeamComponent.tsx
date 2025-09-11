@@ -92,23 +92,23 @@ export const TeamComponent: FC = () => {
                 })
                 .map((position) => {
                     let positionUsers = team?.schedules.filter(s => s.positionId === position.id) ?? [];
-                    return <div>
-                        <ListGroup.Item
-                            as={"li"}
-                            className="d-flex justify-content-between align-items-start">
-                            <div>
-                                <NameWithBadgeComponent name={position.name}
-                                                        badgeValue={positionUsers.length}
-                                                        badgeColor={positionUsers.length === 0 ? "danger" : "success"}/>
-                                {positionUsers
-                                    .map(u =>
-                                        <UserCardComponent name={u.name}
-                                                           verstId={u.verstId}
-                                                           tgLogin={u.tgUser.tgLogin}/>)
-                                }
-                            </div>
-                        </ListGroup.Item>
-                    </div>
+                    return <ListGroup.Item
+                        key={position.id}
+                        as={"li"}
+                        className="d-flex justify-content-between align-items-start">
+                        <div>
+                            <NameWithBadgeComponent name={position.name}
+                                                    badgeValue={positionUsers.length}
+                                                    badgeColor={positionUsers.length === 0 ? "danger" : "success"}/>
+                            {positionUsers
+                                .map(u =>
+                                    <UserCardComponent key={u.id}
+                                                       name={u.name}
+                                                       verstId={u.verstId}
+                                                       tgLogin={u.tgUser.tgLogin}/>)
+                            }
+                        </div>
+                    </ListGroup.Item>
                 })
             }
             <ButtonGroup vertical className={"gap-2"}>

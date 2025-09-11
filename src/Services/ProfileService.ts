@@ -13,7 +13,7 @@ export default class ProfileService {
         let controllerName = "MiniApp";
         let methodName = methodNames.GET_PROFILE;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("location fetch url", fetchUrl)
+        // console.log("profile fetch url", fetchUrl)
 
         return await apiFetch<ProfileData>(fetchUrl, {
             method: "POST",

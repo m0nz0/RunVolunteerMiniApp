@@ -18,7 +18,7 @@ export default class PositionService {
         let controllerName = "MiniApp";
         let methodName = url.POSITIONS_FOR_SCHEDULE;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}/${locationId}/calendar/${calendarId}`;
-        console.log("position fetch url", fetchUrl)
+        // console.log("position for schedule fetch url", fetchUrl)
 
         return await apiFetch<PositionData>(fetchUrl, {
             method: "POST",
@@ -33,7 +33,7 @@ export default class PositionService {
         let controllerName = "MiniApp";
         let methodName = url.POSITION_ADMIN;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}/`;
-        console.log("position fetch url", fetchUrl)
+        // console.log("position admin fetch url", fetchUrl)
 
         return await apiFetch<PositionAdminData>(fetchUrl, {
             method: "POST",
@@ -50,7 +50,7 @@ export default class PositionService {
         let controllerName = "MiniApp";
         let methodName = url.SAVE_POSITIONS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/locations/${locationId}/${methodName}/`;
-        console.log("position fetch url", fetchUrl)
+        // console.log("save position admin fetch url", fetchUrl)
 
         await apiFetch(fetchUrl, {
             method: "POST",
@@ -65,7 +65,7 @@ export default class PositionService {
         let controllerName = "MiniApp";
         let methodName = url.ALL_POSITIONS;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
-        console.log("position fetch url", fetchUrl)
+        // console.log("all position fetch url", fetchUrl)
 
         return await apiFetch<Position[]>(fetchUrl, {
             method: "POST",

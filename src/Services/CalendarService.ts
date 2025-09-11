@@ -16,7 +16,7 @@ export default class CalendarService {
 
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DATES_FOR_SCHEDULE}/${locationId}`;
-        console.log("location dates for schedule url", fetchUrl)
+        // console.log("location dates for schedule url", fetchUrl)
         return await apiFetch<CalendarData>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
@@ -27,7 +27,7 @@ export default class CalendarService {
 
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.EXISTING_DATES}/${locationId}`;
-        console.log("location dates url", fetchUrl)
+        // console.log("location dates url", fetchUrl)
 
         return await apiFetch<ExistingDatesInfo>(fetchUrl, {
             method: "POST",
