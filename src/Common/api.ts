@@ -11,7 +11,7 @@ export async function apiFetch<T>(
             "Content-Type": "application/json",
             Accept: "application/json",
             ...(options.headers || {}),
-            ...(token ? {Authorization: `Bearer ${token}`} : {}),
+            ...(token ? {Authorization: token} : {}),
         };
 
         const response = await fetch(url, {

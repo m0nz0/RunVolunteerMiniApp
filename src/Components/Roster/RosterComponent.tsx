@@ -79,7 +79,7 @@ export const RosterComponent: FC<Props> = () => {
 
             try {
                 // шаг 1: получаем доступные локации
-                const data = (await VerstService.getAllowedLocations(token))?.result?.event_list ?? [];
+                const data = (await VerstService.getAllowedLocations())?.result?.event_list ?? [];
                 if (!isMounted) return;
 
                 // шаг 2: проверяем доступ к текущей локации
@@ -131,7 +131,8 @@ export const RosterComponent: FC<Props> = () => {
 
     const handleSave = async () => {
         try {
-            await VerstService.saveRoster(toSaveBody())
+            toast.info("Это я еще не сделал")
+            // await VerstService.saveRoster(toSaveBody())
         } catch (error) {
             console.error(error);
             toast.error("Ошибка сохранения команды в NRMS")

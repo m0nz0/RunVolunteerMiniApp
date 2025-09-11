@@ -26,7 +26,9 @@ export const AuthComponent: FC<Props> = (props) => {
         setPassVisible(!isPassVisible)
     }
 
-    const singClick = async () => {
+    const singClick = async (e: React.FormEvent) => {
+
+        e.preventDefault()
 
         if (props.loginType === LoginType.MainAccount ||
             props.loginType === LoginType.AdditionalAccount) {
@@ -103,36 +105,9 @@ export const AuthComponent: FC<Props> = (props) => {
                 }
             })
     }
-//
-// // авторизация Verst и отправка данных обратно в бота
-// const authVerstAndSendDataBackToBot = (login: string, pass: string, version: Version) => {
-//     let body = {username: 'A' + login, password: pass}
-//
-//     console.log('Verst link button. Verst auth start')
-//
-//     let baseUrl = import.meta.env.VITE_BASE_URL;
-//     fetch(`${baseUrl}${import.meta.env.VITE_VERST_AUTH_URL}`, {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify(body)
-//     })
-//         .then(res => res.json())
-//         .then(resLogin => {
-//
-//             console.log('Verst link button. Verst auth success')
-//
-//             if (!resLogin.errorMessage) {
-//                 console.log('Verst link button. Verst send data back to bot')
-//                 tg.sendData(JSON.stringify({token: resLogin.result.token}))
-//                 tg.close()
-//             } else {
-//                 tg.showAlert(resLogin.errorMessage);
-//             }
-//         })
-// }
-
     return (
-        <div className="SignInScreen_wrapper">
+        <div className="SignInScreen_wrapper"
+        onSubmit={singClick}>
             <main>
                 <div className="SignInScreen_logo" id="header"
                      style={{backgroundColor: getPageParams().headerColor}}>
