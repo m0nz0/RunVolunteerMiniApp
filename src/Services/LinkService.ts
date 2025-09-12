@@ -14,7 +14,7 @@ export default class LinkService {
 
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.LINK}`;
-        console.log("link url", fetchUrl)
+        // console.log("link url", fetchUrl)
 
         await apiFetch(fetchUrl, {
             method: "POST",
@@ -29,7 +29,7 @@ export default class LinkService {
 
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.UNLINK}`;
-        console.log("unlink url", fetchUrl)
+        // console.log("unlink url", fetchUrl)
 
         return await apiFetch(fetchUrl, {
             method: "POST",

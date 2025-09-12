@@ -74,9 +74,7 @@ export const ProfileComponent: FC = () => {
                             <ul>
                                 {profileData?.tgUser.favoriteLocations.map(f => {
                                     let location = locationDict[f.locationId]
-                                    if (!location) {
-                                        console.log(f.locationId, locationDict)
-                                    }
+
                                     return <li key={location.id}>{location.name}</li>
                                 })}
                             </ul>

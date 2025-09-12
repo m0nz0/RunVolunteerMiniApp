@@ -16,7 +16,7 @@ export default class NameInputService {
 
         let userId = TelegramHelper.getUser()?.id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}/${locationId}/calendar/${calendarId}`;
-        console.log("for name input url", fetchUrl)
+        // console.log("for name input url", fetchUrl)
 
         return await apiFetch<OnInputNameData>(fetchUrl, {
             method: "POST",
@@ -27,7 +27,7 @@ export default class NameInputService {
     static async saveNewItem(body: SaveData): Promise<void> {
 
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.SAVE}`;
-        console.log("save item url", fetchUrl)
+        // console.log("save item url", fetchUrl)
 
         await apiFetch(fetchUrl, {
             method: "POST",

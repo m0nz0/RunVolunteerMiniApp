@@ -38,7 +38,7 @@ export const AuthComponent: FC<Props> = (props) => {
                 })
         } else if (props.loginType === LoginType.Nrms) {
             let token = await loginNrms(login, password);
-            console.log("NRMS login: ", token)
+
             if (token && locationId && calendarId) {
                 navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`);
             }
@@ -65,10 +65,11 @@ export const AuthComponent: FC<Props> = (props) => {
 
         console.log('Verst link. Verst auth start')
         let verstAuthUrl = import.meta.env.VITE_VERST_AUTH_URL;
-        console.log(verstAuthUrl)
         let baseUrl = import.meta.env.VITE_BASE_URL;
-        console.log(baseUrl)
-        await fetch(`${baseUrl}${verstAuthUrl}`, {
+        let authLinkUrl = `${baseUrl}${verstAuthUrl}`
+        // console.log("authLinkUrl: ", authLinkUrl)
+
+        await fetch(authLinkUrl, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(body)
@@ -107,7 +108,7 @@ export const AuthComponent: FC<Props> = (props) => {
     }
     return (
         <div className="SignInScreen_wrapper"
-        onSubmit={singClick}>
+             onSubmit={singClick}>
             <main>
                 <div className="SignInScreen_logo" id="header"
                      style={{backgroundColor: getPageParams().headerColor}}>

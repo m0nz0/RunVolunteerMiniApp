@@ -52,7 +52,7 @@ const BreadcrumbsComponent: React.FC = () => {
                 }
                 // Если это /position/:positionId, используем имя из справочника
                 if (pathNames[index - 1] === "position" && /^\d+$/.test(part)) {
-                    // console.log(part, userPositionDict)
+
                     label = userPositionDict[Number(part)]?.name ?? part;
                     isLast = true
                 }
