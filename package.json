@@ -21,10 +21,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "cpy dist/index.html dist --rename=404.html",
+    "postbuild": "powershell -Command \"Copy-Item -Path dist\\index.html -Destination dist\\404.html -Force\""
     "preview": "vite preview --port 4173",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
   },
   "eslintConfig": {
     "extends": [
