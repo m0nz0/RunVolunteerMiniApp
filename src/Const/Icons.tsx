@@ -34,6 +34,7 @@ export const Icons = {
     EyeOpen: <FontAwesomeIcon icon={faEye}/>,
     EyeClose: <FontAwesomeIcon icon={faEyeSlash}/>,
     ArrowUp: <FontAwesomeIcon icon={faArrowUp}/>,
+    ArrowUpLimeGreen: <FontAwesomeIcon icon={faArrowUp} style={{color:"limegreen"}}/>,
     ArrowDown: <FontAwesomeIcon icon={faArrowDown}/>,
     ArrowUpDown: <FontAwesomeIcon icon={faArrowsUpDown}/>,
     RedCross: <FontAwesomeIcon icon={faXmark} style={{color: "red"}}/>,

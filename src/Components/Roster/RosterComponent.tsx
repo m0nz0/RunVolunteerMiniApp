@@ -54,7 +54,7 @@ export const RosterComponent: FC<Props> = () => {
     const toSaveBody = () => {
         return {
             event_id: locationId,
-            toLocalDate: DateService.formatDMY(roster?.date?.date ?? ""),
+            date: DateService.formatDMY(roster?.date?.date ?? ""),
             upload_status_id: 1,
             volunteers: selected.map(x => ({
                     verst_id: x.verstId,
@@ -144,15 +144,17 @@ export const RosterComponent: FC<Props> = () => {
                 <h5>Предварительные данные по записям в волонтеры
                     от {DateService.formatDayMonthNameYear(roster.date.date)} для локации {roster.location.name}</h5>
             </p>
+            <div style={{"display": "flex", "justifySelf": "center"}}>
+                <span style={{"paddingRight": "16px"}}>{Icons.ArrowUpLimeGreen} - есть в боте</span>
+                <span style={{"paddingRight": "16px"}}>{Icons.ArrowDown} - уже в NRMS</span>
+                <span>{Icons.RedCross} - не идентифицирован</span>
+            </div>
             <div>
-                <Table>
+                <Table bordered>
                     <thead>
                     <tr>
                         <th>Позиция</th>
                         <th>Имя</th>
-                        <th>Бот</th>
-                        <th>Уже в NRMS</th>
-                        <th>Готов к загрузке</th>
                         <th>Выгружать в NRMS</th>
                     </tr>
                     </thead>
@@ -169,10 +171,7 @@ export const RosterComponent: FC<Props> = () => {
                                 {idx == 0 &&
                                     <td style={{"verticalAlign": "middle"}}
                                         rowSpan={usersCount}>{position?.name}</td>}
-                                <td>{volunteerName}</td>
-                                <td style={{"textAlign": "center"}}>{volunteerData.inBot && Icons.CheckGreen}</td>
-                                <td style={{"textAlign": "center"}}>{volunteerData.inNrms && Icons.CheckGreen}</td>
-                                <td style={{"textAlign": "center"}}>{volunteerData.action == NrmsAction.Skip && Icons.RedCross}</td>
+                                <td><span style={{"textWrap":"nowrap"}}>{volunteerName} {volunteerData.inBot && Icons.ArrowUpLimeGreen}{volunteerData.inNrms && Icons.ArrowDown}{volunteerData.action == NrmsAction.Skip && Icons.RedCross}</span></td>
                                 <td style={{"textAlign": "center"}}>
                                     {volunteerData.action !== NrmsAction.Skip &&
                                         <Form.Check type={"switch"}
