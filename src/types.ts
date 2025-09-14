@@ -136,8 +136,15 @@ export interface TeamData {
     positions: Position[],
     date: CalendarInfo,
     hasOtherLocations: boolean,
-    verstAthlete: VerstAthlete
+    verstAthlete: VerstAthlete,
+    pollParameters: PollParameters
 
+}
+
+export interface PollParameters {
+    initiatorId?: number;
+    canCreate: boolean;
+    canUndo: boolean;
 }
 
 export interface OnInputNameData {

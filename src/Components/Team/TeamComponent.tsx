@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from "react";
 import {TeamData} from "@/types";
 import {useParams} from "react-router-dom";
 import TeamService from "../../Services/TeamService";
-import {ButtonGroup, ListGroup, Spinner} from "react-bootstrap";
+import {Button, ButtonGroup, ListGroup, Spinner} from "react-bootstrap";
 import {DateService} from "@/Common/DateService";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 import {AppButtons} from "@/Const/AppButtons";
@@ -60,6 +60,17 @@ export const TeamComponent: FC = () => {
 
     let canTrySaveNrms = team?.verstAthlete?.id != null
 
+    const startPoll = async () => {
+        try {
+            await TeamService.startPoll(team?.pollParameters?.initiatorId)
+                .then(() => toast.success("Перекличка запущена. Следите за результатами в боте", {
+                    onClose: () => window.location.reload()
+                }))
+        } catch (err) {
+            toast.error("Ошибка при запуске переклички.")
+        }
+    }
+
     return <div>
         <p className={"text-center"}>
             <h5>
@@ -113,6 +124,9 @@ export const TeamComponent: FC = () => {
             }
             <ButtonGroup vertical className={"gap-2"}>
                 {canSchedule && AppButtons.ToPositionFromTeam(Number(locationId), Number(calendarId))}
+                {team?.pollParameters.canCreate && <Button variant={"info"}
+                                                           size={"sm"}
+                                                           onClick={() => startPoll()}>Запустить перекличку</Button>}
                 {canTrySaveNrms && AppButtons.AuthNrms(Number(locationId), Number(calendarId))}
             </ButtonGroup>
         </ListGroup>

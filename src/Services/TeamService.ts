@@ -9,15 +9,16 @@ const methodNames = {
     GET_MY_SCHEDULES: "my-schedules",
     UNDO: "undo-schedule",
     DIRECTOR_SCHEDULES: "director-schedule",
+    CREATE_POLL: "create-poll",
 }
-const baseUrl: string | undefined = import.meta.env.VITE_BOT_URL;
+const botUrl: string | undefined = import.meta.env.VITE_BOT_URL;
 
 export default class TeamService {
 
     static async getTeam(locationId: number, calendarId: number): Promise<TeamData> {
 
         let userId = TelegramHelper.getUser()?.id;
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_TEAM_URL}/${locationId}/calendar/${calendarId}`;
+        let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.GET_TEAM_URL}/${locationId}/calendar/${calendarId}`;
         // console.log("get team for schedule url", fetchUrl)
 
         return await apiFetch<TeamData>(fetchUrl, {
@@ -29,7 +30,7 @@ export default class TeamService {
     static async getMySchedules(): Promise<Team[]> {
 
         let userId = TelegramHelper.getUser()?.id;
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.GET_MY_SCHEDULES}`;
+        let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.GET_MY_SCHEDULES}`;
         // console.log("get my schedules url", fetchUrl)
 
         return await apiFetch<Team[]>(fetchUrl, {
@@ -41,7 +42,7 @@ export default class TeamService {
     static async getDirectorSchedule(locationId: number): Promise<DirectorScheduleData> {
 
         let userId = TelegramHelper.getUser()?.id;
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.DIRECTOR_SCHEDULES}`;
+        let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.DIRECTOR_SCHEDULES}`;
         // console.log("get directors schedule url", fetchUrl)
 
         return await apiFetch<DirectorScheduleData>(fetchUrl, {
@@ -55,12 +56,25 @@ export default class TeamService {
 
     static async undoSchedule(scheduleId: number): Promise<Team> {
 
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.UNDO}`;
+        let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.UNDO}`;
         // console.log("undo schedule url", fetchUrl)
 
         return await apiFetch<Team>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(scheduleId),
+        })
+    }
+
+    static async startPoll(initiatorId?: number) {
+        let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.CREATE_POLL}`;
+        // console.log("start poll url", fetchUrl)
+
+        return await apiFetch<Team>(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify({
+                tg: TelegramHelper.getUser()?.id,
+                s: initiatorId
+            }),
         })
     }
 }
