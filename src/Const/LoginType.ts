@@ -1,7 +1,7 @@
 export enum LoginType {
-    MainAccount = 1,
-    AdditionalAccount = 2,
-    Nrms = 3,
+    MainAccount = "MainAccount",
+    AdditionalAccount = "AdditionalAccount",
+    Nrms = "Nrms",
 }
 
 export const LoginTypeDict:

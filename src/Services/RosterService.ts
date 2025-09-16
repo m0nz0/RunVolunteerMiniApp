@@ -7,7 +7,7 @@ const methodNames = {
 }
 export default class RosterService {
 
-    static async getComparedRoster(token: string, locationId: number, calendarId: number): Promise<RosterCompareData> {
+    static async getComparedRoster(token: string | null, locationId: number, calendarId: number): Promise<RosterCompareData> {
 
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";

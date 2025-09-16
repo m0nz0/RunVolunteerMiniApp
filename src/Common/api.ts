@@ -1,11 +1,21 @@
-import {toast} from "react-toastify";
+import {LoginType} from "@/Const/LoginType";
 
 export async function apiFetch<T>(
     url: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
+    resource?: LoginType
 ): Promise<T> {
     try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem(`${resource}_token`);
+
+        const fixedPath=()=>{
+            const basename="/test"
+            let path = window.location.pathname + window.location.search;
+            if (path.startsWith(basename)) {
+                path = path.slice(basename.length);
+            }
+            return path;
+        }
 
         const headers: HeadersInit = {
             "Content-Type": "application/json",
@@ -21,9 +31,19 @@ export async function apiFetch<T>(
 
         if (response.status === 401) {
             localStorage.removeItem("token");
-            toast.error("Сессия истекла, войдите снова");
-            // window.location.href = "/login";
-            throw new Error("Unauthorized");
+
+            // toast.error("Сессия истекла, войдите снова");
+
+            localStorage.setItem(
+                "redirectAfterLogin",
+                JSON.stringify({
+                    resource,
+                    path: fixedPath(),
+                }))
+
+            window.location.href = `/test/login-nrms?loginType=${resource}`;
+            // throw new Error("Unauthorized");
+            return Promise.reject(new Error("Unauthorized"));
         }
 
         if (!response.ok) {

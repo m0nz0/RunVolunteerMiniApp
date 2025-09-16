@@ -1,5 +1,6 @@
 import {apiFetch} from "@/Common/api";
 import {RosterLocationResponse} from "@/types";
+import {LoginType} from "@/Const/LoginType";
 
 const methodNames = {
     ALL_LOCATIONS: "event/list",
@@ -38,8 +39,9 @@ export default class VerstService {
         let fetchUrl = `${baseUrl}${authUrl}`
 
         return await apiFetch<RosterLocationResponse>(fetchUrl, {
-            method: 'POST',
-        })
+                method: 'POST',
+            },
+            LoginType.Nrms)
     }
 
     static async saveRoster(saveData: any): Promise<void> {
@@ -49,8 +51,9 @@ export default class VerstService {
         let fetchUrl = `${baseUrl}${saveUrl}`
 
         return await apiFetch(fetchUrl, {
-            method: 'POST',
-            body: JSON.stringify(saveData)
-        })
+                method: 'POST',
+                body: JSON.stringify(saveData)
+            },
+            LoginType.Nrms)
     }
 }

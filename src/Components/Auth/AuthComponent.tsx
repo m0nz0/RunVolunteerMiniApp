@@ -18,7 +18,7 @@ export const AuthComponent: FC<Props> = (props) => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const {locationId, calendarId} = useParams();
-    const {loginNrms} = useAuth();
+    const {loginNrms} = useAuth(props.loginType);
 
     const navigate = useNavigate();
 
@@ -37,11 +37,12 @@ export const AuthComponent: FC<Props> = (props) => {
                     navigate("/profile");
                 })
         } else if (props.loginType === LoginType.Nrms) {
-            let token = await loginNrms(login, password);
+            /*let token =*/
+            await loginNrms(login, password);
 
-            if (token && locationId && calendarId) {
-                navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`);
-            }
+            // if (token && locationId && calendarId) {
+            //     navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`);
+            // }
         }
     }
 

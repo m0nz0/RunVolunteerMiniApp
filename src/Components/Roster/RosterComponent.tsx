@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import VerstService from "../../Services/VerstService";
 import {Button, Container, Form, Spinner, Table} from "react-bootstrap";
 import {toast} from "react-toastify";
@@ -10,6 +10,7 @@ import {Icons} from "@/Const/Icons";
 import {NrmsAction} from "@/Const/Source";
 import {useAuth} from "@/Common/useAuth";
 import './styles.css'
+import {LoginType} from "@/Const/LoginType";
 
 interface Props {
 }
@@ -24,7 +25,8 @@ export const RosterComponent: FC<Props> = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [roster, setRoster] = useState<RosterCompareData>()
     const {locationId, calendarId} = useParams();
-    const {token} = useAuth();
+    const {token} = useAuth(LoginType.Nrms);
+    const location=useLocation()
 
     const [selected, setSelected] = useState<SelectedItem[]>([])
 
@@ -67,14 +69,13 @@ export const RosterComponent: FC<Props> = () => {
     useEffect(() => {
         let isMounted = true;
 
-
         const loadData = async () => {
 
             if (!token) {
                 console.log("no token")
-                toast.error("Вы не авторизовались в NRMS или ваш сеанс истёк, пожалуйста, авторизуйтесь снова");
+                // toast.error("Вы не авторизовались в NRMS или ваш сеанс истёк, пожалуйста, авторизуйтесь снова");
                 setLoading(false);
-                return;
+                // return;
             }
 
             try {
@@ -171,7 +172,9 @@ export const RosterComponent: FC<Props> = () => {
                                 {idx == 0 &&
                                     <td style={{"verticalAlign": "middle"}}
                                         rowSpan={usersCount}>{position?.name}</td>}
-                                <td><span style={{"textWrap":"nowrap"}}>{volunteerName} {volunteerData.inBot && Icons.ArrowUpLimeGreen}{volunteerData.inNrms && Icons.ArrowDown}{volunteerData.action == NrmsAction.Skip && Icons.RedCross}</span></td>
+                                <td><span
+                                    style={{"textWrap": "nowrap"}}>{volunteerName} {volunteerData.inBot && Icons.ArrowUpLimeGreen}{volunteerData.inNrms && Icons.ArrowDown}{volunteerData.action == NrmsAction.Skip && Icons.RedCross}</span>
+                                </td>
                                 <td style={{"textAlign": "center"}}>
                                     {volunteerData.action !== NrmsAction.Skip &&
                                         <Form.Check type={"switch"}
