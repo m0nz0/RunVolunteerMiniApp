@@ -10,12 +10,14 @@ import {TelegramHelper} from "@/Common/TelegramHelper";
 import {PositionType} from "@/Const/PositionType";
 import {toast} from "react-toastify";
 import {UserCardComponent} from "@/Components/UserCard/UserCardComponent";
+import {useUserContext} from "@/Common/Context/UserContext";
 
 export const TeamComponent: FC = () => {
     const [team, setTeam] = useState<TeamData>()
     const [loading, setLoading] = useState<boolean>(true);
-
+    const {updateUserDates} = useUserContext();
     const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
+    const [canDelete, setCanDelete] = useState<boolean>(false);
 
     useEffect(() => {
             let isMounted = true;
@@ -24,6 +26,9 @@ export const TeamComponent: FC = () => {
                 try {
                     let data = await TeamService.getTeam(Number(locationId), Number(calendarId))
                     setTeam(data)
+                    updateUserDates([data.date])
+
+                    setCanDelete(team?.schedules.some(x => x.tgUserId == TelegramHelper.getUser()?.id && x.positionId == 1) ?? false)
                 } catch (err) {
                     if (isMounted) {
                         console.error(err)
@@ -71,6 +76,16 @@ export const TeamComponent: FC = () => {
         }
     }
 
+    const deleteItem = async (scheduleId: number) => {
+
+        try {
+            await TeamService.undoSchedule(scheduleId)
+            toast.success("Запись удалена", {onClose: () => window.location.reload()});
+        } catch (error) {
+            console.error("Ошибка удаления записи")
+        }
+    }
+
     return <div>
         <p className={"text-center"}>
             <h5>
@@ -106,17 +121,25 @@ export const TeamComponent: FC = () => {
                     return <ListGroup.Item
                         key={position.id}
                         as={"li"}
-                        className="d-flex justify-content-between align-items-start">
+                        className="justify-content-between">
                         <div>
                             <NameWithBadgeComponent name={position.name}
                                                     badgeValue={positionUsers.length}
                                                     badgeColor={positionUsers.length === 0 ? "danger" : "success"}/>
                             {positionUsers
-                                .map(u =>
-                                    <UserCardComponent key={u.id}
-                                                       name={u.name}
-                                                       verstId={u.verstId}
-                                                       tgLogin={u.tgUser.tgLogin}/>)
+                                .map(u => {
+                                    return <div style={{"display": "flex", "alignItems": "baseline"}}>
+                                        <UserCardComponent key={u.id}
+                                                           name={u.name}
+                                                           verstId={u.verstId}
+                                                           tgLogin={u.tgUser.tgLogin}/>
+                                        {canDelete && <Button variant={"danger"}
+                                                              className={"py-1"}
+                                                              onClick={async () => {
+                                                                  await deleteItem(u.id)
+                                                              }}>Удалить</Button>}
+                                    </div>;
+                                })
                             }
                         </div>
                     </ListGroup.Item>
