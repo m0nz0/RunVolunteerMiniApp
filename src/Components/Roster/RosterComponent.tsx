@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import VerstService from "../../Services/VerstService";
-import {Button, Container, Form, Spinner, Table} from "react-bootstrap";
+import {Button, Form, Spinner, Table} from "react-bootstrap";
 import {toast} from "react-toastify";
 import RosterService from "@/Services/RosterService";
 import {RosterCompareData} from "@/types";
@@ -26,7 +26,6 @@ export const RosterComponent: FC<Props> = () => {
     const [roster, setRoster] = useState<RosterCompareData>()
     const {locationId, calendarId} = useParams();
     const {token} = useAuth(LoginType.Nrms);
-    const location=useLocation()
 
     const [selected, setSelected] = useState<SelectedItem[]>([])
 
@@ -140,7 +139,7 @@ export const RosterComponent: FC<Props> = () => {
         }
     }
 
-    return ((roster && roster.data && roster.date) && <Container>
+    return ((roster && roster.data && roster.date) && <div>
             <p className={"text-center"}>
                 <h5>Предварительные данные по записям в волонтеры
                     от {DateService.formatDayMonthNameYear(roster.date.date)} для локации {roster.location.name}</h5>
@@ -193,6 +192,6 @@ export const RosterComponent: FC<Props> = () => {
                     <Button variant={"info"} onClick={handleSave} size={"sm"}>Сохранить в NRMS</Button>}
             </div>
             <pre>{JSON.stringify(toSaveBody(), null, 2)}</pre>
-        </Container>
+        </div>
     )
 }
