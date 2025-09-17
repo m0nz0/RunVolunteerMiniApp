@@ -49,7 +49,6 @@ export const PositionComponent: FC = () => {
         );
     }
 
-
     return (
         positionData && <div>
             <p className={"text-center"}>

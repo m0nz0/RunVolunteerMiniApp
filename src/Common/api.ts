@@ -9,7 +9,7 @@ export async function apiFetch<T>(
         const token = localStorage.getItem(`${resource}_token`);
 
         const fixedPath=()=>{
-            const basename="/test"
+            const basename="/RunVolunteerMiniApp"
             let path = window.location.pathname + window.location.search;
             if (path.startsWith(basename)) {
                 path = path.slice(basename.length);
@@ -41,7 +41,7 @@ export async function apiFetch<T>(
                     path: fixedPath(),
                 }))
 
-            window.location.href = `/test/login-nrms?loginType=${resource}`;
+            window.location.href = `/RunVolunteerMiniApp/login-nrms?loginType=${resource}`;
             // throw new Error("Unauthorized");
             return Promise.reject(new Error("Unauthorized"));
         }

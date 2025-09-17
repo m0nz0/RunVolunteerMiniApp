@@ -22,7 +22,7 @@ export const App: React.FC = () => {
         <GlobalProvider>
             <UserProvider>
                 <Container>
-                    <BrowserRouter basename="/test">
+                    <BrowserRouter basename="/RunVolunteerMiniApp">
                         <BreadcrumbsComponent/>
                         <AppRouter/>
                         <ToastContainer
