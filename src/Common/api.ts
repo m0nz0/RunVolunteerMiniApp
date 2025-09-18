@@ -8,8 +8,8 @@ export async function apiFetch<T>(
     try {
         const token = localStorage.getItem(`${resource}_token`.toLowerCase());
 
-        const fixedPath=()=>{
-            const basename="/RunVolunteerMiniApp"
+        const fixedPath = () => {
+            const basename = "/RunVolunteerMiniApp"
             let path = window.location.pathname + window.location.search;
             if (path.startsWith(basename)) {
                 path = path.slice(basename.length);
