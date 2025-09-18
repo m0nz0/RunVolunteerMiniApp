@@ -66,16 +66,17 @@ export const LocationCardFooter: FC<Props> = (props) => {
             </div>
         </Dropdown.Item>)
 
-        if (props.user.isAdmin) {
-
-            addonList.push(<Dropdown.Divider/>)
-            addonList.push(<Dropdown.Item as={"div"}>
-                <div className={"w-100"}
-                     onClick={() => handleOnOffClick()}
-                >{props.location.botActive ? "Отключить" : "Включить"} в боте
-                </div>
-            </Dropdown.Item>)
+    }
+    if (props.user.isAdmin) {
+        {
+            addonList.length > 0 && addonList.push(<Dropdown.Divider/>)
         }
+        addonList.push(<Dropdown.Item as={"div"}>
+            <div className={"w-100"}
+                 onClick={() => handleOnOffClick()}
+            >{props.location.botActive ? "Отключить" : "Включить"} в боте
+            </div>
+        </Dropdown.Item>)
     }
 
     if (toast) {
