@@ -2,7 +2,7 @@
   "name": "RunVolunteerMiniApp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://m0nz0.github.io/test",
+  "homepage": "https://m0nz0.github.io/RunVolunteerMiniApp",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
     "@fortawesome/free-brands-svg-icons": "^7.0.1",
