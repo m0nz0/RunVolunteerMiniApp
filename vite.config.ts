@@ -4,7 +4,7 @@ import * as path from "path";
 
 export default defineConfig({
     plugins: [react()],
-    base: "/test/", // 👈 имя репозитория GitHub Pages
+    base: "/RunVolunteerMiniApp/", // 👈 имя репозитория GitHub Pages
     server: {
         port: 3000,
         // proxy для бэка, если нужно:
