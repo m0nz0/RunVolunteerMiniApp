@@ -4,7 +4,7 @@ import {Button, Form, InputGroup} from "react-bootstrap";
 import {Icons} from "@/Const/Icons";
 import {LoginType, LoginTypeDict} from "@/Const/LoginType";
 import {TelegramHelper} from "@/Common/TelegramHelper";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useAuth} from "@/Common/useAuth";
 
 type Props = {
@@ -17,7 +17,6 @@ export const AuthComponent: FC<Props> = (props) => {
     const [isPassVisible, setPassVisible] = useState(false);
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
-    const {locationId, calendarId} = useParams();
     const {loginNrms} = useAuth(props.loginType);
 
     const navigate = useNavigate();
@@ -37,12 +36,7 @@ export const AuthComponent: FC<Props> = (props) => {
                     navigate("/profile");
                 })
         } else if (props.loginType === LoginType.Nrms) {
-            /*let token =*/
             await loginNrms(login, password);
-
-            // if (token && locationId && calendarId) {
-            //     navigate(`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`);
-            // }
         }
     }
 

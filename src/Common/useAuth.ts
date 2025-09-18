@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 
 export function useAuth(resource: LoginType) {
     const [token, setToken] = useState<string | null>(
-        () => localStorage.getItem(`${resource}_token`)
+        () => localStorage.getItem(`${resource}_token`.toLowerCase())
     );
 
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export function useAuth(resource: LoginType) {
     // синхронизация state <-> localStorage
     useEffect(() => {
         if (token) {
-            localStorage.setItem(`${resource}_token`, token);
+            localStorage.setItem(`${resource}_token`.toLowerCase(), token);
         } else {
         }
     }, [token, resource]);

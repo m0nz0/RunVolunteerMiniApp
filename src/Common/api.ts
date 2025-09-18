@@ -6,7 +6,7 @@ export async function apiFetch<T>(
     resource?: LoginType
 ): Promise<T> {
     try {
-        const token = localStorage.getItem(`${resource}_token`);
+        const token = localStorage.getItem(`${resource}_token`.toLowerCase());
 
         const fixedPath=()=>{
             const basename="/RunVolunteerMiniApp"

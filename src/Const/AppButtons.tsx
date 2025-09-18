@@ -134,7 +134,7 @@ export const AppButtons = {
     // )
     AuthNrms: (locationId: number, calendarId: number) => (
         <AppButton
-            to={`/existing-entries/${locationId}/dates/${calendarId}/team/auth-roster`}
+            to={`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`}
             label={"Сохранить в NRMS"}
             variant={"secondary"}
         />

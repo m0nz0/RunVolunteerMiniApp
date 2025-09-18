@@ -11,6 +11,7 @@ import {NrmsAction} from "@/Const/Source";
 import {useAuth} from "@/Common/useAuth";
 import './styles.css'
 import {LoginType} from "@/Const/LoginType";
+import {useUserContext} from "@/Common/Context/UserContext";
 
 interface Props {
 }
@@ -26,6 +27,7 @@ export const RosterComponent: FC<Props> = () => {
     const [roster, setRoster] = useState<RosterCompareData>()
     const {locationId, calendarId} = useParams();
     const {token} = useAuth(LoginType.Nrms);
+    const {updateUserDates} = useUserContext()
 
     const [selected, setSelected] = useState<SelectedItem[]>([])
 
@@ -103,6 +105,7 @@ export const RosterComponent: FC<Props> = () => {
                     return;
                 }
                 setRoster(roster);
+                updateUserDates([roster.date])
 
             } catch (err) {
                 toast.error((err as Error).message);
@@ -131,8 +134,17 @@ export const RosterComponent: FC<Props> = () => {
 
     const handleSave = async () => {
         try {
-            toast.info("Это я еще не сделал")
-            // await VerstService.saveRoster(toSaveBody())
+            await VerstService.saveRoster(toSaveBody())
+                .then(value => {
+                    toast.success(<div>
+                        <p>Команда сохранена</p>
+                        <span>Сейчас я вас переадресую в NRMS для финальной проверки и выгрузки данных на сайт</span>
+                    </div>, {
+                        onClose: () => {
+                            window.open(`${import.meta.env.VITE_BASE_URL}/#/volunteers`, "_self")
+                        }
+                    })
+                })
         } catch (error) {
             console.error(error);
             toast.error("Ошибка сохранения команды в NRMS")
@@ -167,12 +179,14 @@ export const RosterComponent: FC<Props> = () => {
                         const users = Object.entries(data);
                         let usersCount = users.length
                         return users.map(([volunteerName, volunteerData], idx) => {
-                            return <tr>
+                            return <tr key={position.id + "-" + volunteerName}>
                                 {idx == 0 &&
                                     <td style={{"verticalAlign": "middle"}}
                                         rowSpan={usersCount}>{position?.name}</td>}
-                                <td><span
-                                    style={{"textWrap": "nowrap"}}>{volunteerName} {volunteerData.inBot && Icons.ArrowUpLimeGreen}{volunteerData.inNrms && Icons.ArrowDown}{volunteerData.action == NrmsAction.Skip && Icons.RedCross}</span>
+                                <td>
+                                    <span style={{"textWrap": "nowrap"}}>
+                                        {volunteerName} {volunteerData.inBot && Icons.ArrowUpLimeGreen}{volunteerData.inNrms && Icons.ArrowDown}{volunteerData.action == NrmsAction.Skip && Icons.RedCross}
+                                    </span>
                                 </td>
                                 <td style={{"textAlign": "center"}}>
                                     {volunteerData.action !== NrmsAction.Skip &&
@@ -191,7 +205,7 @@ export const RosterComponent: FC<Props> = () => {
                 {selected.length > 0 &&
                     <Button variant={"info"} onClick={handleSave} size={"sm"}>Сохранить в NRMS</Button>}
             </div>
-            <pre>{JSON.stringify(toSaveBody(), null, 2)}</pre>
+            {/*<pre>{JSON.stringify(toSaveBody(), null, 2)}</pre>*/}
         </div>
     )
 }
