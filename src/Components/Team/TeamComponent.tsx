@@ -190,7 +190,7 @@ export const TeamComponent: FC = () => {
                             }
                             {(x.subPositions ?? []).map((sp) =>
                                 <div key={x.position.id + "-" + sp.position.id}
-                                     style={{"paddingLeft": "20px", "paddingTop": "5px"}}>
+                                     style={{"marginLeft": "8px", "paddingTop": "5px"}}>
                                     <NameWithBadgeComponent name={sp.position.name}
                                                             badgeValue={sp?.users?.length}
                                                             badgeColor={sp?.users?.length === 0 ? "danger" : "success"}/>
@@ -200,7 +200,7 @@ export const TeamComponent: FC = () => {
                                                         style={{
                                                             "display": "flex",
                                                             "alignItems": "baseline",
-                                                            "paddingLeft": "20px"
+                                                            "marginLeft": "8px"
                                                         }}>
                                                 <UserCardComponent key={u.id}
                                                                    name={u.name}
