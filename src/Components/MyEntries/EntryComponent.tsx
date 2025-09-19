@@ -19,7 +19,7 @@ export const EntryComponent: FC<Props> = (props: any) => {
                     <p className={"text-center"}>
                         Ваша запись в волонтёры
                         локации {item.location.name} на {DateService.formatDayMonthNameYear(item.calendar.date)} на
-                        позицию {item.position.name} отменена<br/>Очень жаль.<br/>Увидимся в следующий раз";
+                        позицию {item.position.name} отменена<br/>Очень жаль.<br/>Увидимся в следующий раз"
                     </p>
                     , {onClose: () => window.location.reload()})
             })
