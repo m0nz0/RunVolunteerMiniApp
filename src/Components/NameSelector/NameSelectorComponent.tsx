@@ -6,10 +6,11 @@ import NameInputService from "../../Services/NameInputService";
 import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from "@/types";
 import {DateService} from "@/Common/DateService";
 import {Icons} from "@/Const/Icons";
-import {TelegramHelper} from "@/Common/TelegramHelper";
 import {toast} from "react-toastify";
 import {RouteHelper} from "@/Common/RouteHelper";
 import {RouteCode} from "@/routes";
+import {getTelegramUser} from "@/Common/TelegramHelper";
+import {useUserContext} from "@/Common/Context/UserContext";
 
 interface Props {
 }
@@ -38,6 +39,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     }>();
 
     const {locationDict, positionDict} = useGlobalContext()
+    const {updateUserDates} = useUserContext();
 
     let position = positionDict[Number(positionId)];
     let location = locationDict[Number(locationId)];
@@ -50,6 +52,8 @@ export const NameSelectorComponent: FC<Props> = () => {
                     let data = await NameInputService.getDataForNameInput(Number(locationId), Number(calendarId))
                     setData(data)
                     setDefault(data?.allUsersDict ?? []);
+                    updateUserDates([data.date])
+
                 } catch (err) {
                     if (isMounted) {
                         if (isMounted) {
@@ -99,6 +103,7 @@ export const NameSelectorComponent: FC<Props> = () => {
         const hasMain = p.some(x => x.key.isMain)
         setSelected(hasMain ? "Main" : hasAdditional ? "Additional" : "Other")
     }
+    let userId = getTelegramUser().id;
 
     const saveAsId = async (id: number) => {
         let body: SaveData = {
@@ -106,34 +111,37 @@ export const NameSelectorComponent: FC<Props> = () => {
             locationId: Number(locationId),
             calendarId: Number(calendarId),
             positionId: Number(positionId),
-            tgId: TelegramHelper.getUser().id
+            tgId: userId
         };
-        try {
-            await NameInputService.saveNewItem(body);
-            toast.success("Большое спасибо, что вы записались в волонтёры.", {
-                onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
+        await NameInputService.saveNewItem(body)
+            .then(value => toast.success("Большое спасибо, что вы записались в волонтёры.", {
+                    onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
+                })
+            ).catch(reason => {
+                console.log(reason)
+                toast.error("Не удалось сохранить данные по id");
             })
-        } catch (err) {
-            toast.error("Не удалось сохранить данные по id")
-        }
     }
+
     const saveAsName = async () => {
         let body: SaveData = {
             name: otherName,
             locationId: Number(locationId),
             calendarId: Number(calendarId),
             positionId: Number(positionId),
-            tgId: TelegramHelper.getUser().id
+            tgId: userId
         };
-        try {
-            await NameInputService.saveNewItem(body);
-            toast.success("Большое спасибо, что вы записались в волонтёры.", {
-                onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
+        await NameInputService.saveNewItem(body)
+            .then(value =>
+                toast.success("Большое спасибо, что вы записались в волонтёры.", {
+                    onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
+                })
+            )
+            .catch(reason => {
+                toast.error("Не удалось сохранить данные по имени")
             })
-        } catch (err) {
-            toast.error("Не удалось сохранить данные по имени")
-        }
     }
+
 
     const onRadioSelect = (who: string) => {
         setOtherName(null);

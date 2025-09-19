@@ -12,14 +12,14 @@ interface Props {
 
 export const EntryComponent: FC<Props> = (props: any) => {
 
-    const handleUndo = async (itemId: number) => {
-        await TeamService.undoSchedule(itemId)
+    const handleUndo = async (item: Team) => {
+        await TeamService.undoSchedule(item.id)
             .then(value => {
                 toast.warn(
                     <p className={"text-center"}>
                         Ваша запись в волонтёры
-                        локации {value.location.name} на {DateService.formatDayMonthNameYear(value.calendar.date)} на
-                        позицию {value.position.name} отменена<br/>Очень жаль.<br/>Увидимся в следующий раз";
+                        локации {item.location.name} на {DateService.formatDayMonthNameYear(item.calendar.date)} на
+                        позицию {item.position.name} отменена<br/>Очень жаль.<br/>Увидимся в следующий раз";
                     </p>
                     , {onClose: () => window.location.reload()})
             })
@@ -50,7 +50,8 @@ export const EntryComponent: FC<Props> = (props: any) => {
                     {AppButtons.ToTeamFromExistingDate(props.team.locationId, props.team.calendarId, "Посмотреть команду")}
                 </ButtonGroup>
                 <ButtonGroup>
-                    <Button variant={"outline-danger"} size={"sm"} onClick={() => handleUndo(props.team.id)}>Отменить
+                    <Button variant={"outline-danger"} size={"sm"}
+                            onClick={async () => await handleUndo(props.team)}>Отменить
                         запись</Button>
                 </ButtonGroup>
             </ButtonToolbar>

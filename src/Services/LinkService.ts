@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {apiFetch} from "@/Common/api";
 
 const controllerName: string = "MiniApp"
@@ -12,7 +12,7 @@ export default class LinkService {
 
     static async link(verstId: number): Promise<void> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.LINK}`;
         // console.log("link url", fetchUrl)
 
@@ -27,7 +27,7 @@ export default class LinkService {
 
     static async unLink(verstId: number): Promise<boolean> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.UNLINK}`;
         // console.log("unlink url", fetchUrl)
 

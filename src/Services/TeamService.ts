@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {DirectorScheduleData, Team, TeamData} from "@/types";
 import {apiFetch} from "@/Common/api";
 
@@ -17,7 +17,7 @@ export default class TeamService {
 
     static async getTeam(locationId: number, calendarId: number): Promise<TeamData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.GET_TEAM_URL}/${locationId}/calendar/${calendarId}`;
         // console.log("get team for schedule url", fetchUrl)
 
@@ -29,7 +29,7 @@ export default class TeamService {
 
     static async getMySchedules(): Promise<Team[]> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.GET_MY_SCHEDULES}`;
         // console.log("get my schedules url", fetchUrl)
 
@@ -41,7 +41,7 @@ export default class TeamService {
 
     static async getDirectorSchedule(locationId: number): Promise<DirectorScheduleData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.DIRECTOR_SCHEDULES}`;
         // console.log("get directors schedule url", fetchUrl)
 
@@ -66,13 +66,15 @@ export default class TeamService {
     }
 
     static async startPoll(initiatorId?: number) {
+        let userId = getTelegramUser().id;
+
         let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.CREATE_POLL}`;
         // console.log("start poll url", fetchUrl)
 
         return await apiFetch<Team>(fetchUrl, {
             method: "POST",
             body: JSON.stringify({
-                tg: TelegramHelper.getUser()?.id,
+                tg: userId,
                 s: initiatorId
             }),
         })

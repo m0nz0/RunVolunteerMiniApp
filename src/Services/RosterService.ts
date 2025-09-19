@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {RosterCompareData} from "@/types";
 import {apiFetch} from "@/Common/api";
 
@@ -13,12 +13,13 @@ export default class RosterService {
         let controllerName = "MiniApp";
         let methodName = methodNames.COMPARE_ROSTER;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodName}`;
+        let userId = getTelegramUser().id;
 
         let body = {
             c: calendarId,
             pv: locationId,
             to: token,
-            tg: TelegramHelper.getUser().id
+            tg: userId
         }
 
         return await apiFetch(fetchUrl, {

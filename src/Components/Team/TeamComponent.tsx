@@ -6,11 +6,11 @@ import {Button, ButtonGroup, ListGroup, Spinner} from "react-bootstrap";
 import {DateService} from "@/Common/DateService";
 import {NameWithBadgeComponent} from "./NameWithBadgeComponent";
 import {AppButtons} from "@/Const/AppButtons";
-import {TelegramHelper} from "@/Common/TelegramHelper";
 import {PositionType} from "@/Const/PositionType";
 import {toast} from "react-toastify";
 import {UserCardComponent} from "@/Components/UserCard/UserCardComponent";
 import {useUserContext} from "@/Common/Context/UserContext";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 
 export const TeamComponent: FC = () => {
     const [team, setTeam] = useState<TeamData>()
@@ -18,6 +18,7 @@ export const TeamComponent: FC = () => {
     const {updateUserDates} = useUserContext();
     const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
     const [canDelete, setCanDelete] = useState<boolean>(false);
+    let userId = getTelegramUser().id;
 
     useEffect(() => {
             let isMounted = true;
@@ -28,7 +29,7 @@ export const TeamComponent: FC = () => {
                     setTeam(data)
                     updateUserDates([data.date])
 
-                    setCanDelete(team?.schedules.some(x => x.tgUserId == TelegramHelper.getUser()?.id && x.positionId == 1) ?? false)
+                    setCanDelete(team?.schedules.some(x => x.tgUserId == userId && x.positionId == 1) ?? false)
                 } catch (err) {
                     if (isMounted) {
                         console.error(err)
@@ -61,7 +62,7 @@ export const TeamComponent: FC = () => {
                 team?.schedules.map(s => s.positionId).some(s => s === p.id));
     }
 
-    let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === TelegramHelper.getUser()?.id) && !team?.hasOtherLocations
+    let canSchedule = !team?.schedules.some(x => x.tgUser.tgId === userId) && !team?.hasOtherLocations
 
     let canTrySaveNrms = team?.verstAthlete?.id != null
 

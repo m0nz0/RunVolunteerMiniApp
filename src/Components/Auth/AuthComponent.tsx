@@ -3,9 +3,9 @@ import './styles.css'
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Icons} from "@/Const/Icons";
 import {LoginType, LoginTypeDict} from "@/Const/LoginType";
-import {TelegramHelper} from "@/Common/TelegramHelper";
 import {useNavigate} from "react-router-dom";
-import {useAuth} from "@/Common/useAuth";
+import {useAuth} from "@/Common/hooks/useAuth";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 
 type Props = {
     loginType: LoginType,
@@ -18,7 +18,6 @@ export const AuthComponent: FC<Props> = (props) => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const {loginNrms} = useAuth(props.loginType);
-
     const navigate = useNavigate();
 
     const eyeClick = () => {
@@ -89,7 +88,7 @@ export const AuthComponent: FC<Props> = (props) => {
                         import.meta.env.VITE_ADDITIONAL_LINK_URL :
                         import.meta.env.VITE_MAIN_LINK_URL}`, {
                         method: 'POST',
-                        body: JSON.stringify({tg: TelegramHelper.getUser()?.id, vid: login}),
+                        body: JSON.stringify({tg: getTelegramUser()?.id, vid: login}),
                         headers: headers,
                     })
                         .catch((err) => {

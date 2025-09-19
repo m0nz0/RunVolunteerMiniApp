@@ -1,19 +1,14 @@
 export const TgUserDict = {
     ME: 182817160,
-    OTHER: 521243480
 }
 
-export class TelegramHelper {
-    static getUser(): any {
-        let user = this.getTg()?.initDataUnsafe?.user;
-        let userId = user?.id;
-        let userName = user?.username;
-
-        return user ?? {id: TgUserDict.ME, userName: "TEST USER NAME"};
+export function getTelegramUser(): TelegramUser {
+    let allowMock = import.meta.env.VITE_ALLOW_MOCK;
+    if (allowMock === undefined || allowMock == 'false') {
+        if (typeof window !== "undefined" && window.Telegram?.WebApp?.initDataUnsafe?.user) {
+            return window.Telegram.WebApp.initDataUnsafe?.user as TelegramUser;
+        }
+        throw new Error("Не удалось определить данные пользователя телеграм")
     }
-
-    static getTg(): any {
-        let tg = window?.Telegram?.WebApp
-        return tg;
-    }
+    return {id: TgUserDict.ME, username: "TEST_USER_NAME"} as TelegramUser;
 }

@@ -8,7 +8,7 @@ import {RosterCompareData} from "@/types";
 import {DateService} from "@/Common/DateService";
 import {Icons} from "@/Const/Icons";
 import {NrmsAction} from "@/Const/Source";
-import {useAuth} from "@/Common/useAuth";
+import {useAuth} from "@/Common/hooks/useAuth";
 import './styles.css'
 import {LoginType} from "@/Const/LoginType";
 import {useUserContext} from "@/Common/Context/UserContext";

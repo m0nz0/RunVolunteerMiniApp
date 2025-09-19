@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {OnInputNameData, SaveData} from "@/types";
 import {apiFetch} from "@/Common/api";
 
@@ -14,7 +14,7 @@ export default class NameInputService {
 
     static async getDataForNameInput(locationId: number, calendarId: number): Promise<OnInputNameData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}/${locationId}/calendar/${calendarId}`;
         // console.log("for name input url", fetchUrl)
 

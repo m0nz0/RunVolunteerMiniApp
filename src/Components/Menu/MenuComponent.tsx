@@ -1,9 +1,9 @@
 import React from "react";
 import '../Menu/styles.css'
 import './styles.css'
-import {TelegramHelper} from "@/Common/TelegramHelper";
 import {AppButtons} from "@/Const/AppButtons";
 import {getRandomImage} from "@/Common/icons";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 
 const listItemTextList = [
     AppButtons.NewEntry(),
@@ -17,11 +17,12 @@ const listItemTextList = [
 
 export const MenuComponent: React.FC = () => {
 
-    let user = TelegramHelper.getUser();
+    const user = getTelegramUser();
+
     let userName = user?.username;
     return (
         <p className={"text-center"}>
-            <h5>Привет,{userName && <span>{userName},</span>} чем я могу тебе помочь?
+            <h5>Привет, {userName && <span>{userName},</span>} чем я могу тебе помочь?
             </h5>
             <img className={'app-logo'} src={getRandomImage()}/>
             <div className="d-grid gap-2 buttons-list">
@@ -29,6 +30,9 @@ export const MenuComponent: React.FC = () => {
                     listItemTextList.map(x => x)
                 }
             </div>
+            {/*<pre>{JSON.stringify(window?.Telegram?.WebApp?.initDataUnsafe?.user, null, 2)}</pre>*/}
+            {/*<pre>{JSON.stringify(getTelegramUser(), null, 2)}</pre>*/}
+            {/*<pre>{JSON.stringify(user, null, 2)}</pre>*/}
         </p>
     );
 }

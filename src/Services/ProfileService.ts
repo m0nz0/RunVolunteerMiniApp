@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {ProfileData} from "@/types";
 import {apiFetch} from "@/Common/api";
 
@@ -8,7 +8,7 @@ const methodNames = {
 export default class ProfileService {
     static async getProfile(): Promise<ProfileData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = methodNames.GET_PROFILE;

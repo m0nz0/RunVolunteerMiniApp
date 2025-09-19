@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {Position, PositionAdminData, PositionData} from "@/types";
 import {PositionType} from "@/Const/PositionType";
 import {apiFetch} from "@/Common/api";
@@ -13,7 +13,7 @@ const url = {
 export default class PositionService {
     static async getPositionsForSchedule(locationId: number, calendarId: number): Promise<PositionData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = url.POSITIONS_FOR_SCHEDULE;
@@ -28,7 +28,7 @@ export default class PositionService {
 
     static async getPositionsForAdmin(locationId: number): Promise<PositionAdminData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = url.POSITION_ADMIN;
@@ -60,7 +60,8 @@ export default class PositionService {
 
     static async getAllPositions(): Promise<Position[]> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        console.log("user",getTelegramUser())
+        let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = url.ALL_POSITIONS;

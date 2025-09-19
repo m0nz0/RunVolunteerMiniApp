@@ -8,9 +8,8 @@ import {DateService} from "@/Common/DateService";
 
 
 const BreadcrumbsComponent: React.FC = () => {
-    const {locationDict} = useGlobalContext();
+    const {locationDict, positionDict} = useGlobalContext();
     const {userDatesDict} = useUserContext();
-    const {userPositionDict} = useUserContext();
     const location = useLocation();
 
 
@@ -53,7 +52,7 @@ const BreadcrumbsComponent: React.FC = () => {
                 // Если это /position/:positionId, используем имя из справочника
                 if (pathNames[index - 1] === "position" && /^\d+$/.test(part)) {
 
-                    label = userPositionDict[Number(part)]?.name ?? part;
+                    label = positionDict[Number(part)]?.name ?? part;
                     isLast = true
                 }
 

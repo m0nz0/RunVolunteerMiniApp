@@ -1,4 +1,4 @@
-import {TelegramHelper} from "@/Common/TelegramHelper";
+import {getTelegramUser} from "@/Common/TelegramHelper";
 import {DirectorsData, LocationData} from "@/types";
 import {LocationViewType} from "@/Const/LocationViewType";
 import {apiFetch} from "@/Common/api";
@@ -18,7 +18,7 @@ const methodNames = {
 export default class LocationService {
     static async getLocations(locationViewType: LocationViewType): Promise<LocationData> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = locationViewType === LocationViewType.AllLocations ||
@@ -51,7 +51,7 @@ export default class LocationService {
 
     static async locationFavorite(locationId: number): Promise<void> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
         let methodName = methodNames.FAVORITE;
@@ -85,7 +85,7 @@ export default class LocationService {
 
     static async createDirectorsRequest(locationId: number): Promise<void> {
 
-        let userId = TelegramHelper.getUser()?.id;
+        let userId = getTelegramUser().id;
 
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";

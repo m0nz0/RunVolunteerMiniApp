@@ -53,7 +53,12 @@ export async function apiFetch<T>(
             throw new Error(message);
         }
 
-        return (await response.json()) as T;
+        const text = await response.text();
+        if (!text) {
+            return undefined as unknown as T;
+        }
+
+        return JSON.parse(text) as T;
     } catch (err: any) {
         // toast.error(err.message || "Неизвестная ошибка");
         throw err;
