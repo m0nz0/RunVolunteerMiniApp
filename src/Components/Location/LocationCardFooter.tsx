@@ -40,7 +40,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
     if (props.location.botActive) {
 
-        if (location.isDirected) {
+        if (location.isDirected || props.user.isAdmin) {
             addonList.push(<Dropdown.Item as={"div"}>
                 <div onClick={() => navigate(`/locations/${location.verstId}/position-admin`)}>
                     Управление позициями
