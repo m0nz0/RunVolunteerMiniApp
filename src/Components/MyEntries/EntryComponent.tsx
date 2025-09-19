@@ -12,7 +12,10 @@ interface Props {
 
 export const EntryComponent: FC<Props> = (props: any) => {
 
+    const [disabled, setDisabled] = useState(false);
+
     const handleUndo = async (item: Team) => {
+        setDisabled(true);
         await TeamService.undoSchedule(item.id)
             .then(value => {
                 toast.warn(
@@ -51,7 +54,8 @@ export const EntryComponent: FC<Props> = (props: any) => {
                 </ButtonGroup>
                 <ButtonGroup>
                     <Button variant={"outline-danger"} size={"sm"}
-                            onClick={async () => await handleUndo(props.team)}>Отменить
+                            onClick={async () => await handleUndo(props.team)}
+                            disabled={disabled}>Отменить
                         запись</Button>
                 </ButtonGroup>
             </ButtonToolbar>

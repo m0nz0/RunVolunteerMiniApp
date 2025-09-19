@@ -17,6 +17,7 @@ export const TeamComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const {updateUserDates} = useUserContext();
     const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
+    const [disabled, setDisabled] = useState<boolean>(false);
     let userId = getTelegramUser().id;
 
     useEffect(() => {
@@ -76,7 +77,7 @@ export const TeamComponent: FC = () => {
     }
 
     const deleteItem = async (scheduleId: number) => {
-
+        setDisabled(true)
         try {
             await TeamService.undoSchedule(scheduleId)
             toast.success("Запись удалена", {onClose: () => window.location.reload()});
@@ -136,7 +137,8 @@ export const TeamComponent: FC = () => {
                                                                     className={"py-1"}
                                                                     onClick={async () => {
                                                                         await deleteItem(u.id)
-                                                                    }}>Удалить</Button>}
+                                                                    }}
+                                                                    disabled={disabled}>Удалить</Button>}
                                     </div>;
                                 })
                             }

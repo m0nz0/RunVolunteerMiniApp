@@ -30,6 +30,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     const [otherName, setOtherName] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [isValid, setIsValid] = useState<boolean>(false)
+    const [disabled, setDisabled] = useState(false)
     const navigate = useNavigate();
 
     const {locationId, calendarId, positionId} = useParams<{
@@ -106,6 +107,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     let userId = getTelegramUser().id;
 
     const saveAsId = async (id: number) => {
+        setDisabled(true)
         let body: SaveData = {
             verstId: id,
             locationId: Number(locationId),
@@ -123,6 +125,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     }
 
     const saveAsName = async () => {
+        setDisabled(true)
         let body: SaveData = {
             name: otherName,
             locationId: Number(locationId),
@@ -201,6 +204,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                         .filter(x => x.key.isMain).map((label, idx) => (
                             <Button key={idx}
                                     variant="info"
+                                    disabled={disabled}
                                     onClick={async () => {
                                         setOtherName(null)
                                         await saveAsId(label.key.verstId)
@@ -216,6 +220,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                         .filter(x => !x.key.isMain).map((label, idx) => (
                             <Button key={idx}
                                     variant="info"
+                                    disabled={disabled}
                                     onClick={async () => {
                                         setOtherName(null);
                                         await saveAsId(label.key.verstId);
@@ -248,6 +253,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                                 aria-describedby={"btn-save"}
                             />
                             {isValid && <Button variant={"info"}
+                                                disabled={disabled}
                                                 size={"sm"}
                                                 id={"btn-save"}
                                                 onClick={async () => await saveAsName()}>Сохранить</Button>}
@@ -262,6 +268,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                     <div className="d-grid gap-2">
                         {data?.verstUsers.map(v =>
                             <Button key={v.id}
+                                    disabled={disabled}
                                     variant="info"
                                     onClick={async () => {
                                         setOtherName(null);
