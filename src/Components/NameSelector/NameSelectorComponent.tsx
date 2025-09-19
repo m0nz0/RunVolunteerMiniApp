@@ -118,7 +118,6 @@ export const NameSelectorComponent: FC<Props> = () => {
                     onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
                 })
             ).catch(reason => {
-                console.log(reason)
                 toast.error("Не удалось сохранить данные по id");
             })
     }
