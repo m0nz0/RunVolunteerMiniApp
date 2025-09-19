@@ -15,14 +15,10 @@ export const PositionAdminComponent: FC = () => {
     const {locationId} = useParams()
 
     const savePositions = async () => {
-        try {
-
         await PositionService.savePositionsForAdmin(Number(locationId), selected)
-            .then(() => window.location.reload())}
-        catch (err){
-            console.error(err)
-            toast.error("Ошибка сохранения позиций")
-        }
+            .then(() => toast.success("Позиции сохранены", {onClose: () => window.location.reload()}))
+            .catch(reason =>
+                toast.error("Ошибка сохранения позиций"))
     }
 
     useEffect(() => {
