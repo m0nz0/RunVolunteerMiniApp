@@ -136,6 +136,7 @@ export interface TeamData {
     positions: Position[],
     date: CalendarInfo,
     hasOtherLocations: boolean,
+    canDelete: boolean,
     verstAthlete: VerstAthlete,
     pollParameters: PollParameters
 

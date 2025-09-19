@@ -17,7 +17,6 @@ export const TeamComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const {updateUserDates} = useUserContext();
     const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
-    const [canDelete, setCanDelete] = useState<boolean>(false);
     let userId = getTelegramUser().id;
 
     useEffect(() => {
@@ -29,7 +28,6 @@ export const TeamComponent: FC = () => {
                     setTeam(data)
                     updateUserDates([data.date])
 
-                    setCanDelete(team?.schedules.some(x => x.tgUserId == userId && x.positionId == 1) ?? false)
                 } catch (err) {
                     if (isMounted) {
                         console.error(err)
@@ -134,11 +132,11 @@ export const TeamComponent: FC = () => {
                                                            name={u.name}
                                                            verstId={u.verstId}
                                                            tgLogin={u.tgUser.tgLogin}/>
-                                        {canDelete && <Button variant={"danger"}
-                                                              className={"py-1"}
-                                                              onClick={async () => {
-                                                                  await deleteItem(u.id)
-                                                              }}>Удалить</Button>}
+                                        {team?.canDelete && <Button variant={"danger"}
+                                                                    className={"py-1"}
+                                                                    onClick={async () => {
+                                                                        await deleteItem(u.id)
+                                                                    }}>Удалить</Button>}
                                     </div>;
                                 })
                             }
