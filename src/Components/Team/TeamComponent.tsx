@@ -179,8 +179,8 @@ export const TeamComponent: FC = () => {
                                                            name={u.name}
                                                            verstId={u.verstId}
                                                            tgLogin={u.tgUser.tgLogin}/>
-                                        {team?.canDelete && <Button variant={"danger"}
-                                                                    className={"py-1"}
+                                        {team?.canDelete && <Button variant={"link"}
+                                                                    className={"py-0"}
                                                                     onClick={async () => {
                                                                         await deleteItem(u.id)
                                                                     }}
@@ -206,8 +206,8 @@ export const TeamComponent: FC = () => {
                                                                    name={u.name}
                                                                    verstId={u.verstId}
                                                                    tgLogin={u.tgUser.tgLogin}/>
-                                                {team?.canDelete && <Button variant={"danger"}
-                                                                            className={"py-1"}
+                                                {team?.canDelete && <Button variant={"link"}
+                                                                            className={"py-0"}
                                                                             onClick={async () => {
                                                                                 await deleteItem(u.id)
                                                                             }}
