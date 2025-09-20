@@ -12,12 +12,14 @@ import {UserCardComponent} from "@/Components/UserCard/UserCardComponent";
 import {useUserContext} from "@/Common/Context/UserContext";
 import {getTelegramUser} from "@/Common/TelegramHelper";
 import {useGlobalContext} from "@/Common/Context/GlobalContext";
+import {useConfirmModal} from "@/Common/hooks/useConfirmModal";
 
 export const TeamComponent: FC = () => {
     const [team, setTeam] = useState<TeamData>()
     const {positionDict} = useGlobalContext();
     const [loading, setLoading] = useState<boolean>(true);
     const {updateUserDates} = useUserContext();
+    const {confirm, ConfirmModal} = useConfirmModal();
     const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
     const [disabled, setDisabled] = useState<boolean>(false);
     let userId = getTelegramUser().id;
@@ -125,6 +127,18 @@ export const TeamComponent: FC = () => {
         }
     }
 
+    const handleDelete = (scheduleId: number) => {
+        confirm(
+            {
+                title: "Подтвердите удаление записи",
+                message: "Вы уверены, что хотите удалить этого волонтёра?",
+                confirmText: "Удалить",
+                cancelText: "Отмена",
+            },
+            () => deleteItem(scheduleId)
+        );
+    };
+
     return <div>
         <p className={"text-center"}>
             <h5>
@@ -181,9 +195,7 @@ export const TeamComponent: FC = () => {
                                                            tgLogin={u.tgUser.tgLogin}/>
                                         {team?.canDelete && <Button variant={"link"}
                                                                     className={"py-0"}
-                                                                    onClick={async () => {
-                                                                        await deleteItem(u.id)
-                                                                    }}
+                                                                    onClick={() => handleDelete(u.id)}
                                                                     disabled={disabled}>Удалить</Button>}
                                     </div>;
                                 })
@@ -208,9 +220,7 @@ export const TeamComponent: FC = () => {
                                                                    tgLogin={u.tgUser.tgLogin}/>
                                                 {team?.canDelete && <Button variant={"link"}
                                                                             className={"py-0"}
-                                                                            onClick={async () => {
-                                                                                await deleteItem(u.id)
-                                                                            }}
+                                                                            onClick={() => handleDelete(u.id)}
                                                                             disabled={disabled}>Удалить</Button>}
                                             </div>;
                                         })
@@ -229,6 +239,7 @@ export const TeamComponent: FC = () => {
                 {canTrySaveNrms && AppButtons.AuthNrms(Number(locationId), Number(calendarId))}
             </ButtonGroup>
         </ListGroup>
+        {ConfirmModal}
         {/*<pre>{JSON.stringify(test, null, 2)}</pre>*/}
     </div>
 }
