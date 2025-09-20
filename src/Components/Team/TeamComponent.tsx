@@ -65,7 +65,7 @@ export const TeamComponent: FC = () => {
                 team?.schedules.map(s => s.positionId).some(s => s === p.id));
     }
 
-    const test =
+    const positionHierarchy =
         Object.entries(
             Object.groupBy((team?.positions ?? [])
                     .filter(p => p.positionType == PositionType.Main ||
@@ -148,19 +148,16 @@ export const TeamComponent: FC = () => {
         <div style={{"display": "flex", "justifyContent": "space-between"}}>
             <NameWithBadgeComponent name={"Записалось волонтёров"}
                                     badgeColor="success"
-                                    badgeValue={(team?.schedules ?? []).length}
-                                    isRight={true}/>
+                                    badgeValue={(team?.schedules ?? []).length}/>
             <NameWithBadgeComponent name={"Незакрытых позиций"}
                                     badgeColor={"danger"}
-                                    badgeValue={(thisPositions() ?? []).filter(p => !team?.schedules.some(s => s.positionId === p.id)).length}
-                                    isRight={true}/>
+                                    badgeValue={(thisPositions() ?? []).filter(p => !team?.schedules.some(s => s.positionId === p.id)).length}/>
             <NameWithBadgeComponent name={"Частично закрыто позиций"}
                                     badgeColor={"warning"}
-                                    badgeValue={(test ?? []).filter(p => p.subPositions.length > 0 && !p.subPositions.every(sp => sp.users?.length == 0)).length}
-                                    isRight={true}/>
+                                    badgeValue={(positionHierarchy ?? []).filter(p => p.subPositions.length > 0 && !p.subPositions.every(sp => sp.users?.length == 0)).length}/>
         </div>
         <ListGroup>
-            {(test ?? [])
+            {(positionHierarchy ?? [])
                 .map((x, index, array) => {
 
                     // danger success warning
@@ -241,6 +238,6 @@ export const TeamComponent: FC = () => {
             </ButtonGroup>
         </ListGroup>
         {ConfirmModal}
-        {/*<pre>{JSON.stringify(test, null, 2)}</pre>*/}
+        {/*<pre>{JSON.stringify(positionHierarchy, null, 2)}</pre>*/}
     </div>
 }

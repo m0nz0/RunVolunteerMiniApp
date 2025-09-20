@@ -15,6 +15,7 @@ export const NameWithBadgeComponent: FC<Props> = (props) => {
         <div className="ms-2 me-auto">
             <div className={props.isBold ? "fw-bold" : ""}>
                 <Badge
+                    style={{"verticalAlign": "bottom"}}
                     className={`text-${props.badgeColor} border border-${props.badgeColor} bg-transparent`}
                     pill>
                     {props.badgeValue}
@@ -25,6 +26,7 @@ export const NameWithBadgeComponent: FC<Props> = (props) => {
         <div className="ms-2 me-auto">
             <div className={props.isBold ? "fw-bold" : ""}>
                 {props.name} <Badge
+                style={{"verticalAlign": "bottom"}}
                 className={`text-${props.badgeColor} border border-${props.badgeColor} bg-transparent`}
                 pill>
                 {props.badgeValue}
