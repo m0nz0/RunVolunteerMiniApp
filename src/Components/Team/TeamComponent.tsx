@@ -184,7 +184,8 @@ export const TeamComponent: FC = () => {
                         <div>
                             <NameWithBadgeComponent name={x.position.name}
                                                     badgeValue={x?.users?.length}
-                                                    badgeColor={rootColor}/>
+                                                    badgeColor={rootColor}
+                                                    isBold={true}/>
                             {(x.users ?? [])
                                 .map(u => {
                                     return <div key={x.position.id + "-" + u.verstId}

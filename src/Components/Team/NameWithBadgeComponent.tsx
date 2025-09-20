@@ -5,14 +5,15 @@ interface Props {
     name: string,
     badgeValue: any,
     badgeColor: string,
-    isRight?: boolean
+    isRight?: boolean,
+    isBold?: boolean
 }
 
 export const NameWithBadgeComponent: FC<Props> = (props) => {
 
     return !(props.isRight ?? false) ?
         <div className="ms-2 me-auto">
-            <div className="fw-bold">
+            <div className={props.isBold ? "fw-bold" : ""}>
                 <Badge
                     className={`text-${props.badgeColor} border border-${props.badgeColor} bg-transparent`}
                     pill>
@@ -22,7 +23,7 @@ export const NameWithBadgeComponent: FC<Props> = (props) => {
         </div>
         :
         <div className="ms-2 me-auto">
-            <div className="fw-bold">
+            <div className={props.isBold ? "fw-bold" : ""}>
                 {props.name} <Badge
                 className={`text-${props.badgeColor} border border-${props.badgeColor} bg-transparent`}
                 pill>
