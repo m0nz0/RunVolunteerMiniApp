@@ -73,24 +73,19 @@ export const DatesComponent: FC<Props> = (props) => {
                     "Даты с записями"
                 } для локации {datesData?.location.name}</h5>
             </div>
-            <div className={"d-grid gap-2 buttons-list"}>
+            <div className={"d-grid gap-2"}>
                 {datesData &&
-                    datesData.dates.sort((a, b) => DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
+                    datesData.dates
+                        .sort((a, b) =>
+                            DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
                         .map(x => {
-
                             if (props.locationViewType === LocationViewType.ForSchedule) {
-                                return <div className={"d-grid"} key={x.id}>
-                                    {AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date))}
-                                </div>
+                                return AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date))
                             }
 
-                            return <div className={"d-grid "} key={x.id}>
-                                {AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))}
-                            </div>
+                            return AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))
                         })
                 }
-            </div>
-            <div className={"d-grid gap-2 buttons-list"}>
                 {datesData?.location.isDirected && AppButtons.ToDirectorsSchedule(Number(locationId), "График директоров", "secondary")}
             </div>
         </div>

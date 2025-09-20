@@ -69,7 +69,7 @@ export const PositionComponent: FC = () => {
                         <Accordion.Item eventKey={positionType} key={positionType.toString()}>
                             <Accordion.Header>{PositionTypeParams[Number(positionType) as keyof typeof PositionTypeParams].name}</Accordion.Header>
                             <Accordion.Body>
-                                <div className={"d-grid gap-2 buttons-list"}>
+                                <div className={"d-grid gap-2"}>
                                     {value
                                         .sort((a, b) => a.name.localeCompare(b.name))
                                         .map(x => {

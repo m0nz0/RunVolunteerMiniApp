@@ -215,7 +215,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                 </div>
             )}
             {selected === "Additional" && (
-                <div className="d-grid gap-2 flex-wrap">
+                <div className="d-grid gap-2">
                     {(data?.allUsersDict ?? [])
                         .filter(x => !x.key.isMain).map((label, idx) => (
                             <Button key={idx}
