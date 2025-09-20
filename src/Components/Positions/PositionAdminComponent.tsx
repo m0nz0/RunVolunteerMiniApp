@@ -73,10 +73,10 @@ export const PositionAdminComponent: FC = () => {
     };
 
     return <div>
-        <p className={"text-center"}>
+        <div className={"text-center"}>
             <h5>Настройка позиций для локации {data?.location.name}</h5>
             <span className={"text-danger"}>Не забудьте сохранить после внесения изменений</span>
-        </p>
+        </div>
         <Table striped hover>
             <thead>
             <tr>

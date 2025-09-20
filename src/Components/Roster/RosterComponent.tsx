@@ -152,10 +152,10 @@ export const RosterComponent: FC<Props> = () => {
     }
 
     return ((roster && roster.data && roster.date) && <div>
-            <p className={"text-center"}>
+            <div className={"text-center"}>
                 <h5>Предварительные данные по записям в волонтеры
                     от {DateService.formatDayMonthNameYear(roster.date.date)} для локации {roster.location.name}</h5>
-            </p>
+            </div>
             <div style={{"display": "flex", "justifySelf": "center"}}>
                 <span style={{"paddingRight": "16px"}}>{Icons.ArrowUpLimeGreen} - есть в боте</span>
                 <span style={{"paddingRight": "16px"}}>{Icons.ArrowDown} - уже в NRMS</span>

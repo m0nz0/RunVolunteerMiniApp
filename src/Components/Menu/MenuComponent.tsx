@@ -4,6 +4,7 @@ import './styles.css'
 import {AppButtons} from "@/Const/AppButtons";
 import {getRandomImage} from "@/Common/icons";
 import {getTelegramUser} from "@/Common/TelegramHelper";
+import { v4 as uuid } from "uuid";
 
 const listItemTextList = [
     AppButtons.NewEntry(),
@@ -21,19 +22,19 @@ export const MenuComponent: React.FC = () => {
 
     let userName = user?.username;
     return (
-        <p className={"text-center"}>
+        <div className={"text-center"}>
             <h5>Привет, {userName && <span>{userName},</span>} чем я могу тебе помочь?
             </h5>
             <img className={'app-logo'} src={getRandomImage()}/>
             <div className="d-grid gap-2 buttons-list">
                 {
-                    listItemTextList.map(x => x)
+                    listItemTextList.map(x => ({...x, key: uuid()}))
                 }
             </div>
             {/*<pre>{JSON.stringify(window?.Telegram?.WebApp?.initDataUnsafe?.user, null, 2)}</pre>*/}
             {/*<pre>{JSON.stringify(getTelegramUser(), null, 2)}</pre>*/}
             {/*<pre>{JSON.stringify(user, null, 2)}</pre>*/}
-        </p>
+        </div>
     );
 }
 

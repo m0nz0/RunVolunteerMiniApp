@@ -67,12 +67,12 @@ export const DatesComponent: FC<Props> = (props) => {
         </div>
     } else {
         return <div>
-            <p className={"text-center"}>
+            <div className={"text-center"}>
                 <h5>{props.locationViewType === LocationViewType.ForSchedule ?
                     "Выбор желаемой даты для записи" :
                     "Даты с записями"
                 } для локации {datesData?.location.name}</h5>
-            </p>
+            </div>
             <div className={"d-grid gap-2 buttons-list"}>
                 {datesData &&
                     datesData.dates.sort((a, b) => DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())

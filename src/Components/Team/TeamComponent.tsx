@@ -140,11 +140,11 @@ export const TeamComponent: FC = () => {
     };
 
     return <div>
-        <p className={"text-center"}>
+        <div className={"text-center"}>
             <h5>
                 Команда локации {team?.location?.name} за {DateService.formatDayMonthNameYear(team?.date?.date ?? "")}
             </h5>
-        </p>
+        </div>
         <div style={{"display": "flex", "justifyContent": "space-between"}}>
             <NameWithBadgeComponent name={"Записалось волонтёров"}
                                     badgeColor="success"
@@ -185,7 +185,7 @@ export const TeamComponent: FC = () => {
                                                     isBold={true}/>
                             {(x.users ?? [])
                                 .map(u => {
-                                    return <div key={x.position.id + "-" + u.verstId}
+                                    return <div key={u.id}
                                                 style={{"display": "flex", "alignItems": "baseline"}}>
                                         <UserCardComponent key={u.id}
                                                            name={u.name}
@@ -206,7 +206,7 @@ export const TeamComponent: FC = () => {
                                                             badgeColor={sp?.users?.length === 0 ? "danger" : "success"}/>
                                     {(sp.users ?? [])
                                         .map(u => {
-                                            return <div key={x.position.id + "-" + sp.position.id + "-" + u.verstId}
+                                            return <div key={u.id}
                                                         style={{
                                                             "display": "flex",
                                                             "alignItems": "baseline",

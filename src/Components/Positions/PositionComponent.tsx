@@ -9,6 +9,7 @@ import {DateService} from "@/Common/DateService";
 import {Icons} from "@/Const/Icons";
 import {AppButtons} from "@/Const/AppButtons";
 import {toast} from "react-toastify";
+import {v4 as uuid} from "uuid";
 
 export const PositionComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -51,10 +52,10 @@ export const PositionComponent: FC = () => {
 
     return (
         positionData && <div>
-            <p className={"text-center"}>
+            <div className={"text-center"}>
                 <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
                     даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
-            </p>
+            </div>
             <Alert variant={"info"} style={{"justifySelf": "center"}}>
                 {/*<p>{Icons.ExclamationRed} - обязательная позиция</p>*/}
                 {/*<p>{Icons.CheckGreen} - кто-то уже записался</p>*/}
@@ -75,8 +76,10 @@ export const PositionComponent: FC = () => {
                                             let icon = positionData.team.some(t => t.positionId === x.id) ?
                                                 Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
 
-                                            return AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id,
-                                                <div>{icon} {x.name}</div>);
+                                            return ({
+                                                ...AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id,
+                                                    <div>{icon} {x.name}</div>), key: uuid()
+                                            });
                                         })
                                     }
                                 </div>

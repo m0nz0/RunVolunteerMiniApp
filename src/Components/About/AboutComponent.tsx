@@ -6,9 +6,9 @@ import {RouteCode} from "@/routes";
 export const AboutComponent: FC = () => {
     return (
         <div>
-            <p className={"text-center"}>
+            <div className={"text-center"}>
                 <h5>С помощью меня можно:</h5>
-            </p>
+            </div>
             <ol>
                 <li>
                     <Link to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</Link> в волонтёры в

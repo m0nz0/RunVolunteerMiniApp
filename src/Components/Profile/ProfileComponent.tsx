@@ -61,9 +61,9 @@ export const ProfileComponent: FC = () => {
     // todo Прикрутить кнопки для ПД + большая доработка бэка
 
     return <div>
-        <p className={"text-center"}>
+        <div className={"text-center"}>
             <h5>Профиль</h5>
-        </p>
+        </div>
         <Accordion alwaysOpen={false} defaultActiveKey={"-1"}>
             <Accordion.Item key={"-1"} eventKey={"-1"}>
                 <Accordion.Header>Данные в боте</Accordion.Header>

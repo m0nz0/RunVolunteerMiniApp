@@ -49,9 +49,9 @@ export const DirectorsScheduleComponent: FC = () => {
     }
 
     return <div>
-        <p className={"text-center"}>
+        <div className={"text-center"}>
             <h5>График директоров</h5>
-        </p>
+        </div>
         <div>{data?.dates.map(d => {
             let dirs = data?.schedules.filter(x => x.calendarId === d.id)
             return <div key={d.id}>

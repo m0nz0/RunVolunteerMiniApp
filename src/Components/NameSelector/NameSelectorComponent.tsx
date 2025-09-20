@@ -162,9 +162,9 @@ export const NameSelectorComponent: FC<Props> = () => {
     }
 
     return (!loading && <div>
-        <p className={"text-center"}>
+        <div className={"text-center"}>
             <h5>Мы подошли к последнему этапу записи. Надо выбрать кого записать.</h5>
-        </p>
+        </div>
         <div>
             <p>Вы выбрали локацию <strong>{location?.name}</strong>;</p>
             <p>Дата - <strong>{DateService.formatDayMonthNameYear(data?.date?.date ?? "")}</strong>;</p>
