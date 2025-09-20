@@ -7,40 +7,46 @@ export const AppButtons = {
             label="Главная"
         />
     ),
-    About: () => (
+    About: (variant: string = "info") => (
         <AppButton
             to={`/about`}
             label="Помощь"
+            variant={variant}
         />
     ),
-    NewEntry: () => (
+    NewEntry: (variant: string = "info") => (
         <AppButton
             to={`/new-entry`}
             label="Записаться в волонтеры"
+            variant={variant}
         />
     ),
-    LocationsWithRecords: () => (
+    LocationsWithRecords: (variant: string = "info") => (
         <AppButton
             to={`/existing-entries`}
             label="Кто уже записан"
+            variant={variant}
         />
     ),
-    MyEntries: () => (
+    MyEntries: (variant: string = "info") => (
         <AppButton
             to={`/my-entries`}
             label="Мои записи"
+            variant={variant}
         />
     ),
-    Locations: () => (
+    Locations: (variant: string = "info") => (
         <AppButton
             to={`/locations`}
             label="Локации"
+            variant={variant}
         />
     ),
-    Profile: () => (
+    Profile: (variant: string = "info") => (
         <AppButton
             to={`/profile`}
             label="Профиль"
+            variant={variant}
         />
     ),
     LinkMain: () => (
@@ -67,7 +73,7 @@ export const AppButtons = {
             label={name}
         />
     ),
-    ToDirectorsSchedule: (locationId: number, name: string, variant?: string) => (
+    ToDirectorsSchedule: (locationId: number, name: string, variant: string = "info") => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/directors`}
             label={name}
@@ -80,11 +86,11 @@ export const AppButtons = {
             label=""
         />
     ),
-    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string) => (
+    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string, variant: string = "info") => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team`}
             label={btnText}
-            // variant="secondary"
+            variant={variant}
         />
     ),
     WhoScheduled: (locationId: number) => (
@@ -100,10 +106,11 @@ export const AppButtons = {
             label="Хочу в эту команду"
         />
     ),
-    ToPositionFromDate: (locationId: number, calendarId: number, name: string) => (
+    ToPositionFromDate: (locationId: number, calendarId: number, name: string, variant: string = "info") => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position`}
             label={name}
+            variant={variant}
         />
     ),
     ToPosition: (locationId: number, name: string) => (
@@ -113,10 +120,11 @@ export const AppButtons = {
             // variant="secondary"
         />
     ),
-    ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any) => (
+    ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any, variant: string = "info") => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position/${positionId}`}
             label={name}
+            variant={variant}
         />
     ),
     ToDirectors: (locationId: number, name: string) => (
