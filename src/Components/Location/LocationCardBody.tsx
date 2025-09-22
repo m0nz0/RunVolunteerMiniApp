@@ -13,7 +13,8 @@ export const LocationCardBody: FC<Props> = (props) => {
     return (<Card.Body>
         <Card.Title>
             <div>
-                <span dangerouslySetInnerHTML={{__html: props.location.href}}></span>
+                {/*<span dangerouslySetInnerHTML={{__html: props.location.href}}></span>*/}
+                <strong className={"text-primary"}>{props.location.name}</strong>
                 <span>
                     {
                         props.location.locationFlags.map(x => <LocationFlagComponent
@@ -26,20 +27,21 @@ export const LocationCardBody: FC<Props> = (props) => {
             </div>
         </Card.Title>
         <Card.Text>
-            <span>
+            <div>
                 <strong>Город: </strong>
                 <span>{props.location.cityName}</span>
-            </span>
-            <br/>
-            <span>
+            </div>
+            <div>
                 <strong>Статус: </strong>
                 <span>{props.location.verstStatusName}</span>
-            </span>
-            <br/>
-            <span>
+            </div>
+            <div>
                 <strong>Где: </strong>
                 <CoordinatesComponent lat={props.location.lat} lon={props.location.lon}/>
-            </span>
+            </div>
+            <div>
+                <a href={`https://5verst.ru/${props.location.href}`}>Страница локации</a>
+            </div>
         </Card.Text>
     </Card.Body>)
 }
