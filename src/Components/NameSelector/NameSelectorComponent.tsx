@@ -238,7 +238,9 @@ export const NameSelectorComponent: FC<Props> = () => {
                             <div>
                                 <p>Имя человека</p>
                                 <p className={"text-danger"}>Очень желательно вводить имя в формате "Иванов Иван
-                                    A79*** </p>
+                                    A79***".
+                                    <br/>Или нескольких "Иванов Иван A79***, Пётр Петров 79***".
+                                    <br/>Но без кавычек и в любом регистре.</p>
                             </div>
                         </Form.Label>
                         <InputGroup>
