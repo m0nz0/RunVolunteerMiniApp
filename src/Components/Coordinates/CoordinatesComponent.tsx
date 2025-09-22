@@ -1,5 +1,6 @@
 import {FC} from "react";
 import {Icons} from "@/Const/Icons";
+import {Link} from "react-router-dom";
 
 interface Props {
     lat: number,
@@ -13,7 +14,7 @@ export const CoordinatesComponent: FC<Props> = props => {
     return (<span>
         {Icons.CoordinatePin}
         <span>
-            <a href={url}>{props.lat} {props.lon}</a>
+            <Link to={url}>{props.lat} {props.lon}</Link>
         </span>
     </span>)
 }

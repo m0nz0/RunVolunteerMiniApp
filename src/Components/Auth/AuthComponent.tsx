@@ -3,7 +3,7 @@ import './styles.css'
 import {Button, Form, InputGroup} from "react-bootstrap";
 import {Icons} from "@/Const/Icons";
 import {LoginType, LoginTypeDict} from "@/Const/LoginType";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "@/Common/hooks/useAuth";
 import {getTelegramUser} from "@/Common/TelegramHelper";
 
@@ -150,8 +150,8 @@ export const AuthComponent: FC<Props> = (props) => {
                     </Button>
                 </section>
                 <div className="link-section">
-                    <a href="https://nrms.5verst.ru/#/remindpassword">Забыли пароль?</a>
-                    <a href="https://5verst.ru/reminder/">Забыли ID?</a>
+                    <Link to="https://nrms.5verst.ru/#/remindpassword">Забыли пароль?</Link>
+                    <Link to="https://5verst.ru/reminder/">Забыли ID?</Link>
                 </div>
             </main>
         </div>

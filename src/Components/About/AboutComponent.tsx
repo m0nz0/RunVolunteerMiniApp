@@ -60,14 +60,14 @@ export const AboutComponent: FC = () => {
             </ol>
             {/*<p>Есть идеи, предложения, пожелания, нужна помощь, заметил баг, хочешь выразить благодарность или*/}
             {/*    поделиться негативом, рассказать смешную историю, пожаловаться на интернет, посоветовать фильм или*/}
-            {/*    сериал, похвастаться котом, поделиться мемом — пиши мне <a href="https://t.me/MikeKar">сюда</a>*/}
+            {/*    сериал, похвастаться котом, поделиться мемом — пиши мне <Link to="https://t.me/MikeKar">сюда</Link>*/}
             {/*</p>*/}
             <strong>Полезные ссылки:</strong>
             <ul>
-                <li><a href={"https://5verst.ru/"}>Главная 5 вёрст</a></li>
-                <li><a href={"https://nrms.5verst.ru/"}>NRMS</a></li>
-                <li><a href={"https://my.5verst.ru/"}>Ваш личный кабинет</a></li>
-                {/*<li><a href={"https://5krun.info/dashboards/f/AMNIEuhVk/"}>Интересная статистика</a></li>*/}
+                <li><Link to={"https://5verst.ru/"}>Главная 5 вёрст</Link></li>
+                <li><Link to={"https://nrms.5verst.ru/"}>NRMS</Link></li>
+                <li><Link to={"https://my.5verst.ru/"}>Ваш личный кабинет</Link></li>
+                {/*<li><Link to={"https://5krun.info/dashboards/f/AMNIEuhVk/"}>Интересная статистика</Link></li>*/}
             </ul>
         </div>
     )

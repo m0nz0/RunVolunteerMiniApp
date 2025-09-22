@@ -1,5 +1,6 @@
 import {FC, useState} from "react";
 import {Icons} from "@/Const/Icons";
+import {Link} from "react-router-dom";
 
 
 interface Props {
@@ -19,9 +20,9 @@ export const UserCardComponent: FC<Props> = (props) => {
             <span onClick={() => setShow(!show)}>&nbsp;{!show ? Icons.EyeOpen : Icons.EyeClose}</span>}
         {show &&
             <span>
-                {props.tgLogin && <span> | <a href={`https://t.me/${props.tgLogin}`}>@{props.tgLogin}</a></span>}
+                {props.tgLogin && <span> | <Link to={`https://t.me/${props.tgLogin}`}>@{props.tgLogin}</Link></span>}
                 {props.verstId &&
-                    <span> | <a href={`https://5verst.ru/userstats/${props.verstId}`}>A{props.verstId}</a></span>}
+                    <span> | <Link to={`https://5verst.ru/userstats/${props.verstId}`}>A{props.verstId}</Link></span>}
         </span>}
     </div>
 }
