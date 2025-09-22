@@ -154,7 +154,10 @@ export const TeamComponent: FC = () => {
                                     badgeValue={(thisPositions() ?? []).filter(p => !team?.schedules.some(s => s.positionId === p.id)).length}/>
             <NameWithBadgeComponent name={"Частично закрыто позиций"}
                                     badgeColor={"warning"}
-                                    badgeValue={(positionHierarchy ?? []).filter(p => p.subPositions.length > 0 && !p.subPositions.every(sp => sp.users?.length == 0)).length}/>
+                                    badgeValue={(positionHierarchy ?? []).filter(p => p.subPositions.length > 0 &&
+                                        p.subPositions.some(sp => (sp.users ?? []).length == 0) &&
+                                        p.subPositions.some(sp => (sp.users ?? []).length > 0)
+                                    ).length}/>
         </div>
         <ListGroup>
             {(positionHierarchy ?? [])
@@ -169,6 +172,8 @@ export const TeamComponent: FC = () => {
                     } else {
                         if (x.subPositions.every(sp => sp.users?.length == 0)) {
                             rootColor = "danger"
+                        } else if (x.subPositions.every(sp => (sp.users ?? []).length > 0)) {
+                            rootColor = "success"
                         } else {
                             rootColor = "warning"
                         }
@@ -181,7 +186,7 @@ export const TeamComponent: FC = () => {
 
                         <div>
                             <NameWithBadgeComponent name={x.position.name}
-                                                    badgeValue={x?.users?.length}
+                                                    badgeValue={(x?.users ?? []).length + (x.subPositions ?? []).flatMap(sp => (sp.users ?? [])).length}
                                                     badgeColor={rootColor}
                                                     isBold={true}/>
                             {(x.users ?? [])
