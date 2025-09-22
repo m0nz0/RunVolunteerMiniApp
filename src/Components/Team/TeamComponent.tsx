@@ -176,7 +176,8 @@ export const TeamComponent: FC = () => {
                     return <ListGroup.Item
                         key={x.position.id}
                         as={"li"}
-                        className="justify-content-between">
+                        className="justify-content-between"
+                        style={{"padding": "4px"}}>
 
                         <div>
                             <NameWithBadgeComponent name={x.position.name}

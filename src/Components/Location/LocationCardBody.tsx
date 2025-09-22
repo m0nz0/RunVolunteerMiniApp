@@ -4,6 +4,7 @@ import {LocationFlagComponent} from "./LocationFlagComponent";
 import {LocationFlag} from "@/Const/LocationFlag";
 import {CoordinatesComponent} from "@/Components/Coordinates/CoordinatesComponent";
 import {UserLocationDictItem} from "@/types";
+import {Link} from "react-router-dom";
 
 interface Props {
     location: UserLocationDictItem
@@ -40,7 +41,7 @@ export const LocationCardBody: FC<Props> = (props) => {
                 <CoordinatesComponent lat={props.location.lat} lon={props.location.lon}/>
             </div>
             <div>
-                <a href={`https://5verst.ru/${props.location.href}`}>Страница локации</a>
+                <Link to={`https://5verst.ru/${props.location.url}`}>Страница локации</Link>
             </div>
         </Card.Text>
     </Card.Body>)
