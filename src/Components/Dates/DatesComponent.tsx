@@ -8,6 +8,7 @@ import {LocationViewType} from "@/Const/LocationViewType";
 import {AppButtons} from "@/Const/AppButtons";
 import {useUserContext} from "@/Common/Context/UserContext";
 import {toast} from "react-toastify";
+import {v4 as uuid} from "uuid";
 
 interface Props {
     locationViewType: LocationViewType
@@ -80,10 +81,10 @@ export const DatesComponent: FC<Props> = (props) => {
                             DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
                         .map(x => {
                             if (props.locationViewType === LocationViewType.ForSchedule) {
-                                return AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date))
+                                return ({...AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date)), key: uuid()})
                             }
 
-                            return AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date))
+                            return ({...AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date)), key: uuid()})
                         })
                 }
                 {datesData?.location.isDirected && AppButtons.ToDirectorsSchedule(Number(locationId), "График директоров", "secondary")}
