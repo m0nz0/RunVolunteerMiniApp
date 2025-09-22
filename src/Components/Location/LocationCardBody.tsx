@@ -41,7 +41,9 @@ export const LocationCardBody: FC<Props> = (props) => {
                 <CoordinatesComponent lat={props.location.lat} lon={props.location.lon}/>
             </div>
             <div>
-                <Link to={`https://5verst.ru/${props.location.url}`}>Страница локации</Link>
+                <Link onClick={event => event.stopPropagation()}
+                      to={`https://5verst.ru/${props.location.url}`}>Страница
+                    локации</Link>
             </div>
         </Card.Text>
     </Card.Body>)
