@@ -14,7 +14,8 @@ export const CoordinatesComponent: FC<Props> = props => {
     return (<span>
         {Icons.CoordinatePin}
         <span>
-            <Link to={url}>{props.lat} {props.lon}</Link>
+            <Link onClick={event => event.stopPropagation()}
+                  to={url}>{props.lat} {props.lon}</Link>
         </span>
     </span>)
 }
