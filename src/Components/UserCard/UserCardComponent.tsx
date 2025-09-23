@@ -22,7 +22,11 @@ export const UserCardComponent: FC<Props> = (props) => {
             <span>
                 {props.tgLogin && <span> | <Link to={`https://t.me/${props.tgLogin}`}>@{props.tgLogin}</Link></span>}
                 {props.verstId &&
-                    <span> | <Link to={`https://5verst.ru/userstats/${props.verstId}`}>A{props.verstId}</Link></span>}
+                    <span> | <Link to="#"
+                                   onClick={(e) => {
+                                       e.preventDefault();
+                                       openExternal(`https://5verst.ru/userstats/${props.verstId}`);
+                                   }}>A{props.verstId}</Link></span>}
         </span>}
     </div>
 }
