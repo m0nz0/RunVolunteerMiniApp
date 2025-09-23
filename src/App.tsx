@@ -8,11 +8,13 @@ import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
 import './styles.css'
 import {ToastContainer} from "react-toastify";
 import {Container} from "react-bootstrap";
+import {TelegramBackButtonGlobal} from "@/Common/TelegramBackButtonGlobal";
 
 export const App: React.FC = () => {
     useEffect(() => {
         const tg = window?.Telegram?.WebApp;
         if (tg) {
+            tg.ready();
             tg.disableVerticalSwipes();
             tg.expand();
         }
@@ -21,21 +23,22 @@ export const App: React.FC = () => {
     return (
         <GlobalProvider>
             <UserProvider>
-                <Container>
-                    <BrowserRouter basename="/RunVolunteerMiniApp">
+                <BrowserRouter basename="/RunVolunteerMiniApp">
+                    <TelegramBackButtonGlobal/>
+                    <Container>
                         <BreadcrumbsComponent/>
                         <AppRouter/>
-                        <ToastContainer
-                            position="top-right"
-                            autoClose={3000}
-                            hideProgressBar={false}
-                            newestOnTop
-                            closeOnClick
-                            pauseOnHover
-                            theme="colored"
-                        />
-                    </BrowserRouter>
-                </Container>
+                    </Container>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        pauseOnHover
+                        theme="colored"
+                    />
+                </BrowserRouter>
             </UserProvider>
         </GlobalProvider>
     );
