@@ -5,6 +5,7 @@ import {AppButtons} from "@/Const/AppButtons";
 import {getRandomImage} from "@/Common/icons";
 import {getTelegramUser} from "@/Common/TelegramHelper";
 import {v4 as uuid} from "uuid";
+import {SmartImage} from "@/Common/SmartImage";
 
 const listItemTextList = [
     AppButtons.NewEntry(),
@@ -24,7 +25,7 @@ export const MenuComponent: React.FC = () => {
     return (
         <div className={"text-center"}>
             <h5>Привет, {userName && <span>{userName},</span>} чем я могу тебе помочь?</h5>
-            <img className={'app-logo'} src={getRandomImage()}/>
+            <SmartImage className={'app-logo'} src={getRandomImage()}/>
             <div className="d-grid gap-2">
                 {
                     listItemTextList.map(x => ({...x, key: uuid()}))
