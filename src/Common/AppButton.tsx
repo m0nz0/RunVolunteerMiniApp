@@ -1,22 +1,39 @@
 import {FC} from "react";
-import {Button} from "react-bootstrap";
-import LinkAdapter from "../Common/LinkAdapter";
+import {useNavigate} from "react-router-dom";
+import {SmartButton} from "@/Common/SmartButton";
 
 interface AppButtonProps {
-    to: string;
-    label: any;
+    to?: string;
+    label: string;
     variant?: string;
-    size?: "sm" | "lg" | undefined;
+    size?: "sm" | "lg";
+    disabled?: boolean;
 }
 
-export const AppButton: FC<AppButtonProps> = ({to, label, variant = "info", size = "sm"}) => {
+export const AppButton: FC<AppButtonProps> = ({
+                                                  to,
+                                                  label,
+                                                  variant = "info",
+                                                  size = "sm",
+                                                  disabled = false,
+                                              }) => {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        if (to) {
+            navigate(to);
+        }
+    };
+
     return (
-        <Button
-            as={LinkAdapter as any}
-            to={to}
+        <SmartButton
+            onClick={handleClick}
             variant={variant}
-            size={size}>
+            size={size}
+            disabled={disabled}
+            onContextMenu={(e) => e.preventDefault()}
+        >
             {label}
-        </Button>
+        </SmartButton>
     );
 };
