@@ -26,6 +26,7 @@ declare global {
                 initData?: string;
                 initDataUnsafe?: any;
                 close?: () => void;
+                openLink: (url: string) => void;
             };
         };
     }
