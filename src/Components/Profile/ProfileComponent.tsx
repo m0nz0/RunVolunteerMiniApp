@@ -125,7 +125,11 @@ export const ProfileComponent: FC = () => {
                             </div>
                             <br/>
                             <span>Посмотреть или изменить данные своего профиля (имя и домашнюю локацию) вы можете в <Link
-                                to="https://my.5verst.ru/">личном кабинете</Link></span>
+                                to="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    openExternal("https://my.5verst.ru/");
+                                }}>личном кабинете</Link></span>
                         </div>
                         <div style={{textAlign: "center"}}>
                             <img src={`data:image/jpeg;base64,${verstData?.value.qr_code}`}/>
