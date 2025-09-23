@@ -60,7 +60,6 @@ export const AboutComponent: FC = () => {
             </ol>
             <strong>Полезные ссылки:</strong>
             <ul>
-                !!!
                 <li><Link to="#"
                           onClick={(e) => {
                               e.preventDefault();
