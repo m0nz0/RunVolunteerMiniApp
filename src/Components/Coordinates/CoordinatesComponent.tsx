@@ -14,7 +14,8 @@ export const CoordinatesComponent: FC<Props> = props => {
     return (<span>
         {Icons.CoordinatePin}
         <span>
-            <SmartLink to={url}>{props.lat} {props.lon}</SmartLink>
+            <SmartLink onClick={(e) => e.preventDefault()}
+                       to={url}>{props.lat} {props.lon}</SmartLink>
         </span>
     </span>)
 }
