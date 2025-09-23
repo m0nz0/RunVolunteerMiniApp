@@ -7,7 +7,7 @@ import {Icons} from "@/Const/Icons";
 import LinkService from "../../Services/LinkService";
 import {AppButtons} from "@/Const/AppButtons";
 import {toast} from "react-toastify";
-import {Link} from "react-router-dom";
+import {SmartLink} from "@/Common/SmartLink";
 
 export const ProfileComponent: FC = () => {
 
@@ -124,12 +124,8 @@ export const ProfileComponent: FC = () => {
                                 </span>
                             </div>
                             <br/>
-                            <span>Посмотреть или изменить данные своего профиля (имя и домашнюю локацию) вы можете в <Link
-                                to="#"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    openExternal("https://my.5verst.ru/");
-                                }}>личном кабинете</Link></span>
+                            <span>Посмотреть или изменить данные своего профиля (имя и домашнюю локацию) вы можете в <SmartLink
+                                to="https://my.5verst.ru/">личном кабинете</SmartLink></span>
                         </div>
                         <div style={{textAlign: "center"}}>
                             <img src={`data:image/jpeg;base64,${verstData?.value.qr_code}`}/>
