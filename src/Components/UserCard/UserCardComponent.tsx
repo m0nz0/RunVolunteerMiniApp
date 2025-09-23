@@ -1,6 +1,7 @@
 import {FC, useState} from "react";
 import {Icons} from "@/Const/Icons";
 import {Link} from "react-router-dom";
+import {SmartLink} from "@/Common/SmartLink";
 
 
 interface Props {
@@ -22,11 +23,7 @@ export const UserCardComponent: FC<Props> = (props) => {
             <span>
                 {props.tgLogin && <span> | <Link to={`https://t.me/${props.tgLogin}`}>@{props.tgLogin}</Link></span>}
                 {props.verstId &&
-                    <span> | <Link to="#"
-                                   onClick={(e) => {
-                                       e.preventDefault();
-                                       openExternal(`https://5verst.ru/userstats/${props.verstId}`);
-                                   }}>A{props.verstId}</Link></span>}
+                    <span> | <SmartLink to={`https://5verst.ru/userstats/${props.verstId}`}>A{props.verstId}</SmartLink></span>}
         </span>}
     </div>
 }

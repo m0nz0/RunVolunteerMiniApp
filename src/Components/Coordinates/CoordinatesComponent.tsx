@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {Icons} from "@/Const/Icons";
-import {Link} from "react-router-dom";
+import {SmartLink} from "@/Common/SmartLink";
 
 interface Props {
     lat: number,
@@ -14,12 +14,7 @@ export const CoordinatesComponent: FC<Props> = props => {
     return (<span>
         {Icons.CoordinatePin}
         <span>
-            <Link to="#"
-                  onClick={(e) => {
-                      e.stopPropagation();
-                      e.preventDefault();
-                      openExternal(url);
-                  }}>{props.lat} {props.lon}</Link>
+            <SmartLink to={url}>{props.lat} {props.lon}</SmartLink>
         </span>
     </span>)
 }

@@ -2,6 +2,7 @@ import {FC} from "react";
 import {Link} from "react-router-dom";
 import {RouteHelper} from "@/Common/RouteHelper";
 import {RouteCode} from "@/routes";
+import {SmartLink} from "@/Common/SmartLink";
 
 export const AboutComponent: FC = () => {
     return (
@@ -11,28 +12,28 @@ export const AboutComponent: FC = () => {
             </div>
             <ol>
                 <li>
-                    <Link to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</Link> в волонтёры в
+                    <SmartLink to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</SmartLink> в волонтёры в
                     интересующий парк на нужную дату и нужную позицию. Или записать в волонтёры
                     другого человека (например, ребёнка).
                 </li>
                 <li>
-                    Просмотреть <Link to={RouteHelper.getPath(RouteCode.MyEntries)}>свои записи</Link>.
+                    Просмотреть <SmartLink to={RouteHelper.getPath(RouteCode.MyEntries)}>свои записи</SmartLink>.
                 </li>
                 <li>
                     Отменить свою запись.
                 </li>
                 <li>
-                    Посмотреть список тех, кто <Link to={RouteHelper.getPath(RouteCode.ExistingEntries)}>уже
-                    записался</Link>.
+                    Посмотреть список тех, кто <SmartLink to={RouteHelper.getPath(RouteCode.ExistingEntries)}>уже
+                    записался</SmartLink>.
                 </li>
                 <li>
-                    Можно привязать свой аккаунт 5 вёрст в разделе <Link
-                    to={RouteHelper.getPath(RouteCode.Profile)}>Профиль</Link>. Это облегчит вам запись в волонтёры,
+                    Можно привязать свой аккаунт 5 вёрст в разделе <SmartLink
+                    to={RouteHelper.getPath(RouteCode.Profile)}>Профиль</SmartLink>. Это облегчит вам запись в волонтёры,
                     т.к. не надо будет постоянно представляться. И специально для инициативных родителей есть
                     возможность привязать дополнительный аккаунт ребёнка, чтобы ему тикали волонтёрства
                 </li>
                 <li>
-                    В разделе <Link to={RouteHelper.getPath(RouteCode.Locations)}>Локации</Link> можно посмотреть
+                    В разделе <SmartLink to={RouteHelper.getPath(RouteCode.Locations)}>Локации</SmartLink> можно посмотреть
                     информацию о локациях (директоров, статус, возможность записи через бота, настроить отображение
                     позиций для записи...)
                 </li>
@@ -43,8 +44,8 @@ export const AboutComponent: FC = () => {
                     дополнительные опции:
                     <ol>
                         <li>
-                            В списке волонтёрских ролей внутри кнопки <Link
-                            to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</Link> появляется
+                            В списке волонтёрских ролей внутри кнопки <SmartLink
+                            to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</SmartLink> появляется
                             "Руководитель". Можно туда записаться.
                         </li>
                         <li>
@@ -60,21 +61,9 @@ export const AboutComponent: FC = () => {
             </ol>
             <strong>Полезные ссылки:</strong>
             <ul>
-                <li><Link to="#"
-                          onClick={(e) => {
-                              e.preventDefault();
-                              openExternal("https://5verst.ru/");
-                          }}>Главная 5 вёрст</Link></li>
-                <li><Link to="#"
-                          onClick={(e) => {
-                              e.preventDefault();
-                              openExternal("https://nrms.5verst.ru/");
-                          }}>NRMS</Link></li>
-                <li><Link to="#"
-                          onClick={(e) => {
-                              e.preventDefault();
-                              openExternal("https://my.5verst.ru/");
-                          }}>Ваш личный кабинет</Link></li>
+                <li><SmartLink to="https://5verst.ru/">Главная 5 вёрст</SmartLink></li>
+                <li><SmartLink to="https://nrms.5verst.ru/">NRMS</SmartLink></li>
+                <li><SmartLink to="https://my.5verst.ru/">Ваш личный кабинет</SmartLink></li>
                 {/*<li><Link to={"https://5krun.info/dashboards/f/AMNIEuhVk/"}>Интересная статистика</Link></li>*/}
             </ul>
         </div>
