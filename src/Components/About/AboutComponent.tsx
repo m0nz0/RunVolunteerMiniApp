@@ -1,5 +1,4 @@
 import {FC} from "react";
-import {Link} from "react-router-dom";
 import {RouteHelper} from "@/Common/RouteHelper";
 import {RouteCode} from "@/routes";
 import {SmartLink} from "@/Common/SmartLink";
