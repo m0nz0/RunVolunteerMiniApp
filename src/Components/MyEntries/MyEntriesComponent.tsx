@@ -45,7 +45,7 @@ export const MyEntriesComponent: FC = () => {
 
     return data.length > 0 ?
         <div className={"text-center"}>
-            <h5>Это список ваших предстоящих волонётрств</h5>
+            <h5>Это список ваших предстоящих волонтёрств</h5>
             <div className={"d-grid gap-2"}>
                 {data.map(x => <EntryComponent key={x.id} team={x}/>)}
             </div>
