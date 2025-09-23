@@ -150,8 +150,16 @@ export const AuthComponent: FC<Props> = (props) => {
                     </Button>
                 </section>
                 <div className="link-section">
-                    <Link to="https://nrms.5verst.ru/#/remindpassword">Забыли пароль?</Link>
-                    <Link to="https://5verst.ru/reminder/">Забыли ID?</Link>
+                    <Link to="#"
+                          onClick={(e) => {
+                              e.preventDefault();
+                              openExternal("https://nrms.5verst.ru/#/remindpassword");
+                          }}>Забыли пароль?</Link>
+                    <Link to="#"
+                          onClick={(e) => {
+                              e.preventDefault();
+                              openExternal("https://5verst.ru/reminder/");
+                          }}>Забыли ID?</Link>
                 </div>
             </main>
         </div>
