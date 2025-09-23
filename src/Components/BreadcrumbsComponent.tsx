@@ -1,10 +1,11 @@
 import React from "react";
 import {Breadcrumb} from "react-bootstrap";
-import {Link, matchPath, useLocation} from "react-router-dom";
+import {matchPath, useLocation} from "react-router-dom";
 import {appRoutes} from "@/routes";
 import {useGlobalContext} from "@/Common/Context/GlobalContext";
 import {useUserContext} from "@/Common/Context/UserContext";
 import {DateService} from "@/Common/DateService";
+import {SmartLink} from "@/Common/SmartLink";
 
 
 const BreadcrumbsComponent: React.FC = () => {
@@ -27,7 +28,7 @@ const BreadcrumbsComponent: React.FC = () => {
 
     return (
         <Breadcrumb>
-            <Breadcrumb.Item linkAs={Link} linkProps={{to: "/"}}>
+            <Breadcrumb.Item linkAs={SmartLink} linkProps={{to: "/"}}>
                 Главная
             </Breadcrumb.Item>
 
@@ -56,7 +57,7 @@ const BreadcrumbsComponent: React.FC = () => {
                     isLast = true
                 }
 
-                return (<Breadcrumb.Item key={url} linkAs={Link} linkProps={{to: url}} active={isLast}>
+                return (<Breadcrumb.Item key={url} linkAs={SmartLink} linkProps={{to: url}} active={isLast}>
                         {label}
                     </Breadcrumb.Item>
                 );

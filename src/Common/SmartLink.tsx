@@ -1,55 +1,60 @@
 import React from "react";
-import {Link, LinkProps, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-type SmartLinkProps = LinkProps & {
+type SmartLinkProps = {
+    to: string;
+    children: React.ReactNode;
     external?: boolean;
+    className?: string;
+    onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 };
 
-export const SmartLink: React.FC<SmartLinkProps> = ({to, children, external, ...rest}) => {
+export const SmartLink: React.FC<SmartLinkProps> = ({
+                                                        to,
+                                                        children,
+                                                        external,
+                                                        className,
+                                                        onClick,
+                                                    }) => {
     const navigate = useNavigate();
 
     const isExternal =
-        external || (typeof to === "string" && /^https?:\/\//.test(to));
+        external || /^https?:\/\//.test(to);
 
-    const openExternal = (url: string) => {
-        const tg = (window as any).Telegram?.WebApp;
-        if (tg) {
-            tg.openLink(url);
+    const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+        // // сначала вызовем пользовательский обработчик
+        if (onClick) {
+            onClick(e);
+        }
+        //
+        // // если он отменил действие → выходим
+        // if (e.defaultPrevented) {
+        //     return;
+        // }
+
+        if (isExternal) {
+            const tg = (window as any).Telegram?.WebApp;
+            if (tg) {
+                tg.openLink(to);
+            } else {
+                alert("Эта ссылка доступна только в Telegram 🚫");
+            }
         } else {
-            window.open(url, "_blank");
+            navigate(to);
         }
     };
 
-    if (isExternal && typeof to === "string") {
-        // ВНЕШНЯЯ ссылка → Telegram openLink
-        return (
-            <a
-                href={to}
-                onClick={(e) => {
-                    e.preventDefault();
-                    openExternal(to);
-                }}
-                {...rest}
-            >
-                {children}
-            </a>
-        );
-    }
-
-    // ВНУТРЕННЯЯ ссылка → react-router navigate
     return (
-        <Link
-            to={to}
-            onClick={(e) => {
-                // если Link используется как <SmartLink to="/route" />
-                if (typeof to === "string" && !to.startsWith("http")) {
-                    e.preventDefault();
-                    navigate(to);
-                }
+        <span
+            className={className}
+            style={{
+                color: "#0d6efd",
+                textDecoration: "underline",
+                cursor: "pointer",
             }}
-            {...rest}
+            onClick={handleClick}
         >
-            {children}
-        </Link>
+      {children}
+    </span>
     );
 };

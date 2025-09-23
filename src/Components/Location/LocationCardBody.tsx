@@ -41,7 +41,10 @@ export const LocationCardBody: FC<Props> = (props) => {
                 <CoordinatesComponent lat={props.location.lat} lon={props.location.lon}/>
             </div>
             <div>
-                <SmartLink onClick={(e) => e.preventDefault()}
+                <SmartLink onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }}
                            to={`https://5verst.ru/${props.location.url}`}>Страница
                     локации</SmartLink>
             </div>
