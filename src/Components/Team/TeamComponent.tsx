@@ -142,7 +142,7 @@ export const TeamComponent: FC = () => {
     return <div>
         <div className={"text-center"}>
             <h5>
-                Команда локации {team?.location?.name} за {DateService.formatDayMonthNameYear(team?.date?.date ?? "")}
+                Команда {team?.lastEvent ? `${team.lastEvent.eventNumber} старта ` : ""}локации {team?.location?.name} за {DateService.formatDayMonthNameYear(team?.date?.date ?? "")}
             </h5>
         </div>
         <div style={{"display": "flex", "justifyContent": "space-between"}}>

@@ -138,10 +138,14 @@ export interface TeamData {
     hasOtherLocations: boolean,
     canDelete: boolean,
     verstAthlete: VerstAthlete,
-    pollParameters: PollParameters
-
+    pollParameters: PollParameters,
+    lastEvent?: LastEventData
 }
 
+export interface LastEventData {
+    eventNumber: number,
+    lastDate: string
+}
 export interface PollParameters {
     initiatorId?: number;
     canCreate: boolean;
