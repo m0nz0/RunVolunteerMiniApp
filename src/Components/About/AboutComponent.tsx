@@ -58,6 +58,13 @@ export const AboutComponent: FC = () => {
                     </ol>
                 </li>
             </ol>
+            <p>Есть идеи, предложения, пожелания, нужна помощь, заметил баг, хочешь выразить благодарность или
+                поделиться негативом, рассказать смешную историю, пожаловаться на интернет, посоветовать фильм или
+                сериал, похвастаться котом, поделиться мемом — пиши <SmartLink onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                }} to={"https://t.me/MikeKar"}>мне</SmartLink>
+            </p>
             <strong>Полезные ссылки:</strong>
             <ul>
                 <li><SmartLink to="https://5verst.ru/">Главная 5 вёрст</SmartLink></li>

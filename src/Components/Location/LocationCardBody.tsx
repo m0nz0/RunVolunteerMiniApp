@@ -48,6 +48,23 @@ export const LocationCardBody: FC<Props> = (props) => {
                            to={`https://5verst.ru/${props.location.url}`}>Страница
                     локации</SmartLink>
             </div>
+            {!props.location.locationFlags.some(x => x == LocationFlag.IsBotActive) && <div>
+                <br/>
+                <span>
+                    Если вы хотите начать пользоваться ботом, то пусть ран-директор локации напишет <SmartLink
+                    onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
+                    to={"https://t.me/MikeKar"}>мне</SmartLink>. А пока записаться в волонтёры можно <SmartLink
+                    onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }}
+                    to={"https://5verst.ru/preobrazhenskiy/volunteer"}>через сайт</SmartLink>.
+
+                </span>
+            </div>}
         </Card.Text>
     </Card.Body>)
 }
