@@ -146,5 +146,12 @@ export const AppButtons = {
             label={"Сохранить в NRMS"}
             variant={"secondary"}
         />
+    ),
+    SmileReport: (locationId: number) => (
+        <AppButton
+            to={`/existing-entries/${locationId}/report`}
+            label={"Отчёт"}
+            variant={"secondary"}
+        />
     )
 };

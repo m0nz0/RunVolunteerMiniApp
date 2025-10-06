@@ -1,5 +1,5 @@
 import {getTelegramUser} from "@/Common/TelegramHelper";
-import {DirectorScheduleData, Team, TeamData} from "@/types";
+import {DirectorScheduleData, SmileReportData, Team, TeamData} from "@/types";
 import {apiFetch} from "@/Common/api";
 
 
@@ -10,6 +10,7 @@ const methodNames = {
     UNDO: "undo-schedule",
     DIRECTOR_SCHEDULES: "director-schedule",
     CREATE_POLL: "create-poll",
+    CREATE_REPORT: "create-report",
 }
 const botUrl: string | undefined = import.meta.env.VITE_BOT_URL;
 
@@ -51,6 +52,18 @@ export default class TeamService {
                 locationId: locationId,
                 tgId: userId
             }),
+        })
+    }
+
+    static async getReport(locationId: number): Promise<SmileReportData> {
+
+        let userId = getTelegramUser().id;
+        let fetchUrl = `${botUrl}/api/v1/${controllerName}/${methodNames.CREATE_REPORT}/${locationId}`;
+        // console.log("get report url", fetchUrl)
+
+        return await apiFetch<SmileReportData>(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify(userId),
         })
     }
 

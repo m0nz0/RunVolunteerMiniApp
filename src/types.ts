@@ -146,6 +146,7 @@ export interface LastEventData {
     eventNumber: number,
     lastDate: string
 }
+
 export interface PollParameters {
     initiatorId?: number;
     canCreate: boolean;
@@ -256,4 +257,10 @@ export interface RosterLocationResponse {
 
 export interface RosterLocationResult {
     event_list: RosterLocation[]
+}
+
+export interface SmileReportData {
+    lastDate: string;
+    report: string
+    location: UserLocationDictItem
 }

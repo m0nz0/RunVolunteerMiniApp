@@ -241,6 +241,7 @@ export const TeamComponent: FC = () => {
                                                            size={"sm"}
                                                            onClick={() => startPoll()}>Запустить перекличку</Button>}
                 {canTrySaveNrms && AppButtons.AuthNrms(Number(locationId), Number(calendarId))}
+                {AppButtons.SmileReport(Number(locationId))}
             </ButtonGroup>
         </ListGroup>
         {ConfirmModal}

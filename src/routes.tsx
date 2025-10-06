@@ -16,6 +16,7 @@ import {LoginType} from "./Const/LoginType";
 import {DirectorsScheduleComponent} from "./Components/Team/DirectorsScheduleComponent";
 import {RosterComponent} from "./Components/Roster/RosterComponent";
 import {ComponentType} from "react";
+import {ReportComponent} from "@/Components/Report/ReportComponent";
 
 
 export enum RouteCode {
@@ -46,6 +47,7 @@ export enum RouteCode {
     LoginNrms = "login-nrms",
     CheckRoster = "CheckRoster",
     PreviewRoster = "PreviewRoster",
+    Report="Report"
 }
 
 export interface AppRoute {
@@ -202,5 +204,11 @@ export const appRoutes: AppRoute[] = [
         path: "/existing-entries/:locationId/dates/:calendarId/team/preview-roster",
         label: "Проверка данных для заливки",
         element: RosterComponent,
+    },
+    {
+        routeCode: RouteCode.Report,
+        path: "/existing-entries/:locationId/report",
+        label: "Отчет",
+        element: ReportComponent,
     },
 ]
