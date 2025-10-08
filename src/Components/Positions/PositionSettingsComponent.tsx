@@ -131,13 +131,19 @@ export const PositionSettingsComponent: FC = () => {
             {data?.positions.map(pos => {
                     return <tr key={pos.id}>
                         <td>{pos.name}</td>
-                        <td>
+                        <td style={{position: "relative", zIndex: 2}}>
                             <Select
                                 className="react-select-bootstrap"
                                 classNamePrefix="rsb"
                                 menuPortalTarget={document.body}
+                                menuPosition="fixed"
                                 styles={{
-                                    menuPortal: base => ({...base, zIndex: 9999}), // чтобы выпадашка не пряталась
+                                    menuPortal: (base) => ({...base, zIndex: 9999}),
+                                    menu: (base) => ({
+                                        ...base,
+                                        minWidth: "100%",
+                                        width: "auto",
+                                    }),
                                 }}
                                 isDisabled={pos.id === 1}
                                 value={typeOptions.find((o) => o.value == (selectedTypes[pos.id] ?? PositionType.Rare).toString())}
@@ -145,14 +151,21 @@ export const PositionSettingsComponent: FC = () => {
                                 options={typeOptions}>
                             </Select>
                         </td>
-                        <td>
+                        <td style={{position: "relative", zIndex: 1}}>
                             <Select
-                                className="react-select-bootstrap"
+                                className="react-select-bootstrap react-select-wide"
                                 classNamePrefix="rsb"
                                 menuPortalTarget={document.body}
+                                menuPosition="fixed"
                                 styles={{
-                                    menuPortal: base => ({...base, zIndex: 9999}), // чтобы выпадашка не пряталась
-                                }} value={limitOptions.find((o) => o.value == (selectedLimits[pos.id] ?? "").toString())}
+                                    menuPortal: (base) => ({...base, zIndex: 9999}),
+                                    menu: (base) => ({
+                                        ...base,
+                                        minWidth: "100%",
+                                        width: "auto",
+                                    }),
+                                }}
+                                value={limitOptions.find((o) => o.value == (selectedLimits[pos.id] ?? "").toString())}
                                 onChange={(opt: any) => handleChangeLimit(pos.id, Number(opt.value))}
                                 options={limitOptions}>
                             </Select>

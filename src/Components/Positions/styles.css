@@ -7,6 +7,22 @@
     vertical-align: top !important;
 }
 
+.table .react-select-bootstrap {
+    width: 100%;
+}
+
+.table .rsb__control {
+    min-height: 36px;
+    font-size: 0.9rem;
+}
+
+.react-select-wide .rsb__single-value {
+    white-space: nowrap !important;
+    text-overflow: unset !important;
+    overflow: visible !important;
+    /*line-height: 1.2;*/
+}
+
 /* Контейнер */
 .react-select-bootstrap .rsb__control {
     border: 1px solid #ced4da;
