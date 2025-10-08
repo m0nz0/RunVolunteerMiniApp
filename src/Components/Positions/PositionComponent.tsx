@@ -56,14 +56,14 @@ export const PositionComponent: FC = () => {
                 <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
                     даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
             </div>
-            <Alert variant={"info"} style={{"justifySelf": "center"}}>
-                {/*<p>{Icons.ExclamationRed} - обязательная позиция</p>*/}
-                {/*<p>{Icons.CheckGreen} - кто-то уже записался</p>*/}
-                <span style={{"paddingRight": "16"}}>{Icons.ExclamationRed} - обязательная позиция</span>
+            {(positionData.overLimitPositions ?? []).length > 0 &&
+                <Alert variant={"danger"} style={{textAlign: "center"}}>Запись на некоторые позиции недоступна. Набрано
+                    достаточное количество волонтёров</Alert>}
+
+            <Alert variant={"info"} style={{"textAlign": "center"}}>
+                <span>{Icons.ExclamationRed} - обязательная позиция</span>
                 <span>{Icons.CheckGreen} - кто-то уже записался</span>
             </Alert>
-            {(positionData.overLimitPositions ?? []).length > 0 &&
-                <Alert>Запись на некоторые позиции недоступна. Набрано достаточное количество волонтёров</Alert>}
 
             <Accordion alwaysOpen={false} defaultActiveKey={PositionType.Main.toString()}>
                 {Object.entries(Object.groupBy(positionData?.positions, item => item.positionType))
