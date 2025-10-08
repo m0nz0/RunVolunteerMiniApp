@@ -17,7 +17,7 @@ export const PositionLimitAdminComponent: FC = () => {
         await PositionService.savePositionsForLimitsAdmin(Number(locationId), selected)
             .then(() => toast.success("Лимиты сохранены", {onClose: () => window.location.reload()}))
             .catch(reason =>
-                toast.error("Ошибка сохранения позиций"))
+                toast.error("Ошибка сохранения лимитов позиций"))
     }
 
     useEffect(() => {
