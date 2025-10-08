@@ -41,21 +41,6 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
     if (props.location.botActive) {
 
-        if (location.isDirected || props.user.isAdmin) {
-            addonList.push(<Dropdown.Item as={"div"}>
-                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-type-admin`)}>
-                    Управление позициями
-                </div>
-            </Dropdown.Item>)
-        }
-
-        if ((location.isDirected || props.user.isAdmin) && Overlim.some(x => x == props.location.verstId)) {
-            addonList.push(<Dropdown.Item as={"div"}>
-                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-limit-admin`)}>
-                    Управление лимитами
-                </div>
-            </Dropdown.Item>)
-        }
 
         if (!props.location.isRequested && !props.location.isDirected) {
             addonList.push(<Dropdown.Item as={"div"}
@@ -74,12 +59,26 @@ export const LocationCardFooter: FC<Props> = (props) => {
                 Список директоров
             </div>
         </Dropdown.Item>)
-
     }
-    if (props.user.isAdmin) {
-        {
-            addonList.length > 0 && addonList.push(<Dropdown.Divider/>)
+    if (location.isDirected || props.user.isAdmin) {
+        addonList.length > 0 && addonList.push(<Dropdown.Divider/>)
+        addonList.push(<Dropdown.Item as={"div"}>
+            <div onClick={() => navigate(`/locations/${location.verstId}/info/position-type-admin`)}>
+                Управление позициями
+            </div>
+        </Dropdown.Item>)
+
+        if (Overlim.some(x => x == props.location.verstId)) {
+            addonList.push(<Dropdown.Item as={"div"}>
+                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-limit-admin`)}>
+                    Управление лимитами
+                </div>
+            </Dropdown.Item>)
         }
+    }
+
+    if (props.user.isAdmin) {
+        addonList.length > 0 && addonList.push(<Dropdown.Divider/>)
         addonList.push(<Dropdown.Item as={"div"}>
             <div className={"w-100"}
                  onClick={() => handleOnOffClick()}
@@ -111,7 +110,8 @@ export const LocationCardFooter: FC<Props> = (props) => {
                                     size={"sm"}
                                     title="Дополнительно"
                                     id="location-addon">
-                        {addonList.map((item, index) => <div key={index} style={{cursor: "pointer"}}>{item}</div>)}
+                        {addonList.map((item, index) => <div key={index}
+                                                             style={{cursor: "pointer", padding: 2}}>{item}</div>)}
                     </DropdownButton>}
 
             </ButtonToolbar>

@@ -27,27 +27,27 @@ export const LocationCardBody: FC<Props> = (props) => {
                 </span>
             </div>
         </Card.Title>
-        <Card.Text>
-            <div>
+        <Card.Text style={{"display":"grid"}}>
+            <span>
                 <strong>Город: </strong>
                 <span>{props.location.cityName}</span>
-            </div>
-            <div>
+            </span>
+            <span>
                 <strong>Статус: </strong>
                 <span>{props.location.verstStatusName}</span>
-            </div>
-            <div>
+            </span>
+            <span>
                 <strong>Где: </strong>
                 <CoordinatesComponent lat={props.location.lat} lon={props.location.lon}/>
-            </div>
-            <div>
+            </span>
+            <span>
                 <SmartLink onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
                 }}
                            to={`https://5verst.ru/${props.location.url}`}>Страница
                     локации</SmartLink>
-            </div>
+            </span>
             {!props.location.locationFlags.some(x => x == LocationFlag.IsBotActive) && <div>
                 <br/>
                 <span>
