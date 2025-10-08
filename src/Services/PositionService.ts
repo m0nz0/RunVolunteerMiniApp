@@ -7,7 +7,8 @@ const url = {
     ALL_POSITIONS: "get-all-positions",
     POSITIONS_FOR_SCHEDULE: "get-positions-for-schedule",
     POSITION_ADMIN: "position-admin",
-    SAVE_POSITIONS: "save-positions"
+    SAVE_POSITION_TYPES: "save-position-types",
+    SAVE_POSITION_LIMITS: "save-position-limits"
 }
 
 export default class PositionService {
@@ -48,7 +49,7 @@ export default class PositionService {
 
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
-        let methodName = url.SAVE_POSITIONS;
+        let methodName = url.SAVE_POSITION_TYPES;
         let fetchUrl = `${baseUrl}/api/v1/${controllerName}/locations/${locationId}/${methodName}/`;
         // console.log("save position admin fetch url", fetchUrl)
 
@@ -60,7 +61,7 @@ export default class PositionService {
 
     static async getAllPositions(): Promise<Position[]> {
 
-        console.log("user",getTelegramUser())
+        console.log("user", getTelegramUser())
         let userId = getTelegramUser().id;
         let baseUrl = import.meta.env.VITE_BOT_URL;
         let controllerName = "MiniApp";
@@ -71,6 +72,19 @@ export default class PositionService {
         return await apiFetch<Position[]>(fetchUrl, {
             method: "POST",
             body: JSON.stringify(userId),
+        })
+    }
+
+    static async savePositionsForLimitsAdmin(locationId: number, selected: Record<number, number>) {
+        let baseUrl = import.meta.env.VITE_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = url.SAVE_POSITION_LIMITS;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/locations/${locationId}/${methodName}/`;
+        // console.log("save position limits fetch url", fetchUrl)
+
+        await apiFetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify(selected),
         })
     }
 }

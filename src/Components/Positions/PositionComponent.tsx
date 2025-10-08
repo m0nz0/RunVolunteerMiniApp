@@ -62,6 +62,8 @@ export const PositionComponent: FC = () => {
                 <span style={{"paddingRight": "16"}}>{Icons.ExclamationRed} - обязательная позиция</span>
                 <span>{Icons.CheckGreen} - кто-то уже записался</span>
             </Alert>
+            {(positionData.overLimitPositions ?? []).length > 0 &&
+                <Alert>Запись на некоторые позиции недоступна. Набрано достаточное количество волонтёров</Alert>}
 
             <Accordion alwaysOpen={false} defaultActiveKey={PositionType.Main.toString()}>
                 {Object.entries(Object.groupBy(positionData?.positions, item => item.positionType))
@@ -77,8 +79,14 @@ export const PositionComponent: FC = () => {
                                                 Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
 
                                             return ({
-                                                ...AppButtons.ToNameInput(Number(locationId), Number(calendarId), x.id,
-                                                    <div>{icon} {x.name}</div>), key: uuid()
+                                                ...AppButtons.ToNameInput(
+                                                    Number(locationId),
+                                                    Number(calendarId),
+                                                    x.id,
+                                                    <div>{icon} {x.name}</div>,
+                                                    "info",
+                                                    (positionData.overLimitPositions ?? []).some(o => o.id == x.id)),
+                                                key: uuid()
                                             });
                                         })
                                     }

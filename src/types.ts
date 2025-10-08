@@ -104,7 +104,13 @@ export interface UserLocationDictItem extends GlobalLocationDictItem {
     href: string,
     defaultPositions: DefaultPosition,
     directorTgIds: number[],
-    locationFlags: string[]
+    locationFlags: string[],
+    limits: Limit[]
+}
+
+export interface Limit {
+    p: number,
+    t: number
 }
 
 export interface FlagChecker {
@@ -127,6 +133,7 @@ export interface PositionAdminData {
 
 export interface PositionData extends PositionAdminData {
     calendar: CalendarInfo,
+    overLimitPositions: Position[],
     team: Team[]
 }
 

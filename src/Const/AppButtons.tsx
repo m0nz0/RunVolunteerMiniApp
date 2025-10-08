@@ -120,11 +120,12 @@ export const AppButtons = {
             // variant="secondary"
         />
     ),
-    ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any, variant: string = "info") => (
+    ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any, variant: string = "info", disabled: boolean = false) => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position/${positionId}`}
             label={name}
             variant={variant}
+            disabled = {disabled}
         />
     ),
     ToDirectors: (locationId: number, name: string) => (

@@ -5,6 +5,7 @@ import {LocationFlag} from "@/Const/LocationFlag";
 import {AppButtons} from "@/Const/AppButtons";
 import LocationService from "../../Services/LocationService";
 import {useNavigate} from "react-router-dom";
+import {Overlim} from "@/Const/TestConst";
 
 interface Props {
     location: UserLocationDictItem,
@@ -42,8 +43,16 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
         if (location.isDirected || props.user.isAdmin) {
             addonList.push(<Dropdown.Item as={"div"}>
-                <div onClick={() => navigate(`/locations/${location.verstId}/position-admin`)}>
+                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-type-admin`)}>
                     Управление позициями
+                </div>
+            </Dropdown.Item>)
+        }
+
+        if ((location.isDirected || props.user.isAdmin) && Overlim.some(x => x == props.location.verstId)) {
+            addonList.push(<Dropdown.Item as={"div"}>
+                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-limit-admin`)}>
+                    Управление лимитами
                 </div>
             </Dropdown.Item>)
         }
@@ -61,7 +70,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
 
         addonList.push(<Dropdown.Item as={"div"}>
-            <div onClick={() => navigate(`/locations/${location.verstId}/directors`)}>
+            <div onClick={() => navigate(`/locations/${location.verstId}/info/directors`)}>
                 Список директоров
             </div>
         </Dropdown.Item>)

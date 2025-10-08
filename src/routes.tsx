@@ -10,13 +10,14 @@ import {LocationCardComponent} from "./Components/Location/LocationCardComponent
 import {ProfileComponent} from "./Components/Profile/ProfileComponent";
 import {DirectorsComponent} from "./Components/Directors/DirectorsComponent";
 import {MyEntriesComponent} from "./Components/MyEntries/MyEntriesComponent";
-import {PositionAdminComponent} from "./Components/Positions/PositionAdminComponent";
+import {PositionTypeAdminComponent} from "./Components/Positions/PositionTypeAdminComponent";
 import {AuthComponent} from "./Components/Auth/AuthComponent";
 import {LoginType} from "./Const/LoginType";
 import {DirectorsScheduleComponent} from "./Components/Team/DirectorsScheduleComponent";
 import {RosterComponent} from "./Components/Roster/RosterComponent";
 import {ComponentType} from "react";
 import {ReportComponent} from "@/Components/Report/ReportComponent";
+import {PositionLimitAdminComponent} from "@/Components/Positions/PositionLimitAdminComponent";
 
 
 export enum RouteCode {
@@ -35,7 +36,8 @@ export enum RouteCode {
     NewName = "new-name",
     Profile = "profile",
     Directors = "directors",
-    PositionAdmin = "position-admin",
+    PositionTypeAdmin = "PositionTypeAdmin",
+    PositionLimitAdmin = "PositionLimitAdmin",
     MyEntries = "my-entries",
     ExistingEntries = "existing-entries",
     DirectorsSchedule = "directors-schedule",
@@ -82,14 +84,14 @@ export const appRoutes: AppRoute[] = [
     },
     {
         routeCode: RouteCode.Location,
-        path: "/locations/:locationId",
-        label: "Локация",
+        path: "/locations/:locationId/info",
+        label: "Детали",
         element: LocationCardComponent,
         extraProps: {},
     },
     {
         routeCode: RouteCode.Directors,
-        path: "/locations/:locationId/directors",
+        path: "/locations/:locationId/info/directors",
         label: "Директора",
         element: DirectorsComponent,
     },
@@ -102,10 +104,16 @@ export const appRoutes: AppRoute[] = [
         children: []
     },
     {
-        routeCode: RouteCode.PositionAdmin,
-        path: "/locations/:locationId/position-admin",
+        routeCode: RouteCode.PositionTypeAdmin,
+        path: "/locations/:locationId/info/position-type-admin",
         label: "Управление позициями",
-        element: PositionAdminComponent,
+        element: PositionTypeAdminComponent,
+    },
+    {
+        routeCode: RouteCode.PositionLimitAdmin,
+        path: "/locations/:locationId/info/position-limit-admin",
+        label: "Управление лимитами",
+        element: PositionLimitAdminComponent,
     },
     {
         routeCode: RouteCode.MyEntries,

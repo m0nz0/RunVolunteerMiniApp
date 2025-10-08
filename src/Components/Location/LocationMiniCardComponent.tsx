@@ -20,7 +20,7 @@ export const LocationMiniCardComponent: FC<Props> = (props) => {
     let locationViewType = props.locationViewType;
 
     let to = locationViewType === LocationViewType.AllLocations ?
-        `/locations/${location.verstId}` :
+        `/locations/${location.verstId}/info` :
         locationViewType === LocationViewType.WithSchedules ?
             `/existing-entries/${location.verstId}/dates` :
             locationViewType === LocationViewType.ForSchedule ?
