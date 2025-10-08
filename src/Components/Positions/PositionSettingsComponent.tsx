@@ -1,10 +1,11 @@
 import React, {FC, useEffect, useState} from "react";
 import PositionService from "../../Services/PositionService";
 import {PositionAdminData} from "@/types";
-import {Form, Spinner, Table} from "react-bootstrap";
+import {Spinner, Table} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import './styles.css'
 import {toast} from "react-toastify";
+import Select from "react-select";
 import {PositionType, PositionTypeParams} from "@/Const/PositionType";
 
 export const PositionSettingsComponent: FC = () => {
@@ -98,8 +99,22 @@ export const PositionSettingsComponent: FC = () => {
         }));
     };
 
+    const typeOptions = Object.entries(PositionTypeParams).map(([type, {name, icon}]) => ({
+        value: type,
+        label: name,
+    }));
+
+    const limitOptions = [
+        ...Array.from({length: 9}, (_, i) => ({
+            value: (i + 1).toString(),
+            label: (i + 1).toString(),
+        })),
+        {value: "", label: "Нет"},
+    ]
+
     return <div>
         {/*<pre>{JSON.stringify(selectedTypes, null, 2)}</pre>*/}
+        {/*<pre>{JSON.stringify(selectedLimits, null, 2)}</pre>*/}
         <div className={"text-center"}>
             <h5>Настройка лимитов позиций для локации {data?.location.name}</h5>
             <span className={"text-danger"}>Не забудьте сохранить после внесения изменений</span>
@@ -117,31 +132,30 @@ export const PositionSettingsComponent: FC = () => {
                     return <tr key={pos.id}>
                         <td>{pos.name}</td>
                         <td>
-                            <Form.Select
-                                disabled={pos.id === 1}
-                                value={selectedTypes[pos.id] ?? PositionType.Rare}
-                                onChange={(e) => handleChangeType(pos.id, Number(e.target.value))}
-                            >
-                                {Object.entries(PositionTypeParams)
-                                    .map(([type, {name, icon}], i) => (
-                                        <option key={i + 1} value={type}>
-                                            {name}
-                                        </option>
-                                    ))}
-                            </Form.Select>
+                            <Select
+                                className="react-select-bootstrap"
+                                classNamePrefix="rsb"
+                                menuPortalTarget={document.body}
+                                styles={{
+                                    menuPortal: base => ({...base, zIndex: 9999}), // чтобы выпадашка не пряталась
+                                }}
+                                isDisabled={pos.id === 1}
+                                value={typeOptions.find((o) => o.value == (selectedTypes[pos.id] ?? PositionType.Rare).toString())}
+                                onChange={(opt: any) => handleChangeType(pos.id, Number(opt.value))}
+                                options={typeOptions}>
+                            </Select>
                         </td>
                         <td>
-                            <Form.Select
-                                value={selectedLimits[pos.id] ?? ""}
-                                onChange={(e) => handleChangeLimit(pos.id, Number(e.target.value))}
-                            >
-                                <option value="">Нет</option>
-                                {[...Array(9)].map((_, i) => (
-                                    <option key={i + 1} value={i + 1}>
-                                        {i + 1}
-                                    </option>
-                                ))}
-                            </Form.Select>
+                            <Select
+                                className="react-select-bootstrap"
+                                classNamePrefix="rsb"
+                                menuPortalTarget={document.body}
+                                styles={{
+                                    menuPortal: base => ({...base, zIndex: 9999}), // чтобы выпадашка не пряталась
+                                }} value={limitOptions.find((o) => o.value == (selectedLimits[pos.id] ?? "").toString())}
+                                onChange={(opt: any) => handleChangeLimit(pos.id, Number(opt.value))}
+                                options={limitOptions}>
+                            </Select>
                         </td>
                     </tr>
                 }
