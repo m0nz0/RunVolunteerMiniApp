@@ -18,6 +18,7 @@ import {RosterComponent} from "./Components/Roster/RosterComponent";
 import {ComponentType} from "react";
 import {ReportComponent} from "@/Components/Report/ReportComponent";
 import {PositionLimitAdminComponent} from "@/Components/Positions/PositionLimitAdminComponent";
+import {PositionSettingsComponent} from "@/Components/Positions/PositionSettingsComponent";
 
 
 export enum RouteCode {
@@ -49,7 +50,8 @@ export enum RouteCode {
     LoginNrms = "login-nrms",
     CheckRoster = "CheckRoster",
     PreviewRoster = "PreviewRoster",
-    Report="Report"
+    Report="Report",
+    PositionSettings="PositionSettings",
 }
 
 export interface AppRoute {
@@ -114,6 +116,12 @@ export const appRoutes: AppRoute[] = [
         path: "/locations/:locationId/info/position-limit-admin",
         label: "Управление лимитами",
         element: PositionLimitAdminComponent,
+    },
+    {
+        routeCode: RouteCode.PositionSettings,
+        path: "/locations/:locationId/info/position-settings-admin",
+        label: "Управление лимитами",
+        element: PositionSettingsComponent,
     },
     {
         routeCode: RouteCode.MyEntries,
