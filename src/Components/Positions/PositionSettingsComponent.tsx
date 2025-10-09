@@ -225,12 +225,13 @@ export const PositionSettingsComponent: FC = () => {
                 <ul>
                     <li>Группы позиций (обязательные/дополнительные/редкие)</li>
                     <li>Максимальное количество волонтёров для позиции</li>
-                    <li><span>Порядок отображения (удерживайте </span>{Icons.Dnd}<span> и перетягивайте позиции)</span></li>
+                    <li><span>Порядок отображения (удерживайте </span>{Icons.Dnd}<span> и перетягивайте позиции)</span>
+                    </li>
                 </ul>
-                <div className="text-center">
-                    <span className="text-danger"> Не забудьте сохранить после внесения изменений </span>
-                </div>
             </Alert>}
+            <Alert variant={"danger"} className="text-center">
+                <span className="text-danger"> Не забудьте сохранить после внесения изменений </span>
+            </Alert>
 
             <div className={"container"}>
                 <div className="row fw-bold border-bottom py-2">
