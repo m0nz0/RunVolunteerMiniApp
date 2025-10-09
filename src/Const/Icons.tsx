@@ -17,7 +17,8 @@ import {
     faArrowsUpDown,
     faXmark,
     faArrowsRotate,
-    faQuestion
+    faQuestion,
+    faGripVertical
 } from "@fortawesome/free-solid-svg-icons";
 
 export const Icons = {
@@ -40,6 +41,7 @@ export const Icons = {
     RedCross: <FontAwesomeIcon icon={faXmark} style={{color: "red"}}/>,
     Question: <FontAwesomeIcon icon={faQuestion} style={{color: "red"}}/>,
     Rotate: <FontAwesomeIcon icon={faArrowsRotate} style={{color: "goldenrod"}}/>,
+    Dnd: <FontAwesomeIcon icon={faGripVertical} style={{color: "black"}}/>,
 
 
 }

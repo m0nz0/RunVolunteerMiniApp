@@ -8,7 +8,8 @@ const url = {
     POSITIONS_FOR_SCHEDULE: "get-positions-for-schedule",
     POSITION_ADMIN: "position-admin",
     SAVE_POSITION_TYPES: "save-position-types",
-    SAVE_POSITION_LIMITS: "save-position-limits"
+    SAVE_POSITION_LIMITS: "save-position-limits",
+    SAVE_POSITION_ORDERS: "save-position-orders"
 }
 
 export default class PositionService {
@@ -85,6 +86,19 @@ export default class PositionService {
         await apiFetch(fetchUrl, {
             method: "POST",
             body: JSON.stringify(selected),
+        })
+    }
+
+    static async updateOrder(locationId: number, orderedIds: number[]) {
+        let baseUrl = import.meta.env.VITE_BOT_URL;
+        let controllerName = "MiniApp";
+        let methodName = url.SAVE_POSITION_ORDERS;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/locations/${locationId}/${methodName}/`;
+        // console.log("save position orders fetch url", fetchUrl)
+
+        await apiFetch(fetchUrl, {
+            method: "POST",
+            body: JSON.stringify(orderedIds),
         })
     }
 }

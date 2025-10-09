@@ -1,7 +1,7 @@
 import React, {FC, memo, useCallback, useEffect, useMemo, useState} from "react";
 import PositionService from "../../Services/PositionService";
 import {Position, UserLocationDictItem} from "@/types";
-import {Spinner} from "react-bootstrap";
+import {Alert, Spinner} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {PositionType, PositionTypeParams} from "@/Const/PositionType";
@@ -10,6 +10,7 @@ import {arrayMove, SortableContext, useSortable, verticalListSortingStrategy} fr
 import {closestCenter, DndContext, PointerSensor, TouchSensor, useSensor, useSensors,} from "@dnd-kit/core";
 import {GripVertical} from "lucide-react";
 import {CSS} from "@dnd-kit/utilities";
+import {Icons} from "@/Const/Icons";
 
 
 const SortableRow = memo(function SortableRow({
@@ -36,7 +37,8 @@ const SortableRow = memo(function SortableRow({
         <div ref={setNodeRef} style={style}
              className="row align-items-center py-1 border-bottom">
             <div className="col-auto d-flex align-items-center justify-content-center">
-                <span {...listeners} {...attributes} style={{cursor: "grab"}}>
+                <span {...listeners} {...attributes}
+                      className={"drag-handle"}>
                     <GripVertical size={18}/>
                 </span>
             </div>
@@ -77,6 +79,7 @@ export const PositionSettingsComponent: FC = () => {
     const [selectedLimits, setSelectedLimits] = useState<Record<number, number>>({});
     const [selectedTypes, setSelectedTypes] = useState<Record<number, PositionType>>({});
     const {locationId} = useParams();
+    const [show, setShow] = useState<boolean>(true);
 
     useEffect(() => {
         let isMounted = true;
@@ -118,12 +121,14 @@ export const PositionSettingsComponent: FC = () => {
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
-            activationConstraint: {distance: 5}, // ПК
+            activationConstraint: {
+                distance: 8, // чтобы не срабатывало при случайных касаниях
+            },
         }),
         useSensor(TouchSensor, {
             activationConstraint: {
-                delay: 200, // задержка 200 мс, чтобы распознать “удержание”
-                tolerance: 5, // небольшое смещение допустимо
+                delay: 250, // нужно удерживать 250мс, чтобы начать drag
+                tolerance: 5, // можно немного сдвинуть палец, не отменяя
             },
         })
     );
@@ -158,13 +163,14 @@ export const PositionSettingsComponent: FC = () => {
         {value: "", label: "Нет"}
     ]), []);
 
-    if (loading) return (
-        <div className="p-3 text-center">
-            <Spinner animation="border" role="status"/>
-            <p className="mt-2">Загрузка...</p>
-        </div>
-    );
-
+    if (loading) {
+        return (
+            <div className="p-3 text-center">
+                <Spinner animation="border" role="status"/>
+                <p className="mt-2">Загрузка...</p>
+            </div>
+        )
+    }
 
     const handleDragEnd = (event: any) => {
         const {active, over} = event;
@@ -176,7 +182,6 @@ export const PositionSettingsComponent: FC = () => {
             });
         }
     };
-
 
     const savePositionLimits = async () => {
         await PositionService.savePositionsForLimitsAdmin(Number(locationId), selectedLimits)
@@ -192,10 +197,9 @@ export const PositionSettingsComponent: FC = () => {
 
     const handleSaveOrder = async () => {
         const orderedIds = positions.map(p => p.id);
-        // todo
-        // await PositionService.updateOrder(orderedIds)
-        //     .then(() => toast.success("Порядок позиций сохранён", {onClose: () => window.location.reload()}))
-        //     .catch(() => toast.error("Ошибка сохранения порядка позиций"));
+        await PositionService.updateOrder(Number(locationId), orderedIds)
+            .then(() => toast.success("Порядок позиций сохранён", {onClose: () => window.location.reload()}))
+            .catch(() => toast.error("Ошибка сохранения порядка позиций"));
     };
 
     const saveAll = async () => {
@@ -210,10 +214,22 @@ export const PositionSettingsComponent: FC = () => {
     return (
         <div>
             {/*<pre>{JSON.stringify(positions.map(x => x.id), null, 2)}</pre>*/}
-            <div className="text-center mb-3">
-                <h5>Настройка лимитов позиций для локации {location.name}</h5>
-                <span className="text-danger">Не забудьте сохранить после внесения изменений </span>
+            {/*<pre>{JSON.stringify(selectedTypes, null, 2)}</pre>*/}
+            {/*<pre>{JSON.stringify(selectedLimits, null, 2)}</pre>*/}
+            <div className="text-center">
+                <h5>Настройки позиций для локации {location.name}</h5>
             </div>
+            {show && <Alert variant="info" onClose={() => setShow(false)} dismissible>
+                <span>Тут вы можете настроить:</span>
+                <ul>
+                    <li>Группы позиций (обязательные/дополнительные/редкие)</li>
+                    <li>Максимальное количество волонтёров для позиции</li>
+                    <li><span>Порядок отображения (удерживайте </span>{Icons.Dnd}<span> и перетягивайте позиции)</span></li>
+                </ul>
+                <div className="text-center">
+                    <span className="text-danger"> Не забудьте сохранить после внесения изменений </span>
+                </div>
+            </Alert>}
 
             <div className={"container"}>
                 <div className="row fw-bold border-bottom py-2">

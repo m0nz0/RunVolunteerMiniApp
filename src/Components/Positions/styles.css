@@ -3,6 +3,13 @@
     padding-right: 2px;
 }
 
-.small{
+.small {
     max-width: fit-content;
+}
+
+.drag-handle {
+    cursor: grab;
+    touch-action: none; /* ключевая строка */
+    -webkit-user-select: none; /* защищает от выделения текста при перетаскивании */
+    -webkit-touch-callout: none;
 }
