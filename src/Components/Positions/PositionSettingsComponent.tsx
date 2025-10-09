@@ -1,35 +1,82 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, memo, useCallback, useEffect, useMemo, useState} from "react";
 import PositionService from "../../Services/PositionService";
-import {PositionAdminData} from "@/types";
-import {Col, Row, Spinner} from "react-bootstrap";
+import {Position, UserLocationDictItem} from "@/types";
+import {Spinner} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
-import Select from "react-select";
 import {PositionType, PositionTypeParams} from "@/Const/PositionType";
 import './styles.css';
+import {arrayMove, SortableContext, useSortable, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {closestCenter, DndContext, PointerSensor, TouchSensor, useSensor, useSensors,} from "@dnd-kit/core";
+import {GripVertical} from "lucide-react";
+import {CSS} from "@dnd-kit/utilities";
+
+
+const SortableRow = memo(function SortableRow({
+                                                  pos,
+                                                  handleChangeType,
+                                                  handleChangeLimit,
+                                                  selectedTypes,
+                                                  selectedLimits,
+                                                  typeOptions,
+                                                  limitOptions,
+                                              }: any) {
+    const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: pos.id});
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        background: "#fff",
+        borderBottom: "1px solid #eee",
+        padding: "6px 0",
+        alignItems: "center",
+    };
+
+    return (
+        <div ref={setNodeRef} style={style}
+             className="row align-items-center py-1 border-bottom">
+            <div className="col-auto d-flex align-items-center justify-content-center">
+                <span {...listeners} {...attributes} style={{cursor: "grab"}}>
+                    <GripVertical size={18}/>
+                </span>
+            </div>
+            <div className="col d-flex align-items-center gap-2">
+                {pos.name}
+            </div>
+            <div className="col">
+                <select
+                    className="form-select"
+                    disabled={pos.id === 1}
+                    value={(selectedTypes[pos.id] ?? PositionType.Rare).toString()}
+                    onChange={(e) => handleChangeType(pos.id, Number(e.target.value))}
+                >
+                    {typeOptions.map((o: any) => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                </select>
+            </div>
+            <div className="col small">
+                <select
+                    className="form-select"
+                    value={(selectedLimits[pos.id] ?? "").toString()}
+                    onChange={(e) => handleChangeLimit(pos.id, Number(e.target.value))}
+                >
+                    {limitOptions.map((o: any) => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                </select>
+            </div>
+        </div>
+    );
+});
 
 export const PositionSettingsComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<PositionAdminData>();
+    const [positions, setPositions] = useState<Position[]>([]);
+    const [location, setLocation] = useState<UserLocationDictItem>({} as UserLocationDictItem);
     const [selectedLimits, setSelectedLimits] = useState<Record<number, number>>({});
     const [selectedTypes, setSelectedTypes] = useState<Record<number, PositionType>>({});
     const {locationId} = useParams();
-
-    const savePositionLimits = async () => {
-        await PositionService.savePositionsForLimitsAdmin(Number(locationId), selectedLimits)
-            .then(() => toast.success("Лимиты сохранены", {onClose: () => window.location.reload()}))
-            .catch(() => toast.error("Ошибка сохранения лимитов позиций"));
-    };
-
-    const savePositionTypes = async () => {
-        await PositionService.savePositionsForAdmin(Number(locationId), selectedLimits)
-            .then(() => toast.success("Позиции сохранены", {onClose: () => window.location.reload()}))
-            .catch(() => toast.error("Ошибка сохранения типов позиций"));
-    };
-
-    const saveAll = async () => {
-        await savePositionTypes().then(async () => await savePositionLimits());
-    };
 
     useEffect(() => {
         let isMounted = true;
@@ -40,7 +87,8 @@ export const PositionSettingsComponent: FC = () => {
                     positions: adminData.positions.sort((a, b) => a.name.localeCompare(b.name)),
                     location: adminData.location
                 };
-                setData(filtered);
+                setPositions(filtered.positions)
+                setLocation(filtered.location)
 
                 setSelectedLimits(Object.fromEntries(
                     (adminData?.location?.limits ?? []).map(l => [l.p, l.t])
@@ -63,8 +111,52 @@ export const PositionSettingsComponent: FC = () => {
         };
 
         loadData();
-        return () => { isMounted = false; };
+        return () => {
+            isMounted = false;
+        };
     }, []);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {distance: 5}, // ПК
+        }),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 200, // задержка 200 мс, чтобы распознать “удержание”
+                tolerance: 5, // небольшое смещение допустимо
+            },
+        })
+    );
+
+    const handleChangeLimit = useCallback((id: number, limit: number) => {
+        setSelectedLimits((prev) => ({
+            ...prev,
+            [id]: limit,
+        }));
+    }, []);
+
+    const handleChangeType = useCallback((id: number, type: number) => {
+        setSelectedTypes((prev) => ({
+            ...prev,
+            [id]: type,
+        }));
+    }, []);
+
+
+    const typeOptions = useMemo(() => (
+        Object.entries(PositionTypeParams).map(([type, {name}]) => ({
+            value: type,
+            label: name,
+        }))
+    ), []);
+
+    const limitOptions = useMemo(() => ([
+        ...Array.from({length: 9}, (_, i) => ({
+            value: (i + 1).toString(),
+            label: (i + 1).toString(),
+        })),
+        {value: "", label: "Нет"}
+    ]), []);
 
     if (loading) return (
         <div className="p-3 text-center">
@@ -73,89 +165,86 @@ export const PositionSettingsComponent: FC = () => {
         </div>
     );
 
-    const handleChangeLimit = (positionId: number, limit: number) => {
-        setSelectedLimits(prev => ({...prev, [positionId]: limit}));
+
+    const handleDragEnd = (event: any) => {
+        const {active, over} = event;
+        if (active.id !== over?.id) {
+            setPositions((items) => {
+                const oldIndex = items.findIndex((i) => i.id === active.id);
+                const newIndex = items.findIndex((i) => i.id === over?.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
+        }
     };
 
-    const handleChangeType = (positionId: number, type: number) => {
-        setSelectedTypes(prev => ({...prev, [positionId]: type}));
+
+    const savePositionLimits = async () => {
+        await PositionService.savePositionsForLimitsAdmin(Number(locationId), selectedLimits)
+            .then(() => toast.success("Лимиты сохранены", {onClose: () => window.location.reload()}))
+            .catch(() => toast.error("Ошибка сохранения лимитов позиций"));
     };
 
-    const typeOptions = Object.entries(PositionTypeParams).map(([type, {name}]) => ({
-        value: type,
-        label: name,
-    }));
+    const savePositionTypes = async () => {
+        await PositionService.savePositionsForAdmin(Number(locationId), selectedLimits)
+            .then(() => toast.success("Позиции сохранены", {onClose: () => window.location.reload()}))
+            .catch(() => toast.error("Ошибка сохранения типов позиций"));
+    };
 
-    const limitOptions = [
-        ...Array.from({length: 9}, (_, i) => ({
-            value: (i + 1).toString(),
-            label: (i + 1).toString(),
-        })),
-        {value: "", label: "Нет"},
-    ];
+    const handleSaveOrder = async () => {
+        const orderedIds = positions.map(p => p.id);
+        // todo
+        // await PositionService.updateOrder(orderedIds)
+        //     .then(() => toast.success("Порядок позиций сохранён", {onClose: () => window.location.reload()}))
+        //     .catch(() => toast.error("Ошибка сохранения порядка позиций"));
+    };
+
+    const saveAll = async () => {
+        await savePositionTypes()
+            .then(
+                async () => await savePositionLimits())
+            .then(
+                async () => await handleSaveOrder());
+    };
+
 
     return (
-        <div className="container">
+        <div>
+            {/*<pre>{JSON.stringify(positions.map(x => x.id), null, 2)}</pre>*/}
             <div className="text-center mb-3">
-                <h5>Настройка лимитов позиций для локации {data?.location.name}</h5>
-                <span className="text-danger">Не забудьте сохранить после внесения изменений</span>
+                <h5>Настройка лимитов позиций для локации {location.name}</h5>
+                <span className="text-danger">Не забудьте сохранить после внесения изменений </span>
             </div>
 
-            {/* Header */}
-            {/* Header */}
-            <Row className="fw-bold border-bottom py-2">
-                <div className="col">Название</div>
-                <div className="col">Типы</div>
-                <div className="col">Максимум</div>
-            </Row>
+            <div className={"container"}>
+                <div className="row fw-bold border-bottom py-2">
+                    <div className="col-auto"></div>
+                    <div className="col">Название</div>
+                    <div className="col">Типы</div>
+                    <div className="col small">Максимум</div>
+                </div>
 
-            {/* Rows */}
-            {data?.positions.map(pos => (
-                <Row className="align-items-center border-bottom py-2" key={pos.id}>
-                    <Col className="fw-bold text-break">{pos.name}</Col>
-                    <Col className="rel z2" >
-                        <Select
-                            className="react-select-bootstrap"
-                            classNamePrefix="rsb"
-                            menuPortalTarget={document.body}
-                            menuPosition="fixed"
-                            styles={{
-                                menuPortal: base => ({...base, zIndex: 9999}),
-                                menu: base => ({...base, minWidth: "100%", width: "auto"}),
-                            }}
-                            isSearchable={false}
-                            isDisabled={pos.id === 1}
-                            value={typeOptions.find(
-                                o => o.value == (selectedTypes[pos.id] ?? PositionType.Rare).toString()
-                            )}
-                            onChange={(opt: any) => handleChangeType(pos.id, Number(opt.value))}
-                            options={typeOptions}
-                        />
-                    </Col>
-                    <Col className="rel z1" style={{position: "relative", zIndex: 1}}>
-                        <Select
-                            className="react-select-bootstrap react-select-wide"
-                            classNamePrefix="rsb"
-                            menuPortalTarget={document.body}
-                            menuPosition="fixed"
-                            styles={{
-                                menuPortal: base => ({...base, zIndex: 9999}),
-                                menu: base => ({...base, minWidth: "100%", width: "auto"}),
-                            }}
-                            isSearchable={false}
-                            value={limitOptions.find(
-                                o => o.value == (selectedLimits[pos.id] ?? "").toString()
-                            )}
-                            onChange={(opt: any) => handleChangeLimit(pos.id, Number(opt.value))}
-                            options={limitOptions}
-                        />
-                    </Col>
-                </Row>
-            ))}
-            {/*<div style={{textAlign: "right"}}>*/}
-            {/*    <Button variant={"info"}*/}
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}>
+                    <SortableContext items={positions.map((p) => p.id)} strategy={verticalListSortingStrategy}>
+                        {positions.map((pos) => <SortableRow
+                            key={pos.id}
+                            pos={pos}
+                            handleChangeType={handleChangeType}
+                            handleChangeLimit={handleChangeLimit}
+                            selectedTypes={selectedTypes}
+                            selectedLimits={selectedLimits}
+                            typeOptions={typeOptions}
+                            limitOptions={limitOptions}
+                        />)}
+                    </SortableContext>
+                </DndContext>
+            </div>
+            {/*<div style={{textAlign: " right"}}>*/}
+            {/*    <Button variant={" info"}*/}
             {/*            onClick={() => saveAll()}*/}
-            {/*            size={"sm"}>Сохранить</Button>*/}
+            {/*            size={" sm"}>Сохранить</Button>*/}
             {/*</div>*/}
         </div>
     );
