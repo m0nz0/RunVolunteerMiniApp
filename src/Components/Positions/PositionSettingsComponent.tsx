@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from "react";
 import PositionService from "../../Services/PositionService";
 import {PositionAdminData} from "@/types";
-import {Col, Spinner} from "react-bootstrap";
+import {Col, Row, Spinner} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import Select from "react-select";
@@ -103,15 +103,15 @@ export const PositionSettingsComponent: FC = () => {
 
             {/* Header */}
             {/* Header */}
-            <div className="row fw-bold border-bottom py-2">
+            <Row className="fw-bold border-bottom py-2">
                 <div className="col">Название</div>
                 <div className="col">Типы</div>
                 <div className="col">Максимум</div>
-            </div>
+            </Row>
 
             {/* Rows */}
             {data?.positions.map(pos => (
-                <div className="row align-items-center border-bottom py-2" key={pos.id}>
+                <Row className="align-items-center border-bottom py-2" key={pos.id}>
                     <Col className="fw-bold text-break">{pos.name}</Col>
                     <Col className="rel z2" >
                         <Select
@@ -150,7 +150,7 @@ export const PositionSettingsComponent: FC = () => {
                             options={limitOptions}
                         />
                     </Col>
-                </div>
+                </Row>
             ))}
             {/*<div style={{textAlign: "right"}}>*/}
             {/*    <Button variant={"info"}*/}
