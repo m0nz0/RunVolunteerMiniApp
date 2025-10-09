@@ -42,7 +42,8 @@ const SortableRow = memo(function SortableRow({
                     <GripVertical size={18}/>
                 </span>
             </div>
-            <div className="col d-flex align-items-center gap-2">
+            <div className="col d-flex align-items-center gap-2"
+                 style={{"wordBreak": "break-word"}}>
                 {pos.name}
             </div>
             <div className="col">
