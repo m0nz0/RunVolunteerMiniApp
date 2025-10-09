@@ -87,7 +87,7 @@ export const DatesComponent: FC<Props> = (props) => {
                             return ({...AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date)), key: uuid()})
                         })
                 }
-                {datesData?.location.isDirected && AppButtons.ToDirectorsSchedule(Number(locationId), "График директоров", "secondary")}
+                {datesData?.location.isDirected && AppButtons.ToDirectorsSchedule(Number(locationId), "График организаторов", "secondary")}
             </div>
         </div>
     }

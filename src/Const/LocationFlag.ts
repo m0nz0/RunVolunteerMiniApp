@@ -13,8 +13,8 @@ export enum LocationFlag {
 
 export const LocationFlagParams: { [key in LocationFlag]: { name: string, icon: ReactElement } } = {
     [LocationFlag.Favorite]: {name: "Избранные локации", icon: Icons.Favorite},
-    [LocationFlag.Directed]: {name: "Вы директор", icon: Icons.Directed},
-    [LocationFlag.Requested]: {name: "Вы подали заявку в директора", icon: Icons.Requested},
+    [LocationFlag.Directed]: {name: "Вы организатор", icon: Icons.Directed},
+    [LocationFlag.Requested]: {name: "Вы подали заявку в организаторы", icon: Icons.Requested},
     [LocationFlag.Home]: {name: "Домашняя локация", icon: Icons.Home},
     [LocationFlag.IsPrepare]: {name: "Готовится к запуску", icon: Icons.IsPrepare},
     [LocationFlag.IsCancel]: {name: "Отменено", icon: Icons.IsCancel},

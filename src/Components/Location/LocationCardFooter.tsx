@@ -44,7 +44,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
         if (!props.location.isRequested && !props.location.isDirected) {
             addonList.push(<Dropdown.Item as={"div"}
-                                          onClick={() => handleDirectorClick()}>Стать директором</Dropdown.Item>)
+                                          onClick={() => handleDirectorClick()}>Стать организатором</Dropdown.Item>)
         }
 
         addonList.push(<Dropdown.Item as={"div"}>
@@ -56,7 +56,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
         addonList.push(<Dropdown.Item as={"div"}>
             <div onClick={() => navigate(`/locations/${location.verstId}/info/directors`)}>
-                Список директоров
+                Список организаторов
             </div>
         </Dropdown.Item>)
     }
@@ -95,7 +95,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
     if (toast) {
         return <Alert variant={"info"}>
-            <p className={"text-center"}>Ваша заявка на роль директора локации {location.name} отправлена на
+            <p className={"text-center"}>Ваша заявка на роль организатора локации {location.name} отправлена на
                 согласование. <br/>Дождитесь ее рассмотрения.";
             </p>
             <div className="d-flex justify-content-end">

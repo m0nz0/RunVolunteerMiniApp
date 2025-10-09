@@ -39,7 +39,7 @@ export const DirectorsComponent: FC = () => {
         if (data?.location.id) {
             await LocationService.createDirectorsRequest(data?.location.id)
                 .then(() =>
-                    toast.info(<p className={"text-center"}>Ваша заявка на роль директора
+                    toast.info(<p className={"text-center"}>Ваша заявка на роль организатора
                         локации {data?.location.name} отправлена на
                         согласование. <br/>Дождитесь ее рассмотрения.";
                     </p>, {
@@ -65,7 +65,7 @@ export const DirectorsComponent: FC = () => {
             {data && data.directors ?
                 <div>
                     <div className={"text-center"}>
-                        <h5>Директора локации {data?.location.name}</h5>
+                        <h5>Организаторы локации {data?.location.name}</h5>
                     </div>
                     <ul>
                         {data &&
@@ -84,12 +84,12 @@ export const DirectorsComponent: FC = () => {
                     </ul>
                 </div>
                 :
-                <div>Еще нет ни одного директора</div>}
+                <div>Еще нет ни одного организатора</div>}
 
             <div className={"text-center"}>
                 <Button variant={"info"}
                         size={"sm"}
-                        onClick={() => handleDirectorClick()}>Стать директором</Button>
+                        onClick={() => handleDirectorClick()}>Стать организатором</Button>
             </div>
         </div>
     )

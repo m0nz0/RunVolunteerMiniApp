@@ -94,7 +94,7 @@ export const appRoutes: AppRoute[] = [
     {
         routeCode: RouteCode.Directors,
         path: "/locations/:locationId/info/directors",
-        label: "Директора",
+        label: "Организаторы",
         element: DirectorsComponent,
     },
     {

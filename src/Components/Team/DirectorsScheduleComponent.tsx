@@ -25,7 +25,7 @@ export const DirectorsScheduleComponent: FC = () => {
                     (err) {
                     if (isMounted) {
                         console.error(err)
-                        toast.error("Ошибка получения графика директоров")
+                        toast.error("Ошибка получения графика организаторов")
                     }
                 } finally {
                     if (isMounted) setLoading(false);
@@ -50,7 +50,7 @@ export const DirectorsScheduleComponent: FC = () => {
 
     return <div>
         <div className={"text-center"}>
-            <h5>График директоров</h5>
+            <h5>График организаторов</h5>
         </div>
         <div>{data?.dates.map(d => {
             let dirs = data?.schedules.filter(x => x.calendarId === d.id)

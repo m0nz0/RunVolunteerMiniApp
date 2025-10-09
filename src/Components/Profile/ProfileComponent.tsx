@@ -81,7 +81,7 @@ export const ProfileComponent: FC = () => {
                             </ul>
                         </div>
                         <div>
-                            <strong> Вы директор следующих локаций:
+                            <strong> Вы организатор следующих локаций:
                             </strong>
                             <ul>
                                 {profileData?.tgUser.locationDirectors.map(f => {

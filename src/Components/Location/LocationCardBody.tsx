@@ -51,7 +51,7 @@ export const LocationCardBody: FC<Props> = (props) => {
             {!props.location.locationFlags.some(x => x == LocationFlag.IsBotActive) && <div>
                 <br/>
                 <span>
-                    Если вы хотите начать пользоваться ботом, то пусть ран-директор локации напишет <SmartLink
+                    Если вы хотите начать пользоваться ботом, то пусть организатор локации напишет <SmartLink
                     onClick={(e) => {
                         e.preventDefault()
                         e.stopPropagation()
