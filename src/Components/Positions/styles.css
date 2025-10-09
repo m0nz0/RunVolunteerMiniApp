@@ -1,26 +1,17 @@
-.table td, .table th {
-    white-space: normal !important;
-    word-break: break-word;
+.col {
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
-.table th {
-    vertical-align: top !important;
+.col .rel {
+    /*position: relative*/
 }
 
-.table .react-select-bootstrap {
-    width: 100%;
+.col .z1 {
+    z-index: 1
 }
-
-.table .rsb__control {
-    min-height: 36px;
-    font-size: 0.9rem;
-}
-
-.react-select-wide .rsb__single-value {
-    white-space: nowrap !important;
-    text-overflow: unset !important;
-    overflow: visible !important;
-    /*line-height: 1.2;*/
+.col .z2 {
+    z-index: 2
 }
 
 /* Контейнер */
