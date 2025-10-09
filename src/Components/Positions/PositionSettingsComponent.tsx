@@ -145,6 +145,8 @@ export const PositionSettingsComponent: FC = () => {
                                         width: "auto",
                                     }),
                                 }}
+                                isSearchable={false}
+                                menuIsOpen={undefined}
                                 isDisabled={pos.id === 1}
                                 value={typeOptions.find((o) => o.value == (selectedTypes[pos.id] ?? PositionType.Rare).toString())}
                                 onChange={(opt: any) => handleChangeType(pos.id, Number(opt.value))}
@@ -165,6 +167,8 @@ export const PositionSettingsComponent: FC = () => {
                                         width: "auto",
                                     }),
                                 }}
+                                isSearchable={false}
+                                menuIsOpen={undefined}
                                 value={limitOptions.find((o) => o.value == (selectedLimits[pos.id] ?? "").toString())}
                                 onChange={(opt: any) => handleChangeLimit(pos.id, Number(opt.value))}
                                 options={limitOptions}>
