@@ -1,7 +1,7 @@
 import React, {FC, memo, useCallback, useEffect, useMemo, useState} from "react";
 import PositionService from "../../Services/PositionService";
 import {Position, UserLocationDictItem} from "@/types";
-import {Alert, Spinner} from "react-bootstrap";
+import {Alert, Button, Spinner} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {PositionType, PositionTypeParams} from "@/Const/PositionType";
@@ -88,7 +88,7 @@ export const PositionSettingsComponent: FC = () => {
             try {
                 const adminData = await PositionService.getPositionsForAdmin(Number(locationId));
                 const filtered = {
-                    positions: adminData.positions.sort((a, b) => a.name.localeCompare(b.name)),
+                    positions: adminData.positions,
                     location: adminData.location
                 };
                 setPositions(filtered.positions)
@@ -148,7 +148,6 @@ export const PositionSettingsComponent: FC = () => {
         }));
     }, []);
 
-
     const typeOptions = useMemo(() => (
         Object.entries(PositionTypeParams).map(([type, {name}]) => ({
             value: type,
@@ -191,7 +190,7 @@ export const PositionSettingsComponent: FC = () => {
     };
 
     const savePositionTypes = async () => {
-        await PositionService.savePositionsForAdmin(Number(locationId), selectedLimits)
+        await PositionService.savePositionsForAdmin(Number(locationId), selectedTypes)
             .then(() => toast.success("Позиции сохранены", {onClose: () => window.location.reload()}))
             .catch(() => toast.error("Ошибка сохранения типов позиций"));
     };
@@ -204,11 +203,9 @@ export const PositionSettingsComponent: FC = () => {
     };
 
     const saveAll = async () => {
-        await savePositionTypes()
-            .then(
-                async () => await savePositionLimits())
-            .then(
-                async () => await handleSaveOrder());
+        await savePositionTypes();
+        await savePositionLimits();
+        await handleSaveOrder();
     };
 
 
@@ -259,11 +256,11 @@ export const PositionSettingsComponent: FC = () => {
                     </SortableContext>
                 </DndContext>
             </div>
-            {/*<div style={{textAlign: " right"}}>*/}
-            {/*    <Button variant={" info"}*/}
-            {/*            onClick={() => saveAll()}*/}
-            {/*            size={" sm"}>Сохранить</Button>*/}
-            {/*</div>*/}
+            <div style={{textAlign: "right"}}>
+                <Button variant={"info"}
+                        onClick={() => saveAll()}
+                        size={"sm"}>Сохранить</Button>
+            </div>
         </div>
     );
 };
