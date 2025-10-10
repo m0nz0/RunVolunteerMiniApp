@@ -10,7 +10,6 @@ import {arrayMove, SortableContext, useSortable, verticalListSortingStrategy} fr
 import {closestCenter, DndContext, PointerSensor, TouchSensor, useSensor, useSensors,} from "@dnd-kit/core";
 import {GripVertical} from "lucide-react";
 import {CSS} from "@dnd-kit/utilities";
-import {Icons} from "@/Const/Icons";
 
 
 const SortableRow = memo(function SortableRow({
@@ -222,7 +221,7 @@ export const PositionSettingsComponent: FC = () => {
                 <ul>
                     <li>Группы позиций (обязательные/дополнительные/редкие)</li>
                     <li>Максимальное количество волонтёров для позиции</li>
-                    <li><span>Порядок отображения (удерживайте </span>{Icons.Dnd}<span> и перетягивайте позиции)</span>
+                    <li><span>Порядок отображения (удерживайте </span><GripVertical size={18}/><span> и перетягивайте позиции)</span>
                     </li>
                 </ul>
             </Alert>}
