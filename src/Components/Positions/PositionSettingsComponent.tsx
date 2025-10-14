@@ -53,7 +53,7 @@ const SortableRow: FC<SortableRowProps> = memo(
                  className="row align-items-center py-1 border-bottom">
                 <div className="col d-flex align-items-center gap-2"
                      style={{"wordBreak": "break-word"}}>
-                    {pos.name} - {pos.id} - {pos.positionType}
+                    {pos.name}
                 </div>
                 <div className="col small">
                     <select
