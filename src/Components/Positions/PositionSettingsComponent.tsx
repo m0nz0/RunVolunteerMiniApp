@@ -265,10 +265,10 @@ export const PositionSettingsComponent: FC = () => {
         };
 
         const saveAll = async () => {
-            toast.warn("В процессе разработки")
-            // await savePositionTypes();
-            // await savePositionLimits();
-            // await handleSaveOrder();
+            // toast.warn("В процессе разработки")
+            await savePositionTypes();
+            await savePositionLimits();
+            await handleSaveOrder();
         };
 
         return (
