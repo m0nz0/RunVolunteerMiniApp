@@ -244,6 +244,7 @@ export const PositionSettingsComponent: FC = () => {
                 return [...otherGroups, ...newGroupItems];
             });
         };
+
         const savePositionLimits = async () => {
             await PositionService.savePositionsForLimitsAdmin(Number(locationId), selectedLimits)
                 .then(() => toast.success("Лимиты сохранены", {onClose: () => window.location.reload()}))
