@@ -62,25 +62,12 @@ export const LocationCardFooter: FC<Props> = (props) => {
     }
     if (location.isDirected || props.user.isAdmin) {
         addonList.length > 0 && addonList.push(<Dropdown.Divider/>)
+
         addonList.push(<Dropdown.Item as={"div"}>
-            <div onClick={() => navigate(`/locations/${location.verstId}/info/position-type-admin`)}>
-                Управление позициями
+            <div onClick={() => navigate(`/locations/${location.verstId}/info/position-settings-admin`)}>
+                Настройки позиций
             </div>
         </Dropdown.Item>)
-
-        if (Overlim.some(x => x == props.location.verstId)) {
-            addonList.push(<Dropdown.Item as={"div"}>
-                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-limit-admin`)}>
-                    Управление лимитами
-                </div>
-            </Dropdown.Item>)
-
-            addonList.push(<Dropdown.Item as={"div"}>
-                <div onClick={() => navigate(`/locations/${location.verstId}/info/position-settings-admin`)}>
-                    Настройки позиций
-                </div>
-            </Dropdown.Item>)
-        }
     }
 
     if (props.user.isAdmin) {

@@ -37,8 +37,6 @@ export enum RouteCode {
     NewName = "new-name",
     Profile = "profile",
     Directors = "directors",
-    PositionTypeAdmin = "PositionTypeAdmin",
-    PositionLimitAdmin = "PositionLimitAdmin",
     MyEntries = "my-entries",
     ExistingEntries = "existing-entries",
     DirectorsSchedule = "directors-schedule",
@@ -50,8 +48,8 @@ export enum RouteCode {
     LoginNrms = "login-nrms",
     CheckRoster = "CheckRoster",
     PreviewRoster = "PreviewRoster",
-    Report="Report",
-    PositionSettings="PositionSettings",
+    Report = "Report",
+    PositionSettings = "PositionSettings",
 }
 
 export interface AppRoute {
@@ -104,18 +102,6 @@ export const appRoutes: AppRoute[] = [
         element: AboutComponent,
         extraProps: {pageSize: 20},
         children: []
-    },
-    {
-        routeCode: RouteCode.PositionTypeAdmin,
-        path: "/locations/:locationId/info/position-type-admin",
-        label: "Управление позициями",
-        element: PositionTypeAdminComponent,
-    },
-    {
-        routeCode: RouteCode.PositionLimitAdmin,
-        path: "/locations/:locationId/info/position-limit-admin",
-        label: "Управление лимитами",
-        element: PositionLimitAdminComponent,
     },
     {
         routeCode: RouteCode.PositionSettings,

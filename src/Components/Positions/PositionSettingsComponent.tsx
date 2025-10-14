@@ -1,7 +1,7 @@
 import React, {FC, memo, useCallback, useEffect, useMemo, useState} from "react";
 import PositionService from "../../Services/PositionService";
 import {Position, UserLocationDictItem} from "@/types";
-import {Alert, Button, Spinner} from "react-bootstrap";
+import {Alert, Button, Container, Spinner} from "react-bootstrap";
 import {useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {PositionType, PositionTypeParams} from "@/Const/PositionType";
@@ -272,11 +272,10 @@ export const PositionSettingsComponent: FC = () => {
         };
 
         return (
-            <div>
+            <Container>
                 {/*<pre>{JSON.stringify(positions.map(x => x.id), null, 2)}</pre>*/}
-                {/*<pre>{JSON.stringify(selectedTypes, null, 2)}</pre>*/}
                 {/*<pre>{JSON.stringify(selectedLimits, null, 2)}</pre>*/}
-                {/*<pre>{JSON.stringify(positions.map(x => `${x.id} - ${x.positionType}`), null, 2)}</pre>*/}
+                {<pre>{JSON.stringify(window?.Telegram?.WebApp?.initDataUnsafe?.user, null, 2)}</pre>}
                 <div className="text-center">
                     <h5>Настройки позиций для локации {location.name}</h5>
                 </div>
@@ -351,7 +350,7 @@ export const PositionSettingsComponent: FC = () => {
                             onClick={() => saveAll()}
                             size={"sm"}>Сохранить</Button>
                 </div>
-            </div>
+            </Container>
         );
     }
 ;
