@@ -1,30 +1,48 @@
-import {useEffect} from "react";
-import {useNavigate, useLocation} from "react-router-dom";
+import {FC, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
-export function TelegramBackButtonGlobal() {
+export const TelegramBackButtonGlobal: FC = () => {
     const navigate = useNavigate();
-    const location = useLocation();
 
     useEffect(() => {
-        const backButton = window.Telegram?.WebApp?.BackButton;
-        if (!backButton) return;
+        const tg = window?.Telegram?.WebApp;
+        if (!tg?.BackButton) {
+            return;
+        }
+
+        const backButton = tg.BackButton;
+        backButton.show();
 
         const handleBack = () => {
-            navigate(-1);
+            if (window.history.length > 1) {
+                navigate(-1);
+            } else {
+                tg?.close?.();
+            }
         };
 
-        // На главной ("/") кнопку скрываем
-        if (location.pathname === "/") {
-            backButton.hide();
-        } else {
-            backButton.show();
-            backButton.onClick(handleBack);
+        backButton.onClick(handleBack);
+
+        const handlePopState = () => {
+            if (window.history.length <= 1) {
+                tg?.close?.();
+            }
+        };
+        window.addEventListener("popstate", handlePopState);
+
+        const isInlineMode = !!tg?.initDataUnsafe?.inline_query;
+        if (isInlineMode) {
+            window.addEventListener("popstate", () => tg?.close?.());
         }
+
+        tg?.expand?.();
+        tg?.disableVerticalSwipes?.();
 
         return () => {
             backButton.offClick(handleBack);
+            window.removeEventListener("popstate", handlePopState);
         };
-    }, [navigate, location]);
+    }, [navigate]);
 
-    return null; // компонент ничего не рисует
-}
+    return null;
+};
