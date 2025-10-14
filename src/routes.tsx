@@ -120,7 +120,7 @@ export const appRoutes: AppRoute[] = [
     {
         routeCode: RouteCode.PositionSettings,
         path: "/locations/:locationId/info/position-settings-admin",
-        label: "Управление лимитами",
+        label: "Настройки позиций",
         element: PositionSettingsComponent,
     },
     {
