@@ -145,13 +145,6 @@ export const PositionSettingsComponent: FC = () => {
             }));
         }, []);
 
-        const typeOptions = useMemo(() => (
-            Object.entries(PositionTypeParams).map(([type, {name}]) => ({
-                value: type,
-                label: name,
-            }))
-        ), []);
-
         const limitOptions = useMemo(() => ([
             ...Array.from({length: 9}, (_, i) => ({
                 value: (i + 1).toString(),
