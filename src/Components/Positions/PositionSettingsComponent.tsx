@@ -275,7 +275,7 @@ export const PositionSettingsComponent: FC = () => {
             <Container>
                 {/*<pre>{JSON.stringify(positions.map(x => x.id), null, 2)}</pre>*/}
                 {/*<pre>{JSON.stringify(selectedLimits, null, 2)}</pre>*/}
-                {<pre>{JSON.stringify(window?.Telegram?.WebApp?.initDataUnsafe?.user, null, 2)}</pre>}
+                {/*{<pre>{JSON.stringify(window?.Telegram?.WebApp?.initDataUnsafe?.user, null, 2)}</pre>}*/}
                 <div className="text-center">
                     <h5>Настройки позиций для локации {location.name}</h5>
                 </div>
