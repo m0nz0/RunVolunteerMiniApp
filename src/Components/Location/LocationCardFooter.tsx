@@ -77,7 +77,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
 
             addonList.push(<Dropdown.Item as={"div"}>
                 <div onClick={() => navigate(`/locations/${location.verstId}/info/position-settings-admin`)}>
-                    Combined
+                    Настройки позиций
                 </div>
             </Dropdown.Item>)
         }
