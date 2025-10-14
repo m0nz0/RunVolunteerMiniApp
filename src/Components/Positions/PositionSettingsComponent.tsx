@@ -67,10 +67,10 @@ const SortableRow: FC<SortableRowProps> = memo(
                     </select>
                 </div>
                 <div className="col-auto d-flex align-items-center justify-content-center">
-                    <span {...listeners} {...attributes}
-                          className={"drag-handle"}>
+                    {pos.id !== 1 ? <span {...listeners} {...attributes}
+                                          className={"drag-handle"}>
                         <GripVertical size={18}/>
-                    </span>
+                    </span> : <span style={{"width":"18px"}}></span>}
                 </div>
             </div>
         );
