@@ -28,9 +28,9 @@
     "dev": "vite",
     "build": "vite build",
     "postbuild": "powershell -Command \"Copy-Item -Path dist\\index.html -Destination dist\\404.html -Force\"",
-    "version:bump": "standard-version --release-as patch --skip.changelog --skip.tag",
+    "version:bump": "standard-version --release-as patch --skip.changelog --skip.tag --skip.commit",
     "version:init": "powershell -Command \"if (-not (Test-Path 'package.json')) { Write-Host 'package.json not found'; exit 1 }; $pkg = Get-Content package.json -Raw | ConvertFrom-Json; if (-not $pkg.version) { $pkg | Add-Member -NotePropertyName version -NotePropertyValue '1.0.0' }; Set-Content package.json ($pkg | ConvertTo-Json -Depth 10); if (-not (git tag -l 'v1.0.0')) { git tag v1.0.0; git push --tags }; Write-Host '✅ Version initialized to 1.0.0';\"",
-    "deploy": "npm run version:bump && npm run build && git push && gh-pages -d dist"
+    "deploy": "npm run version:bump && npm run build && gh-pages -d dist"
   },
   "eslintConfig": {
     "extends": [
