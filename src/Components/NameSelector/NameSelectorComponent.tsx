@@ -179,7 +179,7 @@ export const NameSelectorComponent: FC<Props> = () => {
         </div>
         <Alert variant={"warning"} style={{"textAlign": "center"}}>
             {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
-            to={wikiPositionUrl()}>требованиями</SmartLink> к позиции
+            to={wikiPositionUrl(Number(positionId))}>требованиями</SmartLink> к позиции
         </Alert>
         <br/>
         <Form>
