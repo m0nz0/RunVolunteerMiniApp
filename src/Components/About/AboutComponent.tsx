@@ -71,6 +71,7 @@ export const AboutComponent: FC = () => {
                 <li><SmartLink to="https://5verst.ru/">Главная 5 вёрст</SmartLink></li>
                 <li><SmartLink to="https://nrms.5verst.ru/">NRMS</SmartLink></li>
                 <li><SmartLink to="https://my.5verst.ru/">Ваш личный кабинет</SmartLink></li>
+                <li><SmartLink to={import.meta.env.VITE_WIKI_URL}>Wiki</SmartLink></li>
                 {/*<li><Link to={"https://5krun.info/dashboards/f/AMNIEuhVk/"}>Интересная статистика</Link></li>*/}
             </ul>
             <AppVersion/>
