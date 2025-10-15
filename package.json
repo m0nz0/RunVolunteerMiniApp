@@ -1,6 +1,6 @@
 {
   "name": "RunVolunteerMiniApp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "homepage": "https://m0nz0.github.io/RunVolunteerMiniApp",
   "dependencies": {
@@ -28,14 +28,10 @@
     "dev": "vite",
     "build": "vite build",
     "postbuild": "powershell -Command \"Copy-Item -Path dist\\index.html -Destination dist\\404.html -Force\"",
-
     "version:init": "powershell -Command \"if (-not (Test-Path 'package.json')) { Write-Host 'package.json not found'; exit 1 }; $pkg = Get-Content package.json -Raw | ConvertFrom-Json; if (-not $pkg.version) { $pkg | Add-Member -NotePropertyName version -NotePropertyValue '1.0.0' }; Set-Content package.json ($pkg | ConvertTo-Json -Depth 10); if (-not (git tag -l 'v1.0.0')) { git tag v1.0.0; git push --tags }; Write-Host '✅ Version initialized to 1.0.0';\"",
-
     "preview": "vite preview --port 4173",
-
     "version:bump": "powershell -Command \"param([string]$type='patch'); npx standard-version --release-as $type --skip.tag --skip.changelog\"",
     "version:commit": "powershell -Command \"git add package.json package-lock.json; git commit -m 'Bump version'; git push\"",
-
     "deploy-patch": "npm run version:bump -- patch && npm run build && npm run version:commit && gh-pages -d dist",
     "deploy-minor": "npm run version:bump -- minor && npm run build && npm run version:commit && gh-pages -d dist",
     "deploy-major": "npm run version:bump -- major && npm run build && npm run version:commit && gh-pages -d dist"
