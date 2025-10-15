@@ -10,12 +10,15 @@ import {Icons} from "@/Const/Icons";
 import {AppButtons} from "@/Const/AppButtons";
 import {toast} from "react-toastify";
 import {v4 as uuid} from "uuid";
+import {SmartLink} from "@/Common/SmartLink";
 
 export const PositionComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const {locationId, calendarId} = useParams<{ locationId: string, calendarId: string }>();
     const [positionData, setPositionData] = useState<PositionData>()
     const {locationDict} = useGlobalContext()
+
+    const wikiUrl: string = import.meta.env.VITE_WIKI_URL;
 
     useEffect(() => {
         let isMounted = true;
@@ -59,6 +62,11 @@ export const PositionComponent: FC = () => {
             {(positionData.overLimitPositions ?? []).length > 0 &&
                 <Alert variant={"danger"} style={{textAlign: "center"}}>Запись на некоторые позиции недоступна. Набрано
                     достаточное количество волонтёров</Alert>}
+
+            <Alert variant={"warning"} style={{"textAlign": "center"}}>
+                {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
+                to={wikiUrl}>требованиями</SmartLink> к волонтёрам"
+            </Alert>
 
             <Alert variant={"info"} style={{"textAlign": "center"}}>
                 <span>{Icons.ExclamationRed} - обязательная позиция</span>

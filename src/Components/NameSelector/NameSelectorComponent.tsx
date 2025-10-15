@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useGlobalContext} from "@/Common/Context/GlobalContext";
-import {Button, Form, InputGroup, Spinner} from "react-bootstrap";
+import {Alert, Button, Form, InputGroup, Spinner} from "react-bootstrap";
 import NameInputService from "../../Services/NameInputService";
 import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from "@/types";
 import {DateService} from "@/Common/DateService";
@@ -11,6 +11,8 @@ import {RouteHelper} from "@/Common/RouteHelper";
 import {RouteCode} from "@/routes";
 import {getTelegramUser} from "@/Common/TelegramHelper";
 import {useUserContext} from "@/Common/Context/UserContext";
+import {SmartLink} from "@/Common/SmartLink";
+import {getPostfix} from "@/Const/WikiPostfix";
 
 interface Props {
 }
@@ -32,6 +34,7 @@ export const NameSelectorComponent: FC<Props> = () => {
     const [isValid, setIsValid] = useState<boolean>(false)
     const [disabled, setDisabled] = useState(false)
     const navigate = useNavigate();
+    const wikiUrl: string = import.meta.env.VITE_WIKI_URL;
 
     const {locationId, calendarId, positionId} = useParams<{
         locationId: string,
@@ -144,7 +147,6 @@ export const NameSelectorComponent: FC<Props> = () => {
             })
     }
 
-
     const onRadioSelect = (who: string) => {
         setOtherName(null);
         setVerstId(null)
@@ -161,6 +163,11 @@ export const NameSelectorComponent: FC<Props> = () => {
         );
     }
 
+    const wikiPositionUrl=(positionId: number)=>{
+        let postfix=getPostfix(positionId);
+        return `${wikiUrl}/${postfix}`
+    }
+
     return (!loading && <div>
         <div className={"text-center"}>
             <h5>Мы подошли к последнему этапу записи. Надо выбрать кого записать.</h5>
@@ -170,6 +177,10 @@ export const NameSelectorComponent: FC<Props> = () => {
             <p>Дата - <strong>{DateService.formatDayMonthNameYear(data?.date?.date ?? "")}</strong>;</p>
             <p>Позиция - <strong>{position?.name}</strong>.</p>
         </div>
+        <Alert variant={"warning"} style={{"textAlign": "center"}}>
+            {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
+            to={wikiPositionUrl()}>требованиями</SmartLink> к позиции
+        </Alert>
         <br/>
         <Form>
             {Object.entries(Who).filter(([key]) => {
