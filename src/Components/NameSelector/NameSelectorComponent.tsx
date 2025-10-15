@@ -12,7 +12,6 @@ import {RouteCode} from "@/routes";
 import {getTelegramUser} from "@/Common/TelegramHelper";
 import {useUserContext} from "@/Common/Context/UserContext";
 import {SmartLink} from "@/Common/SmartLink";
-import {getPostfix} from "@/Const/WikiPostfix";
 
 interface Props {
 }
@@ -53,7 +52,7 @@ export const NameSelectorComponent: FC<Props> = () => {
 
             const loadData = async () => {
                 try {
-                    let data = await NameInputService.getDataForNameInput(Number(locationId), Number(calendarId))
+                    let data = await NameInputService.getDataForNameInput(Number(locationId), Number(calendarId), Number(positionId))
                     setData(data)
                     setDefault(data?.allUsersDict ?? []);
                     updateUserDates([data.date])
@@ -163,11 +162,6 @@ export const NameSelectorComponent: FC<Props> = () => {
         );
     }
 
-    const wikiPositionUrl=(positionId: number)=>{
-        let postfix=getPostfix(positionId);
-        return `${wikiUrl}/${postfix}`
-    }
-
     return (!loading && <div>
         <div className={"text-center"}>
             <h5>Мы подошли к последнему этапу записи. Надо выбрать кого записать.</h5>
@@ -179,7 +173,7 @@ export const NameSelectorComponent: FC<Props> = () => {
         </div>
         <Alert variant={"warning"} style={{"textAlign": "center"}}>
             {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
-            to={wikiPositionUrl(Number(positionId))}>требованиями</SmartLink> к позиции
+            to={`${wikiUrl}/${data?.position.wikiPostfix}`}>требованиями</SmartLink> к позиции
         </Alert>
         <br/>
         <Form>

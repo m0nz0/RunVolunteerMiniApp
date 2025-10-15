@@ -65,7 +65,7 @@ export const PositionComponent: FC = () => {
 
             <Alert variant={"warning"} style={{"textAlign": "center"}}>
                 {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
-                to={wikiUrl}>требованиями</SmartLink> к волонтёрам"
+                to={`${wikiUrl}/${positionData.wikiPostfix}`}>требованиями</SmartLink> к волонтёрам"
             </Alert>
 
             <Alert variant={"info"} style={{"textAlign": "center"}}>

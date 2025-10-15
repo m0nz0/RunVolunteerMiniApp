@@ -134,7 +134,8 @@ export interface PositionAdminData {
 export interface PositionData extends PositionAdminData {
     calendar: CalendarInfo,
     overLimitPositions: Position[],
-    team: Team[]
+    team: Team[],
+    wikiPostfix: string
 }
 
 export interface TeamData {
@@ -165,6 +166,7 @@ export interface OnInputNameData {
     verstUsers: VerstAthlete[],
     date: CalendarInfo
     allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
+    position: Position
 }
 
 export interface ProfileData {
@@ -231,7 +233,8 @@ export interface Position {
     name: string,
     is_default: boolean,
     parent_id?: number,
-    positionType: PositionType
+    positionType: PositionType,
+    wikiPostfix: string,
 }
 
 export interface CalendarInfo {

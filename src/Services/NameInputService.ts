@@ -12,10 +12,10 @@ const baseUrl: string | undefined = import.meta.env.VITE_BOT_URL;
 
 export default class NameInputService {
 
-    static async getDataForNameInput(locationId: number, calendarId: number): Promise<OnInputNameData> {
+    static async getDataForNameInput(locationId: number, calendarId: number, positionId: number): Promise<OnInputNameData> {
 
         let userId = getTelegramUser().id;
-        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}/${locationId}/calendar/${calendarId}`;
+        let fetchUrl = `${baseUrl}/api/v1/${controllerName}/${methodNames.NAME_INPUT}/${locationId}/calendar/${calendarId}/position/${positionId}`;
         // console.log("for name input url", fetchUrl)
 
         return await apiFetch<OnInputNameData>(fetchUrl, {
