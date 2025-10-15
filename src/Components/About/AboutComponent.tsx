@@ -2,6 +2,7 @@ import {FC} from "react";
 import {RouteHelper} from "@/Common/RouteHelper";
 import {RouteCode} from "@/routes";
 import {SmartLink} from "@/Common/SmartLink";
+import {AppVersion} from "@/Common/AppVersion";
 
 export const AboutComponent: FC = () => {
     return (
@@ -72,6 +73,7 @@ export const AboutComponent: FC = () => {
                 <li><SmartLink to="https://my.5verst.ru/">Ваш личный кабинет</SmartLink></li>
                 {/*<li><Link to={"https://5krun.info/dashboards/f/AMNIEuhVk/"}>Интересная статистика</Link></li>*/}
             </ul>
+            <AppVersion/>
         </div>
     )
 }
