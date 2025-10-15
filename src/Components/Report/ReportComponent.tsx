@@ -98,7 +98,7 @@ export const ReportComponent: FC = () => {
                     to={`https://t.me/${botName}`}>@{`${botName}`}</SmartLink>
                 </p>
                 <p>
-                    Если у вас есть вопросы и идеи по развитию бота - пишите <SmartLink
+                    Если у вас есть вопросы и идеи по развитию отчёта - пишите <SmartLink
                     to={`https://t.me/${reporterName}`}>@{`${reporterName}`}</SmartLink>
                 </p>
             </>}
