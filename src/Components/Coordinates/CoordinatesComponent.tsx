@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {Icons} from '@/Const/Icons'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 interface Props {
     lat: number,

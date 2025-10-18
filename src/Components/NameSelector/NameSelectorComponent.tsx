@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
-import {useGlobalContext} from '@/Common/Context/GlobalContext'
+import {useGlobalContext} from '@/Components/Common/Context/GlobalContext'
 import {Alert, Button, Form, InputGroup, Spinner} from 'react-bootstrap'
 import NameInputService from '../../Services/NameInputService'
 import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from '@/types'
@@ -10,8 +10,8 @@ import {toast} from 'react-toastify'
 import {RouteHelper} from '@/Common/RouteHelper'
 import {RouteCode} from '@/routes'
 import {getTelegramUser} from '@/Common/TelegramHelper'
-import {useUserContext} from '@/Common/Context/UserContext'
-import {SmartLink} from '@/Common/SmartLink'
+import {useUserContext} from '@/Components/Common/Context/UserContext'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 interface Props {
 }

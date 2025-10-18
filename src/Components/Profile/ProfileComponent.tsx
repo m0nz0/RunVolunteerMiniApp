@@ -2,12 +2,12 @@ import {FC, useEffect, useState} from 'react'
 import {ProfileData} from '@/types'
 import {Accordion, Button, ButtonGroup, ButtonToolbar, Spinner} from 'react-bootstrap'
 import ProfileService from '../../Services/ProfileService'
-import {useGlobalContext} from '@/Common/Context/GlobalContext'
+import {useGlobalContext} from '@/Components/Common/Context/GlobalContext'
 import {Icons} from '@/Const/Icons'
 import LinkService from '../../Services/LinkService'
 import {AppButtons} from '@/Const/AppButtons'
 import {toast} from 'react-toastify'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 export const ProfileComponent: FC = () => {
 

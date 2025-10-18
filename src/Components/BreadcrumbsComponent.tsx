@@ -2,10 +2,10 @@ import React from 'react'
 import {Breadcrumb} from 'react-bootstrap'
 import {matchPath, useLocation} from 'react-router-dom'
 import {appRoutes} from '@/routes'
-import {useGlobalContext} from '@/Common/Context/GlobalContext'
-import {useUserContext} from '@/Common/Context/UserContext'
+import {useGlobalContext} from '@/Components/Common/Context/GlobalContext'
+import {useUserContext} from '@/Components/Common/Context/UserContext'
 import {DateService} from '@/Common/DateService'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 
 const BreadcrumbsComponent: React.FC = () => {

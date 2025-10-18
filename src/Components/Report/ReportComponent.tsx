@@ -5,7 +5,7 @@ import TeamService from '../../Services/TeamService'
 import {Spinner} from 'react-bootstrap'
 import {toast} from 'react-toastify'
 import {Icons} from '@/Const/Icons'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 export const ReportComponent: FC = () => {
     const [data, setData] = useState<SmileReportData>()

@@ -11,7 +11,7 @@ import {NrmsAction} from '@/Const/Source'
 import {useAuth} from '@/Common/hooks/useAuth'
 import './styles.css'
 import {LoginType} from '@/Const/LoginType'
-import {useUserContext} from '@/Common/Context/UserContext'
+import {useUserContext} from '@/Components/Common/Context/UserContext'
 
 interface Props {
 }

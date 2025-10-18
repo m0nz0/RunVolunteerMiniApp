@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react'
 import {Position, VerstLocation} from '@/types'
-import VerstService from '../../Services/VerstService'
-import PositionService from '../../Services/PositionService'
+import VerstService from '../../../Services/VerstService'
+import PositionService from '../../../Services/PositionService'
 import {toast} from 'react-toastify'
 
 interface GlobalContextType {

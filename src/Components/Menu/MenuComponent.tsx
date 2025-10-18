@@ -5,7 +5,7 @@ import {AppButtons} from '@/Const/AppButtons'
 import {getRandomImage} from '@/Common/icons'
 import {getTelegramUser} from '@/Common/TelegramHelper'
 import {v4 as uuid} from 'uuid'
-import {SmartImage} from '@/Common/SmartImage'
+import {SmartImage} from '@/Components/Common/SmartImage'
 
 const listItemTextList = [
     AppButtons.NewEntry(),

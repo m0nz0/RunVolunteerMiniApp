@@ -1,8 +1,8 @@
 import {FC} from 'react'
 import {RouteHelper} from '@/Common/RouteHelper'
 import {RouteCode} from '@/routes'
-import {SmartLink} from '@/Common/SmartLink'
-import {AppVersion} from '@/Common/AppVersion'
+import {SmartLink} from '@/Components/Common/SmartLink'
+import {AppVersion} from '@/Components/Common/AppVersion'
 
 export const AboutComponent: FC = () => {
     return (

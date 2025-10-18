@@ -3,14 +3,14 @@ import {useParams} from 'react-router-dom'
 import {PositionData} from '@/types'
 import PositionService from '../../Services/PositionService'
 import {Accordion, Alert, Spinner} from 'react-bootstrap'
-import {useGlobalContext} from '@/Common/Context/GlobalContext'
+import {useGlobalContext} from '@/Components/Common/Context/GlobalContext'
 import {PositionType, PositionTypeParams} from '@/Const/PositionType'
 import {DateService} from '@/Common/DateService'
 import {Icons} from '@/Const/Icons'
 import {AppButtons} from '@/Const/AppButtons'
 import {toast} from 'react-toastify'
 import {v4 as uuid} from 'uuid'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 export const PositionComponent: FC = () => {
     const [loading, setLoading] = useState<boolean>(true)

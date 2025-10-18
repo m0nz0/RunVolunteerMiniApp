@@ -4,7 +4,7 @@ import {LocationFlagComponent} from './LocationFlagComponent'
 import {LocationFlag} from '@/Const/LocationFlag'
 import {CoordinatesComponent} from '@/Components/Coordinates/CoordinatesComponent'
 import {UserLocationDictItem} from '@/types'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 interface Props {
     location: UserLocationDictItem

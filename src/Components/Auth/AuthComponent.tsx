@@ -6,7 +6,7 @@ import {LoginType, LoginTypeDict} from '@/Const/LoginType'
 import {useNavigate} from 'react-router-dom'
 import {useAuth} from '@/Common/hooks/useAuth'
 import {getTelegramUser} from '@/Common/TelegramHelper'
-import {SmartLink} from '@/Common/SmartLink'
+import {SmartLink} from '@/Components/Common/SmartLink'
 
 type Props = {
     loginType: LoginType,

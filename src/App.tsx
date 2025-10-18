@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react'
 import {BrowserRouter} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {GlobalProvider} from './Common/Context/GlobalContext'
-import {UserProvider} from './Common/Context/UserContext'
+import {GlobalProvider} from '@/Components/Common/Context/GlobalContext'
+import {UserProvider} from '@/Components/Common/Context/UserContext'
 import {AppRouter} from './Components/CommonAppRouter/AppRouter'
 import BreadcrumbsComponent from './Components/BreadcrumbsComponent'
 import './styles.css'
 import {ToastContainer} from 'react-toastify'
 import {Container} from 'react-bootstrap'
-import {TelegramBackButtonGlobal} from '@/Common/TelegramBackButtonGlobal'
+import {TelegramBackButtonGlobal} from '@/Components/Common/TelegramBackButtonGlobal'
 
 export const App: React.FC = () => {
     useEffect(() => {

@@ -6,7 +6,7 @@ import {Spinner} from 'react-bootstrap'
 import {DateService} from '@/Common/DateService'
 import {LocationViewType} from '@/Const/LocationViewType'
 import {AppButtons} from '@/Const/AppButtons'
-import {useUserContext} from '@/Common/Context/UserContext'
+import {useUserContext} from '@/Components/Common/Context/UserContext'
 import {toast} from 'react-toastify'
 import {v4 as uuid} from 'uuid'
 

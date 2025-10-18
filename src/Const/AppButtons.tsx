@@ -1,4 +1,4 @@
-import {AppButton} from '@/Common/AppButton'
+import {AppButton} from '@/Components/Common/AppButton'
 
 export const AppButtons = {
     Main: () => (
