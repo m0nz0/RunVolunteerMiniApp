@@ -1,6 +1,6 @@
-import {FC} from "react";
-import {Icons} from "@/Const/Icons";
-import {SmartLink} from "@/Common/SmartLink";
+import {FC} from 'react'
+import {Icons} from '@/Const/Icons'
+import {SmartLink} from '@/Common/SmartLink'
 
 interface Props {
     lat: number,
@@ -9,14 +9,14 @@ interface Props {
 
 export const CoordinatesComponent: FC<Props> = props => {
 
-    let url = `https://yandex.ru/maps/?pt=${props.lon},${props.lat}&z=15&l=map`;
+    let url = `https://yandex.ru/maps/?pt=${props.lon},${props.lat}&z=15&l=map`
 
     return (<span>
         {Icons.CoordinatePin}
         <span>
             <SmartLink onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault()
+                e.stopPropagation()
             }}
                        to={url}>{props.lat} {props.lon}</SmartLink>
         </span>

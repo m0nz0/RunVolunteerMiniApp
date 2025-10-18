@@ -1,48 +1,48 @@
-import {FC, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {FC, useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
 
 export const TelegramBackButtonGlobal: FC = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     useEffect(() => {
-        const tg = window?.Telegram?.WebApp;
+        const tg = window?.Telegram?.WebApp
         if (!tg?.BackButton) {
-            return;
+            return
         }
 
-        const backButton = tg.BackButton;
-        backButton.show();
+        const backButton = tg.BackButton
+        backButton.show()
 
         const handleBack = () => {
             if (window.history.length > 1) {
-                navigate(-1);
+                navigate(-1)
             } else {
-                tg?.close?.();
+                tg?.close?.()
             }
-        };
+        }
 
-        backButton.onClick(handleBack);
+        backButton.onClick(handleBack)
 
         const handlePopState = () => {
             if (window.history.length <= 1) {
-                tg?.close?.();
+                tg?.close?.()
             }
-        };
-        window.addEventListener("popstate", handlePopState);
+        }
+        window.addEventListener('popstate', handlePopState)
 
-        const isInlineMode = !!tg?.initDataUnsafe?.inline_query;
+        const isInlineMode = !!tg?.initDataUnsafe?.inline_query
         if (isInlineMode) {
-            window.addEventListener("popstate", () => tg?.close?.());
+            window.addEventListener('popstate', () => tg?.close?.())
         }
 
-        tg?.expand?.();
-        tg?.disableVerticalSwipes?.();
+        tg?.expand?.()
+        tg?.disableVerticalSwipes?.()
 
         return () => {
-            backButton.offClick(handleBack);
-            window.removeEventListener("popstate", handlePopState);
-        };
-    }, [navigate]);
+            backButton.offClick(handleBack)
+            window.removeEventListener('popstate', handlePopState)
+        }
+    }, [navigate])
 
-    return null;
-};
+    return null
+}

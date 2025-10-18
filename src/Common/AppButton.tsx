@@ -1,29 +1,29 @@
-import {FC} from "react";
-import {useNavigate} from "react-router-dom";
-import {SmartButton} from "@/Common/SmartButton";
+import {FC} from 'react'
+import {useNavigate} from 'react-router-dom'
+import {SmartButton} from '@/Common/SmartButton'
 
 interface AppButtonProps {
     to?: string;
     label: string;
     variant?: string;
-    size?: "sm" | "lg";
+    size?: 'sm' | 'lg';
     disabled?: boolean;
 }
 
 export const AppButton: FC<AppButtonProps> = ({
                                                   to,
                                                   label,
-                                                  variant = "info",
-                                                  size = "sm",
+                                                  variant = 'info',
+                                                  size = 'sm',
                                                   disabled = false,
                                               }) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const handleClick = () => {
         if (to) {
-            navigate(to);
+            navigate(to)
         }
-    };
+    }
 
     return (
         <SmartButton
@@ -35,5 +35,5 @@ export const AppButton: FC<AppButtonProps> = ({
         >
             {label}
         </SmartButton>
-    );
-};
+    )
+}

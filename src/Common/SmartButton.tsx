@@ -1,10 +1,10 @@
-import {FC, MouseEventHandler} from "react";
-import {Button} from "react-bootstrap";
+import {FC, MouseEventHandler} from 'react'
+import {Button} from 'react-bootstrap'
 
 interface SmartButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>;
     variant?: string;
-    size?: "sm" | "lg";
+    size?: 'sm' | 'lg';
     disabled?: boolean;
     children: React.ReactNode;
     onContextMenu?: MouseEventHandler<HTMLButtonElement>;
@@ -28,5 +28,5 @@ export const SmartButton: FC<SmartButtonProps> = ({
         >
             {children}
         </Button>
-    );
-};
+    )
+}

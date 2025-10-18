@@ -1,9 +1,9 @@
 export enum NrmsAction {
-    Add = "Add",
+    Add = 'Add',
 
-    Remove = "Remove",
+    Remove = 'Remove',
 
-    Skip = "Skip",
+    Skip = 'Skip',
 
-    Replace = "Replace"
+    Replace = 'Replace'
 }

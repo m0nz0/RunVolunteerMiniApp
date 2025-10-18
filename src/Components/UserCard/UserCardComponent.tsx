@@ -1,7 +1,7 @@
-import {FC, useState} from "react";
-import {Icons} from "@/Const/Icons";
-import {Link} from "react-router-dom";
-import {SmartLink} from "@/Common/SmartLink";
+import {FC, useState} from 'react'
+import {Icons} from '@/Const/Icons'
+import {Link} from 'react-router-dom'
+import {SmartLink} from '@/Common/SmartLink'
 
 
 interface Props {

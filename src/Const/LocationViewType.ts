@@ -1,4 +1,4 @@
-import {LocationFlag} from "./LocationFlag";
+import {LocationFlag} from './LocationFlag'
 
 export enum LocationViewType {
     AllLocations = 'AllLocations',
@@ -14,19 +14,19 @@ export const LocationViewParams: {
     }
 } = {
     [LocationViewType.AllLocations]: {
-        header: "Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
+        header: 'Это список всех локаций. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.',
         defaultActiveFilters: [LocationFlag.Favorite, LocationFlag.IsBotActive],
-        hiddenFilters: []
+        hiddenFilters: [],
     },
     [LocationViewType.ForSchedule]: {
-        header: "Выбери локацию для записи.",
+        header: 'Выбери локацию для записи.',
         defaultActiveFilters: [LocationFlag.Favorite, LocationFlag.IsBotActive],
-        hiddenFilters: [LocationFlag.IsBotActive, LocationFlag.IsPrepare, LocationFlag.IsCancel]
+        hiddenFilters: [LocationFlag.IsBotActive, LocationFlag.IsPrepare, LocationFlag.IsCancel],
 
     },
     [LocationViewType.WithSchedules]: {
-        header: "Это список локаций, где есть записи в волонтёры. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.",
+        header: 'Это список локаций, где есть записи в волонтёры. Воспользуйтесь фильтрами и поиском, чтобы найти нужную.',
         defaultActiveFilters: [LocationFlag.Favorite],
-        hiddenFilters: [LocationFlag.IsCancel, LocationFlag.IsPrepare, LocationFlag.IsBotActive]
+        hiddenFilters: [LocationFlag.IsCancel, LocationFlag.IsPrepare, LocationFlag.IsBotActive],
     },
 }

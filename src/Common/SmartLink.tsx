@@ -1,5 +1,5 @@
-import React from "react";
-import {useNavigate} from "react-router-dom";
+import React from 'react'
+import {useNavigate} from 'react-router-dom'
 
 type SmartLinkProps = {
     to: string;
@@ -16,15 +16,15 @@ export const SmartLink: React.FC<SmartLinkProps> = ({
                                                         className,
                                                         onClick,
                                                     }) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     const isExternal =
-        external || /^https?:\/\//.test(to);
+        external || /^https?:\/\//.test(to)
 
     const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
         // // сначала вызовем пользовательский обработчик
         if (onClick) {
-            onClick(e);
+            onClick(e)
         }
         //
         // // если он отменил действие → выходим
@@ -33,28 +33,28 @@ export const SmartLink: React.FC<SmartLinkProps> = ({
         // }
 
         if (isExternal) {
-            const tg = (window as any).Telegram?.WebApp;
+            const tg = (window as any).Telegram?.WebApp
             if (tg) {
-                tg.openLink(to);
+                tg.openLink(to)
             } else {
-                alert("Эта ссылка доступна только в Telegram 🚫");
+                alert('Эта ссылка доступна только в Telegram 🚫')
             }
         } else {
-            navigate(to);
+            navigate(to)
         }
-    };
+    }
 
     return (
         <span
             className={className}
             style={{
-                color: "#0d6efd",
-                textDecoration: "underline",
-                cursor: "pointer",
+                color: '#0d6efd',
+                textDecoration: 'underline',
+                cursor: 'pointer',
             }}
             onClick={handleClick}
         >
       {children}
     </span>
-    );
-};
+    )
+}

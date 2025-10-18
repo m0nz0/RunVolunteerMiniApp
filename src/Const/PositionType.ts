@@ -1,4 +1,4 @@
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {IconProp} from '@fortawesome/fontawesome-svg-core'
 
 export enum PositionType {
     Main = 1,
@@ -6,8 +6,8 @@ export enum PositionType {
     Rare = 3
 }
 
-export const PositionTypeParams: { [key in PositionType]: { name: string, icon: IconProp | null } } = {
-    [PositionType.Main]: {name: "Обязательные", icon: null},
-    [PositionType.Additional]: {name: "Дополнительные", icon: null},
-    [PositionType.Rare]: {name: "Редкие", icon: null},
+export const PositionTypeParams: { [key in PositionType]: {name: string, icon: IconProp | null} } = {
+    [PositionType.Main]: {name: 'Обязательные', icon: null},
+    [PositionType.Additional]: {name: 'Дополнительные', icon: null},
+    [PositionType.Rare]: {name: 'Редкие', icon: null},
 }

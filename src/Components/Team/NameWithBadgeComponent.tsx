@@ -1,5 +1,5 @@
-import {Badge} from "react-bootstrap";
-import {FC} from "react";
+import {Badge} from 'react-bootstrap'
+import {FC} from 'react'
 
 interface Props {
     name: string,
@@ -13,9 +13,9 @@ export const NameWithBadgeComponent: FC<Props> = (props) => {
 
     return !(props.isRight ?? false) ?
         <div className="ms-2 me-auto">
-            <div className={props.isBold ? "fw-bold" : ""}>
+            <div className={props.isBold ? 'fw-bold' : ''}>
                 <Badge
-                    style={{"verticalAlign": "bottom"}}
+                    style={{'verticalAlign': 'bottom'}}
                     className={`text-${props.badgeColor} border border-${props.badgeColor} bg-transparent`}
                     pill>
                     {props.badgeValue}
@@ -24,9 +24,9 @@ export const NameWithBadgeComponent: FC<Props> = (props) => {
         </div>
         :
         <div className="ms-2 me-auto">
-            <div className={props.isBold ? "fw-bold" : ""}>
+            <div className={props.isBold ? 'fw-bold' : ''}>
                 {props.name} <Badge
-                style={{"verticalAlign": "bottom"}}
+                style={{'verticalAlign': 'bottom'}}
                 className={`text-${props.badgeColor} border border-${props.badgeColor} bg-transparent`}
                 pill>
                 {props.badgeValue}

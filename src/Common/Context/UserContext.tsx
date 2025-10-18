@@ -1,6 +1,6 @@
 // UserContext.tsx
-import React, {createContext, useContext, useState} from "react";
-import {CalendarInfo, Position, UserLocationDictItem} from "../../types";
+import React, {createContext, useContext, useState} from 'react'
+import {CalendarInfo, Position, UserLocationDictItem} from '@/types'
 
 interface UserContextType {
     userLocationDict: Record<number, UserLocationDictItem>;
@@ -12,12 +12,12 @@ interface UserContextType {
     updateUserPositions: (positions: Position[]) => void;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined)
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [userLocationDict, setUserLocationDict] = useState<Record<number, UserLocationDictItem>>({});
-    const [userDatesDict, setUserDatesDict] = useState<Record<number, CalendarInfo>>({});
-    const [userPositionDict, setUserPosition] = useState<Record<number, Position>>({});
+export const UserProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
+    const [userLocationDict, setUserLocationDict] = useState<Record<number, UserLocationDictItem>>({})
+    const [userDatesDict, setUserDatesDict] = useState<Record<number, CalendarInfo>>({})
+    const [userPositionDict, setUserPosition] = useState<Record<number, Position>>({})
 
     // загрузка данных с бэка
     // const fetchUserLocations = async () => {
@@ -38,14 +38,14 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({children}
 
     // метод для обновления вручную (например, после формы или фильтра)
     const updateUserLocations = (data: UserLocationDictItem[]) => {
-        setUserLocationDict(Object.fromEntries(data.map(x => [x.verstId, x])));
-    };
+        setUserLocationDict(Object.fromEntries(data.map(x => [x.verstId, x])))
+    }
     const updateUserDates = (data: CalendarInfo[]) => {
-        setUserDatesDict(Object.fromEntries(data.map(x => [x.id, x])));
-    };
+        setUserDatesDict(Object.fromEntries(data.map(x => [x.id, x])))
+    }
     const updateUserPositions = (data: Position[]) => {
-        setUserPosition(Object.fromEntries(data.map(x => [x.id, x])));
-    };
+        setUserPosition(Object.fromEntries(data.map(x => [x.id, x])))
+    }
 
     return (
         <UserContext.Provider value={{
@@ -54,15 +54,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({children}
             userPositionDict,
             updateUserLocations,
             updateUserDates,
-            updateUserPositions
+            updateUserPositions,
         }}>
             {children}
         </UserContext.Provider>
-    );
-};
+    )
+}
 
 export const useUserContext = () => {
-    const ctx = useContext(UserContext);
-    if (!ctx) throw new Error("useUserContext must be used within UserProvider");
-    return ctx;
-};
+    const ctx = useContext(UserContext)
+    if (!ctx) throw new Error('useUserContext must be used within UserProvider')
+    return ctx
+}

@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 import '../Menu/styles.css'
 import './styles.css'
-import {AppButtons} from "@/Const/AppButtons";
-import {getRandomImage} from "@/Common/icons";
-import {getTelegramUser} from "@/Common/TelegramHelper";
-import {v4 as uuid} from "uuid";
-import {SmartImage} from "@/Common/SmartImage";
+import {AppButtons} from '@/Const/AppButtons'
+import {getRandomImage} from '@/Common/icons'
+import {getTelegramUser} from '@/Common/TelegramHelper'
+import {v4 as uuid} from 'uuid'
+import {SmartImage} from '@/Common/SmartImage'
 
 const listItemTextList = [
     AppButtons.NewEntry(),
@@ -19,13 +19,13 @@ const listItemTextList = [
 
 export const MenuComponent: React.FC = () => {
 
-    const user = getTelegramUser();
+    const user = getTelegramUser()
 
-    let userName = user?.username;
+    let userName = user?.username
     return (
-        <div className={"text-center"}>
+        <div className={'text-center'}>
             <h5>Привет, {userName && <span>{userName},</span>} чем я могу тебе помочь?</h5>
-            <SmartImage className={'app-logo'} src={getRandomImage()}/>
+            <SmartImage className={'app-logo'} src={getRandomImage()} />
             <div className="d-grid gap-2">
                 {
                     listItemTextList.map(x => ({...x, key: uuid()}))
@@ -35,7 +35,7 @@ export const MenuComponent: React.FC = () => {
             {/*<pre>{JSON.stringify(getTelegramUser(), null, 2)}</pre>*/}
             {/*<pre>{JSON.stringify(user, null, 2)}</pre>*/}
         </div>
-    );
+    )
 }
 
-export default MenuComponent;
+export default MenuComponent

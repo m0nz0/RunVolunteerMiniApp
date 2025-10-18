@@ -1,69 +1,69 @@
-import React from "react";
-import {Breadcrumb} from "react-bootstrap";
-import {matchPath, useLocation} from "react-router-dom";
-import {appRoutes} from "@/routes";
-import {useGlobalContext} from "@/Common/Context/GlobalContext";
-import {useUserContext} from "@/Common/Context/UserContext";
-import {DateService} from "@/Common/DateService";
-import {SmartLink} from "@/Common/SmartLink";
+import React from 'react'
+import {Breadcrumb} from 'react-bootstrap'
+import {matchPath, useLocation} from 'react-router-dom'
+import {appRoutes} from '@/routes'
+import {useGlobalContext} from '@/Common/Context/GlobalContext'
+import {useUserContext} from '@/Common/Context/UserContext'
+import {DateService} from '@/Common/DateService'
+import {SmartLink} from '@/Common/SmartLink'
 
 
 const BreadcrumbsComponent: React.FC = () => {
-    const {locationDict, positionDict} = useGlobalContext();
-    const {userDatesDict} = useUserContext();
-    const location = useLocation();
+    const {locationDict, positionDict} = useGlobalContext()
+    const {userDatesDict} = useUserContext()
+    const location = useLocation()
 
 
-    const pathNames = location.pathname.split("/").filter(Boolean);
+    const pathNames = location.pathname.split('/').filter(Boolean)
 
     const findRouteLabel = (url: string): string | undefined => {
         for (const route of appRoutes) {
             let match = matchPath({path: route.path, end: true}, url)
             if (match) {
-                return route.label; // теперь всегда string
+                return route.label // теперь всегда string
             }
         }
-        return undefined;
-    };
+        return undefined
+    }
 
     return (
         <Breadcrumb>
-            <Breadcrumb.Item linkAs={SmartLink} linkProps={{to: "/"}}>
+            <Breadcrumb.Item linkAs={SmartLink} linkProps={{to: '/'}}>
                 Главная
             </Breadcrumb.Item>
 
             {pathNames.map((part, index) => {
 
-                const url = "/" + pathNames.slice(0, index + 1).join("/");
+                const url = '/' + pathNames.slice(0, index + 1).join('/')
 
-                let label = findRouteLabel(url) ?? part;
+                let label = findRouteLabel(url) ?? part
 
-                let isLast = index === pathNames.length - 1;
+                let isLast = index === pathNames.length - 1
 
                 // Если это /locations/:locationId, используем имя из справочника
-                if (["new-entry", "locations", "existing-entries"].some(t => t === pathNames[index - 1]) && /^\d+$/.test(part)) {
-                    label = locationDict[Number(part)]?.name ?? part;
+                if (['new-entry', 'locations', 'existing-entries'].some(t => t === pathNames[index - 1]) && /^\d+$/.test(part)) {
+                    label = locationDict[Number(part)]?.name ?? part
                     isLast = true
                 }
                 // Если это /dates/:calendarId, используем имя из справочника
-                if (pathNames[index - 1] === "dates" && /^\d+$/.test(part)) {
-                    label = DateService.formatDayMonthNameYear(userDatesDict[Number(part)]?.date) ?? part;
+                if (pathNames[index - 1] === 'dates' && /^\d+$/.test(part)) {
+                    label = DateService.formatDayMonthNameYear(userDatesDict[Number(part)]?.date) ?? part
                     isLast = true
                 }
                 // Если это /position/:positionId, используем имя из справочника
-                if (pathNames[index - 1] === "position" && /^\d+$/.test(part)) {
+                if (pathNames[index - 1] === 'position' && /^\d+$/.test(part)) {
 
-                    label = positionDict[Number(part)]?.name ?? part;
+                    label = positionDict[Number(part)]?.name ?? part
                     isLast = true
                 }
 
                 return (<Breadcrumb.Item key={url} linkAs={SmartLink} linkProps={{to: url}} active={isLast}>
                         {label}
                     </Breadcrumb.Item>
-                );
+                )
             })}
         </Breadcrumb>
-    );
-};
+    )
+}
 
-export default BreadcrumbsComponent;
+export default BreadcrumbsComponent

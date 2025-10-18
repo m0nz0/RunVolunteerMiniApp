@@ -1,12 +1,12 @@
 // импортируем все картинки из папки
-const modules = import.meta.glob<string>("../assets/icons/*.{png,jpg,jpeg,svg}", {
+const modules = import.meta.glob<string>('../assets/icons/*.{png,jpg,jpeg,svg}', {
     eager: true,
-    import: "default",
-});
+    import: 'default',
+})
 
-export const images: string[] = Object.values(modules);
+export const images: string[] = Object.values(modules)
 
 export function getRandomImage(): string {
-    const index = Math.floor(Math.random() * images.length);
-    return images[index];
+    const index = Math.floor(Math.random() * images.length)
+    return images[index]
 }

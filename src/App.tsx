@@ -1,33 +1,33 @@
-import React, {useEffect} from "react";
-import {BrowserRouter} from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import {GlobalProvider} from "./Common/Context/GlobalContext";
-import {UserProvider} from "./Common/Context/UserContext";
-import {AppRouter} from "./Components/CommonAppRouter/AppRouter";
-import BreadcrumbsComponent from "./Components/BreadcrumbsComponent";
+import React, {useEffect} from 'react'
+import {BrowserRouter} from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {GlobalProvider} from './Common/Context/GlobalContext'
+import {UserProvider} from './Common/Context/UserContext'
+import {AppRouter} from './Components/CommonAppRouter/AppRouter'
+import BreadcrumbsComponent from './Components/BreadcrumbsComponent'
 import './styles.css'
-import {ToastContainer} from "react-toastify";
-import {Container} from "react-bootstrap";
-import {TelegramBackButtonGlobal} from "@/Common/TelegramBackButtonGlobal";
+import {ToastContainer} from 'react-toastify'
+import {Container} from 'react-bootstrap'
+import {TelegramBackButtonGlobal} from '@/Common/TelegramBackButtonGlobal'
 
 export const App: React.FC = () => {
     useEffect(() => {
-        const tg = window?.Telegram?.WebApp;
+        const tg = window?.Telegram?.WebApp
         if (tg) {
-            tg.ready();
-            tg.disableVerticalSwipes();
-            tg.expand();
+            tg.ready()
+            tg.disableVerticalSwipes()
+            tg.expand()
         }
-    }, []);
+    }, [])
 
     return (
         <GlobalProvider>
             <UserProvider>
                 <BrowserRouter basename="/RunVolunteerMiniApp">
-                    <TelegramBackButtonGlobal/>
+                    <TelegramBackButtonGlobal />
                     <Container>
-                        <BreadcrumbsComponent/>
-                        <AppRouter/>
+                        <BreadcrumbsComponent />
+                        <AppRouter />
                     </Container>
                     <ToastContainer
                         position="top-right"
@@ -41,5 +41,5 @@ export const App: React.FC = () => {
                 </BrowserRouter>
             </UserProvider>
         </GlobalProvider>
-    );
-};
+    )
+}

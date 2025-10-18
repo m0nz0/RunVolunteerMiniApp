@@ -1,22 +1,22 @@
-import React, {FC, useEffect, useState} from "react";
-import {SmileReportData} from "@/types";
-import {useParams} from "react-router-dom";
-import TeamService from "../../Services/TeamService";
-import {Spinner} from "react-bootstrap";
-import {toast} from "react-toastify";
-import {Icons} from "@/Const/Icons";
-import {SmartLink} from "@/Common/SmartLink";
+import React, {FC, useEffect, useState} from 'react'
+import {SmileReportData} from '@/types'
+import {useParams} from 'react-router-dom'
+import TeamService from '../../Services/TeamService'
+import {Spinner} from 'react-bootstrap'
+import {toast} from 'react-toastify'
+import {Icons} from '@/Const/Icons'
+import {SmartLink} from '@/Common/SmartLink'
 
 export const ReportComponent: FC = () => {
     const [data, setData] = useState<SmileReportData>()
-    const [loading, setLoading] = useState<boolean>(true);
-    const {locationId, calendarId} = useParams<{ locationId: string; calendarId: string }>();
+    const [loading, setLoading] = useState<boolean>(true)
+    const {locationId, calendarId} = useParams<{locationId: string; calendarId: string}>()
 
-    const botName = "stavrun_bot"
-    const reporterName = "astramoon17"
+    const botName = 'stavrun_bot'
+    const reporterName = 'astramoon17'
 
     useEffect(() => {
-            let isMounted = true;
+            let isMounted = true
 
             const loadData = async () => {
                 try {
@@ -25,27 +25,27 @@ export const ReportComponent: FC = () => {
                 } catch (err) {
                     if (isMounted) {
                         console.error(err)
-                        toast.error("Ошибка получения данных отчёта")
+                        toast.error('Ошибка получения данных отчёта')
                     }
                 } finally {
-                    if (isMounted) setLoading(false);
+                    if (isMounted) setLoading(false)
                 }
-            };
+            }
 
-            loadData();
+            loadData()
             return () => {
-                isMounted = false;
-            };
-        }, [locationId, calendarId]
+                isMounted = false
+            }
+        }, [locationId, calendarId],
     )
 
     if (loading) {
         return (
             <div className="p-3 text-center">
-                <Spinner animation="border" role="status"/>
+                <Spinner animation="border" role="status" />
                 <p className="mt-2">Загрузка...</p>
             </div>
-        );
+        )
     }
 
     const isToday = () => {
@@ -58,32 +58,32 @@ export const ReportComponent: FC = () => {
 
     const header = () => {
         if (data?.report) {
-            return data.report.split("\n")[0]
+            return data.report.split('\n')[0]
         }
-        return "Нет данных"
+        return 'Нет данных'
     }
 
     const info = () => {
         if (data?.report) {
-            return data?.report.split("\n")
+            return data?.report.split('\n')
                 .slice(3)
-                .join("\n")
+                .join('\n')
                 .replace(/\n/g, '<br/>')
         }
-        return "Нет данных"
+        return 'Нет данных'
     }
 
     const link = () => {
         if (data?.report) {
-            return data?.report.split("\n")
+            return data?.report.split('\n')
                 .slice(1, 2)
         }
-        return "Нет данных"
+        return 'Нет данных'
     }
 
 
     return <div>
-        {!isToday() && <div className={"text-center text-danger"}>
+        {!isToday() && <div className={'text-center text-danger'}>
             {Icons.ExclamationRed} Отчёт за предыдущую дату
         </div>}
         {info() &&

@@ -1,64 +1,64 @@
-import {useCallback, useEffect, useState} from "react";
-import {toast} from "react-toastify";
-import VerstService from "@/Services/VerstService";
-import {LoginType} from "@/Const/LoginType";
-import {useNavigate} from "react-router-dom";
+import {useCallback, useEffect, useState} from 'react'
+import {toast} from 'react-toastify'
+import VerstService from '@/Services/VerstService'
+import {LoginType} from '@/Const/LoginType'
+import {useNavigate} from 'react-router-dom'
 
 export function useAuth(resource: LoginType) {
     const [token, setToken] = useState<string | null>(
-        () => localStorage.getItem(`${resource}_token`.toLowerCase())
-    );
+        () => localStorage.getItem(`${resource}_token`.toLowerCase()),
+    )
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     // синхронизация state <-> localStorage
     useEffect(() => {
         if (token) {
-            localStorage.setItem(`${resource}_token`.toLowerCase(), token);
+            localStorage.setItem(`${resource}_token`.toLowerCase(), token)
         } else {
         }
-    }, [token, resource]);
+    }, [token, resource])
 
     // логин
     const loginNrms = useCallback(
         async (login: string, password: string) => {
             if (resource == LoginType.Nrms) {
                 try {
-                    const newToken = (await VerstService.getNrmsToken(login, password))?.result?.token;
+                    const newToken = (await VerstService.getNrmsToken(login, password))?.result?.token
 
                     if (!newToken) {
-                        toast.error("Не удалось получить токен");
-                        return null;
+                        toast.error('Не удалось получить токен')
+                        return null
                     }
 
-                    setToken(newToken);
-                    const redirectRaw = localStorage.getItem("redirectAfterLogin");
+                    setToken(newToken)
+                    const redirectRaw = localStorage.getItem('redirectAfterLogin')
                     if (redirectRaw) {
-                        const {resource: savedRes, path} = JSON.parse(redirectRaw);
-                        console.log("redirectRaw: ", redirectRaw)
-                        localStorage.removeItem("redirectAfterLogin");
+                        const {resource: savedRes, path} = JSON.parse(redirectRaw)
+                        console.log('redirectRaw: ', redirectRaw)
+                        localStorage.removeItem('redirectAfterLogin')
 
                         if (savedRes === resource) {
-                            navigate(path, {replace: true});
+                            navigate(path, {replace: true})
                         } else {
-                            navigate("/", {replace: true});
+                            navigate('/', {replace: true})
                         }
                     } else {
-                        navigate("/", {replace: true});
+                        navigate('/', {replace: true})
                     }
 
-                    return newToken;
+                    return newToken
                 } catch (err) {
-                    toast.error((err as Error).message);
-                    return null;
+                    toast.error((err as Error).message)
+                    return null
                 }
             }
-        }, []);
+        }, [])
 
     // логаут
     const logout = useCallback(() => {
-        setToken(null);
-    }, []);
+        setToken(null)
+    }, [])
 
-    return {token, loginNrms, logout};
+    return {token, loginNrms, logout}
 }

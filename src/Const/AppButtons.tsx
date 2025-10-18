@@ -1,4 +1,4 @@
-import {AppButton} from "@/Common/AppButton";
+import {AppButton} from '@/Common/AppButton'
 
 export const AppButtons = {
     Main: () => (
@@ -7,42 +7,42 @@ export const AppButtons = {
             label="Главная"
         />
     ),
-    About: (variant: string = "info") => (
+    About: (variant: string = 'info') => (
         <AppButton
             to={`/about`}
             label="Помощь"
             variant={variant}
         />
     ),
-    NewEntry: (variant: string = "info") => (
+    NewEntry: (variant: string = 'info') => (
         <AppButton
             to={`/new-entry`}
             label="Записаться в волонтеры"
             variant={variant}
         />
     ),
-    LocationsWithRecords: (variant: string = "info") => (
+    LocationsWithRecords: (variant: string = 'info') => (
         <AppButton
             to={`/existing-entries`}
             label="Кто уже записан"
             variant={variant}
         />
     ),
-    MyEntries: (variant: string = "info") => (
+    MyEntries: (variant: string = 'info') => (
         <AppButton
             to={`/my-entries`}
             label="Мои записи"
             variant={variant}
         />
     ),
-    Locations: (variant: string = "info") => (
+    Locations: (variant: string = 'info') => (
         <AppButton
             to={`/locations`}
             label="Локации"
             variant={variant}
         />
     ),
-    Profile: (variant: string = "info") => (
+    Profile: (variant: string = 'info') => (
         <AppButton
             to={`/profile`}
             label="Профиль"
@@ -63,7 +63,7 @@ export const AppButtons = {
     ),
     NewEntryToSelectDate: (locationId: number, calendarId?: number) => (
         <AppButton
-            to={`/new-entry/${locationId}/dates${calendarId ? `/${calendarId}` : ""}`}
+            to={`/new-entry/${locationId}/dates${calendarId ? `/${calendarId}` : ''}`}
             label="Записаться"
         />
     ),
@@ -73,7 +73,7 @@ export const AppButtons = {
             label={name}
         />
     ),
-    ToDirectorsSchedule: (locationId: number, name: string, variant: string = "info") => (
+    ToDirectorsSchedule: (locationId: number, name: string, variant: string = 'info') => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/directors`}
             label={name}
@@ -86,7 +86,7 @@ export const AppButtons = {
             label=""
         />
     ),
-    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string, variant: string = "info") => (
+    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string, variant: string = 'info') => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team`}
             label={btnText}
@@ -106,7 +106,7 @@ export const AppButtons = {
             label="Хочу в эту команду"
         />
     ),
-    ToPositionFromDate: (locationId: number, calendarId: number, name: string, variant: string = "info") => (
+    ToPositionFromDate: (locationId: number, calendarId: number, name: string, variant: string = 'info') => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position`}
             label={name}
@@ -120,12 +120,12 @@ export const AppButtons = {
             // variant="secondary"
         />
     ),
-    ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any, variant: string = "info", disabled: boolean = false) => (
+    ToNameInput: (locationId: number, calendarId: number, positionId: number, name: any, variant: string = 'info', disabled: boolean = false) => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position/${positionId}`}
             label={name}
             variant={variant}
-            disabled = {disabled}
+            disabled={disabled}
         />
     ),
     ToDirectors: (locationId: number, name: string) => (
@@ -144,15 +144,15 @@ export const AppButtons = {
     AuthNrms: (locationId: number, calendarId: number) => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team/preview-roster`}
-            label={"Сохранить в NRMS"}
-            variant={"secondary"}
+            label={'Сохранить в NRMS'}
+            variant={'secondary'}
         />
     ),
     SmileReport: (locationId: number) => (
         <AppButton
             to={`/existing-entries/${locationId}/report`}
-            label={"Отчёт"}
-            variant={"secondary"}
+            label={'Отчёт'}
+            variant={'secondary'}
         />
-    )
-};
+    ),
+}

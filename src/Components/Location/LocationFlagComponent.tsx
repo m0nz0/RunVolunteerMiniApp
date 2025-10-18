@@ -1,5 +1,5 @@
-import {FC} from "react";
-import {LocationFlag, LocationFlagParams} from "@/Const/LocationFlag";
+import {FC} from 'react'
+import {LocationFlag, LocationFlagParams} from '@/Const/LocationFlag'
 
 interface Props {
     flag: LocationFlag,
@@ -8,7 +8,7 @@ interface Props {
 
 export const LocationFlagComponent: FC<Props> = (props) => {
 
-    let info = LocationFlagParams[props.flag as keyof typeof LocationFlagParams];
+    let info = LocationFlagParams[props.flag as keyof typeof LocationFlagParams]
 
     return (<span>
         {info.icon}

@@ -1,18 +1,19 @@
-import {FC} from "react";
-import {RouteHelper} from "@/Common/RouteHelper";
-import {RouteCode} from "@/routes";
-import {SmartLink} from "@/Common/SmartLink";
-import {AppVersion} from "@/Common/AppVersion";
+import {FC} from 'react'
+import {RouteHelper} from '@/Common/RouteHelper'
+import {RouteCode} from '@/routes'
+import {SmartLink} from '@/Common/SmartLink'
+import {AppVersion} from '@/Common/AppVersion'
 
 export const AboutComponent: FC = () => {
     return (
         <div>
-            <div className={"text-center"}>
+            <div className={'text-center'}>
                 <h5>С помощью меня можно:</h5>
             </div>
             <ol>
                 <li>
-                    <SmartLink to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</SmartLink> в волонтёры в
+                    <SmartLink to={RouteHelper.getPath(RouteCode.NewEntrySelectLocation)}>Записаться</SmartLink> в
+                    волонтёры в
                     интересующий парк на нужную дату и нужную позицию. Или записать в волонтёры
                     другого человека (например, ребёнка).
                 </li>
@@ -28,19 +29,21 @@ export const AboutComponent: FC = () => {
                 </li>
                 <li>
                     Можно привязать свой аккаунт 5 вёрст в разделе <SmartLink
-                    to={RouteHelper.getPath(RouteCode.Profile)}>Профиль</SmartLink>. Это облегчит вам запись в волонтёры,
+                    to={RouteHelper.getPath(RouteCode.Profile)}>Профиль</SmartLink>. Это облегчит вам запись в
+                    волонтёры,
                     т.к. не надо будет постоянно представляться. И специально для инициативных родителей есть
                     возможность привязать дополнительный аккаунт ребёнка, чтобы ему тикали волонтёрства
                 </li>
                 <li>
-                    В разделе <SmartLink to={RouteHelper.getPath(RouteCode.Locations)}>Локации</SmartLink> можно посмотреть
+                    В разделе <SmartLink to={RouteHelper.getPath(RouteCode.Locations)}>Локации</SmartLink> можно
+                    посмотреть
                     информацию о локациях (организаторов, статус, возможность записи через бота, настроить отображение
                     позиций для записи...)
                 </li>
                 <li>
-                    Подать заявку на роль организатора.<br/>
+                    Подать заявку на роль организатора.<br />
                     Такая заявка прилетает другим имеющимся организаторам. Одобрить или отклонить может любой
-                    организатор.<br/>Если пользователя уже одобрили на роль организатора, то у него появляются
+                    организатор.<br />Если пользователя уже одобрили на роль организатора, то у него появляются
                     дополнительные опции:
                     <ol>
                         <li>
@@ -64,7 +67,7 @@ export const AboutComponent: FC = () => {
                 сериал, похвастаться котом, поделиться мемом — пиши <SmartLink onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                }} to={"https://t.me/MikeKar"}>мне</SmartLink>
+                }} to={'https://t.me/MikeKar'}>мне</SmartLink>
             </p>
             <strong>Полезные ссылки:</strong>
             <ul>
@@ -74,7 +77,7 @@ export const AboutComponent: FC = () => {
                 <li><SmartLink to={import.meta.env.VITE_WIKI_URL}>Wiki</SmartLink></li>
                 {/*<li><Link to={"https://5krun.info/dashboards/f/AMNIEuhVk/"}>Интересная статистика</Link></li>*/}
             </ul>
-            <AppVersion/>
+            <AppVersion />
         </div>
     )
 }

@@ -1,17 +1,17 @@
-import React, {FC, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import VerstService from "../../Services/VerstService";
-import {Button, Form, Spinner, Table} from "react-bootstrap";
-import {toast} from "react-toastify";
-import RosterService from "@/Services/RosterService";
-import {RosterCompareData} from "@/types";
-import {DateService} from "@/Common/DateService";
-import {Icons} from "@/Const/Icons";
-import {NrmsAction} from "@/Const/Source";
-import {useAuth} from "@/Common/hooks/useAuth";
+import React, {FC, useEffect, useState} from 'react'
+import {useParams} from 'react-router-dom'
+import VerstService from '../../Services/VerstService'
+import {Button, Form, Spinner, Table} from 'react-bootstrap'
+import {toast} from 'react-toastify'
+import RosterService from '@/Services/RosterService'
+import {RosterCompareData} from '@/types'
+import {DateService} from '@/Common/DateService'
+import {Icons} from '@/Const/Icons'
+import {NrmsAction} from '@/Const/Source'
+import {useAuth} from '@/Common/hooks/useAuth'
 import './styles.css'
-import {LoginType} from "@/Const/LoginType";
-import {useUserContext} from "@/Common/Context/UserContext";
+import {LoginType} from '@/Const/LoginType'
+import {useUserContext} from '@/Common/Context/UserContext'
 
 interface Props {
 }
@@ -23,10 +23,10 @@ interface SelectedItem {
 
 export const RosterComponent: FC<Props> = () => {
 
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(true)
     const [roster, setRoster] = useState<RosterCompareData>()
-    const {locationId, calendarId} = useParams();
-    const {token} = useAuth(LoginType.Nrms);
+    const {locationId, calendarId} = useParams()
+    const {token} = useAuth(LoginType.Nrms)
     const {updateUserDates} = useUserContext()
 
     const [selected, setSelected] = useState<SelectedItem[]>([])
@@ -34,102 +34,102 @@ export const RosterComponent: FC<Props> = () => {
     const handleChange = (positionId: number, verstId: number) => {
         setSelected((prev) => {
             const exists = prev.some(
-                (item) => item.positionId === positionId && item.verstId === verstId
-            );
+                (item) => item.positionId === positionId && item.verstId === verstId,
+            )
             if (exists) {
                 // убираем
                 return prev.filter(
                     (item) =>
-                        !(item.positionId === positionId && item.verstId === verstId)
-                );
+                        !(item.positionId === positionId && item.verstId === verstId),
+                )
             } else {
                 // добавляем
-                return [...prev, {positionId: positionId, verstId: verstId}];
+                return [...prev, {positionId: positionId, verstId: verstId}]
             }
-        });
-    };
+        })
+    }
 
     const isChecked = (positionId: number, verstId: number) =>
         selected.some(
-            (item) => item.positionId === positionId && item.verstId === verstId
-        );
+            (item) => item.positionId === positionId && item.verstId === verstId,
+        )
 
     const toSaveBody = () => {
         return {
             event_id: locationId,
-            date: DateService.formatDMY(roster?.date?.date ?? ""),
+            date: DateService.formatDMY(roster?.date?.date ?? ''),
             upload_status_id: 1,
             volunteers: selected.map(x => ({
                     verst_id: x.verstId,
-                    role_id: x.positionId
-                })
-            )
+                    role_id: x.positionId,
+                }),
+            ),
         }
     }
 
     useEffect(() => {
-        let isMounted = true;
+        let isMounted = true
 
         const loadData = async () => {
 
             if (!token) {
-                console.log("no token")
+                console.log('no token')
                 // toast.error("Вы не авторизовались в NRMS или ваш сеанс истёк, пожалуйста, авторизуйтесь снова");
-                setLoading(false);
+                setLoading(false)
                 // return;
             }
 
             try {
                 // шаг 1: получаем доступные локации
-                const data = (await VerstService.getAllowedLocations())?.result?.event_list ?? [];
-                if (!isMounted) return;
+                const data = (await VerstService.getAllowedLocations())?.result?.event_list ?? []
+                if (!isMounted) return
 
                 // шаг 2: проверяем доступ к текущей локации
                 const hasAccess = data.some(
-                    x => x.id === Number(locationId)
-                );
+                    x => x.id === Number(locationId),
+                )
 
                 if (!hasAccess) {
-                    toast.error("Загрузка данной локации в NRMS для вас недоступна");
-                    return; // останавливаемся, roster не грузим
+                    toast.error('Загрузка данной локации в NRMS для вас недоступна')
+                    return // останавливаемся, roster не грузим
                 }
 
                 // шаг 3: загружаем roster
                 const roster = await RosterService.getComparedRoster(
                     token,
                     Number(locationId),
-                    Number(calendarId)
-                );
+                    Number(calendarId),
+                )
 
                 if (!isMounted) {
-                    return;
+                    return
                 }
-                setRoster(roster);
+                setRoster(roster)
                 updateUserDates([roster.date])
 
             } catch (err) {
-                toast.error((err as Error).message);
+                toast.error((err as Error).message)
             } finally {
                 if (isMounted) {
-                    setLoading(false);
+                    setLoading(false)
                 }
             }
-        };
+        }
 
-        loadData();
+        loadData()
 
         return () => {
-            isMounted = false;
-        };
-    }, [token, locationId, calendarId]);
+            isMounted = false
+        }
+    }, [token, locationId, calendarId])
 
     if (loading) {
         return (
             <div className="p-3 text-center">
-                <Spinner animation="border" role="status"/>
+                <Spinner animation="border" role="status" />
                 <p className="mt-2">Загрузка...</p>
             </div>
-        );
+        )
     }
 
     const handleSave = async () => {
@@ -141,24 +141,24 @@ export const RosterComponent: FC<Props> = () => {
                         <span>Сейчас я вас переадресую в NRMS для финальной проверки и выгрузки данных на сайт</span>
                     </div>, {
                         onClose: () => {
-                            window.open(`${import.meta.env.VITE_BASE_URL}/#/volunteers`, "_self")
-                        }
+                            window.open(`${import.meta.env.VITE_BASE_URL}/#/volunteers`, '_self')
+                        },
                     })
                 })
         } catch (error) {
-            console.error(error);
-            toast.error("Ошибка сохранения команды в NRMS")
+            console.error(error)
+            toast.error('Ошибка сохранения команды в NRMS')
         }
     }
 
     return ((roster && roster.data && roster.date) && <div>
-            <div className={"text-center"}>
+            <div className={'text-center'}>
                 <h5>Предварительные данные по записям в волонтеры
                     от {DateService.formatDayMonthNameYear(roster.date.date)} для локации {roster.location.name}</h5>
             </div>
-            <div style={{"display": "flex", "justifySelf": "center"}}>
-                <span style={{"paddingRight": "16px"}}>{Icons.ArrowUpLimeGreen} - есть в боте</span>
-                <span style={{"paddingRight": "16px"}}>{Icons.ArrowDown} - уже в NRMS</span>
+            <div style={{'display': 'flex', 'justifySelf': 'center'}}>
+                <span style={{'paddingRight': '16px'}}>{Icons.ArrowUpLimeGreen} - есть в боте</span>
+                <span style={{'paddingRight': '16px'}}>{Icons.ArrowDown} - уже в NRMS</span>
                 <span>{Icons.RedCross} - не идентифицирован</span>
             </div>
             <div>
@@ -174,23 +174,23 @@ export const RosterComponent: FC<Props> = () => {
                     {Object.entries(roster.data).map(([positionId, data]) => {
                         let position = roster.positions.find(x => x.id === Number(positionId))
                         if (!position) {
-                            throw new Error("Позиция не найдена")
+                            throw new Error('Позиция не найдена')
                         }
-                        const users = Object.entries(data);
+                        const users = Object.entries(data)
                         let usersCount = users.length
                         return users.map(([volunteerName, volunteerData], idx) => {
-                            return <tr key={position.id + "-" + volunteerName}>
+                            return <tr key={position.id + '-' + volunteerName}>
                                 {idx == 0 &&
-                                    <td style={{"verticalAlign": "middle"}}
+                                    <td style={{'verticalAlign': 'middle'}}
                                         rowSpan={usersCount}>{position?.name}</td>}
                                 <td>
-                                    <span style={{"textWrap": "nowrap"}}>
+                                    <span style={{'textWrap': 'nowrap'}}>
                                         {volunteerName} {volunteerData.inBot && Icons.ArrowUpLimeGreen}{volunteerData.inNrms && Icons.ArrowDown}{volunteerData.action == NrmsAction.Skip && Icons.RedCross}
                                     </span>
                                 </td>
-                                <td style={{"textAlign": "center"}}>
+                                <td style={{'textAlign': 'center'}}>
                                     {volunteerData.action !== NrmsAction.Skip &&
-                                        <Form.Check type={"switch"}
+                                        <Form.Check type={'switch'}
                                                     checked={isChecked(position?.parent_id ?? position.id, volunteerData.verstData?.id)}
                                                     onChange={() => handleChange(position?.parent_id ?? position.id, volunteerData.verstData?.id)}>
                                         </Form.Check>}</td>
@@ -201,9 +201,9 @@ export const RosterComponent: FC<Props> = () => {
                     </tbody>
                 </Table>
             </div>
-            <div className={"text-center"}>
+            <div className={'text-center'}>
                 {selected.length > 0 &&
-                    <Button variant={"info"} onClick={handleSave} size={"sm"}>Сохранить в NRMS</Button>}
+                    <Button variant={'info'} onClick={handleSave} size={'sm'}>Сохранить в NRMS</Button>}
             </div>
             {/*<pre>{JSON.stringify(toSaveBody(), null, 2)}</pre>*/}
         </div>

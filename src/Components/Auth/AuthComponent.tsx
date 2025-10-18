@@ -1,12 +1,12 @@
-import React, {ChangeEvent, FC, useState} from "react";
+import React, {ChangeEvent, FC, useState} from 'react'
 import './styles.css'
-import {Button, Form, InputGroup} from "react-bootstrap";
-import {Icons} from "@/Const/Icons";
-import {LoginType, LoginTypeDict} from "@/Const/LoginType";
-import {useNavigate} from "react-router-dom";
-import {useAuth} from "@/Common/hooks/useAuth";
-import {getTelegramUser} from "@/Common/TelegramHelper";
-import {SmartLink} from "@/Common/SmartLink";
+import {Button, Form, InputGroup} from 'react-bootstrap'
+import {Icons} from '@/Const/Icons'
+import {LoginType, LoginTypeDict} from '@/Const/LoginType'
+import {useNavigate} from 'react-router-dom'
+import {useAuth} from '@/Common/hooks/useAuth'
+import {getTelegramUser} from '@/Common/TelegramHelper'
+import {SmartLink} from '@/Common/SmartLink'
 
 type Props = {
     loginType: LoginType,
@@ -15,11 +15,11 @@ type Props = {
 
 export const AuthComponent: FC<Props> = (props) => {
 
-    const [isPassVisible, setPassVisible] = useState(false);
-    const [login, setLogin] = useState("");
-    const [password, setPassword] = useState("");
-    const {loginNrms} = useAuth(props.loginType);
-    const navigate = useNavigate();
+    const [isPassVisible, setPassVisible] = useState(false)
+    const [login, setLogin] = useState('')
+    const [password, setPassword] = useState('')
+    const {loginNrms} = useAuth(props.loginType)
+    const navigate = useNavigate()
 
     const eyeClick = () => {
         setPassVisible(!isPassVisible)
@@ -33,22 +33,22 @@ export const AuthComponent: FC<Props> = (props) => {
             props.loginType === LoginType.AdditionalAccount) {
             await authVerstAndCallLinkController(login, password)
                 .then(() => {
-                    navigate("/profile");
+                    navigate('/profile')
                 })
         } else if (props.loginType === LoginType.Nrms) {
-            await loginNrms(login, password);
+            await loginNrms(login, password)
         }
     }
 
     const handleLoginChange = (e: ChangeEvent<HTMLInputElement>): void => {
         if (e.target.value.match(/^\d{0,9}$/)) {
-            setLogin(e.target.value);
+            setLogin(e.target.value)
         }
-    };
+    }
 
     const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        setPassword(e.target.value);
-    };
+        setPassword(e.target.value)
+    }
 
     const getPageParams = () => {
         return LoginTypeDict[props.loginType]
@@ -59,15 +59,15 @@ export const AuthComponent: FC<Props> = (props) => {
         let body = {username: 'A' + login, password: pass}
 
         console.log('Verst link. Verst auth start')
-        let verstAuthUrl = import.meta.env.VITE_VERST_AUTH_URL;
-        let baseUrl = import.meta.env.VITE_BASE_URL;
+        let verstAuthUrl = import.meta.env.VITE_VERST_AUTH_URL
+        let baseUrl = import.meta.env.VITE_BASE_URL
         let authLinkUrl = `${baseUrl}${verstAuthUrl}`
         // console.log("authLinkUrl: ", authLinkUrl)
 
         await fetch(authLinkUrl, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
         })
             .then(res => res.json())
             .then(async resLogin => {
@@ -79,12 +79,12 @@ export const AuthComponent: FC<Props> = (props) => {
                     let headers = {
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': '*'
-                    };
+                        'Access-Control-Allow-Methods': '*',
+                    }
 
                     console.log('Verst link. Link start')
 
-                    let botUrl = import.meta.env.VITE_BOT_URL;
+                    let botUrl = import.meta.env.VITE_BOT_URL
                     await fetch(`${botUrl}${props.loginType === LoginType.AdditionalAccount ?
                         import.meta.env.VITE_ADDITIONAL_LINK_URL :
                         import.meta.env.VITE_MAIN_LINK_URL}`, {
@@ -93,11 +93,11 @@ export const AuthComponent: FC<Props> = (props) => {
                         headers: headers,
                     })
                         .catch((err) => {
-                            throw new Error(err.message);
+                            throw new Error(err.message)
 
                         })
                 } else {
-                    throw new Error(resLogin.errorMessage);
+                    throw new Error(resLogin.errorMessage)
                 }
             })
     }
@@ -107,7 +107,7 @@ export const AuthComponent: FC<Props> = (props) => {
             <main>
                 <div className="SignInScreen_logo" id="header"
                      style={{backgroundColor: getPageParams().headerColor}}>
-                    <img src="https://nrms.5verst.ru/img/Logo_B.png" alt="logo"/>
+                    <img src="https://nrms.5verst.ru/img/Logo_B.png" alt="logo" />
                 </div>
                 <section>
                     <Form className="form-group">
@@ -132,12 +132,12 @@ export const AuthComponent: FC<Props> = (props) => {
                         <Form.Label htmlFor="password">Пароль:</Form.Label>
                         <InputGroup className="input-group">
                             <Form.Control className="form-control no-right-border"
-                                          type={isPassVisible ? "text" : "password"}
+                                          type={isPassVisible ? 'text' : 'password'}
                                           name="password"
                                           id="password"
                                           aria-describedby="id-eye"
                                           aria-label="password"
-                                          onChange={handlePasswordChange}/>
+                                          onChange={handlePasswordChange} />
                             <InputGroup.Text id="id-eye"
                                              onClick={eyeClick}>
                                 {isPassVisible ? Icons.EyeOpen : Icons.EyeClose}

@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC} from 'react'
 
 interface SmartImageProps {
     src: string;
@@ -14,10 +14,10 @@ export const SmartImage: FC<SmartImageProps> = ({src, alt, className, onClick}) 
             onContextMenu={(e) => e.preventDefault()} // блокируем долгий тап
             onMouseDown={(e) => e.preventDefault()}   // дополнительная страховка
             onTouchStart={(e) => e.preventDefault()}  // блокируем всплытие на тачах
-            style={{display: "inline-block", cursor: "pointer"}}
+            style={{display: 'inline-block', cursor: 'pointer'}}
         >
             <img className={className}
-                 src={src} alt={alt} style={{pointerEvents: "none"}}/>
+                 src={src} alt={alt} style={{pointerEvents: 'none'}} />
         </div>
-    );
-};
+    )
+}

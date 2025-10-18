@@ -1,7 +1,7 @@
-import {LocationFlag} from "./Const/LocationFlag";
-import {DefaultPosition} from "./Services/LocationService";
-import {PositionType} from "./Const/PositionType";
-import {NrmsAction} from "@/Const/Source";
+import {LocationFlag} from './Const/LocationFlag'
+import {DefaultPosition} from './Services/LocationService'
+import {PositionType} from './Const/PositionType'
+import {NrmsAction} from '@/Const/Source'
 
 interface WebApp {
     MainButton: any;
@@ -165,13 +165,13 @@ export interface OnInputNameData {
     location: UserLocationDictItem,
     verstUsers: VerstAthlete[],
     date: CalendarInfo
-    allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
+    allUsersDict: {key: VerstIdInfo; value: VerstAthlete}[];
     position: Position
 }
 
 export interface ProfileData {
     tgUser: TgUser,
-    allUsersDict: { key: VerstIdInfo; value: VerstAthlete }[];
+    allUsersDict: {key: VerstIdInfo; value: VerstAthlete}[];
 }
 
 export interface VerstIdInfo {
@@ -224,8 +224,8 @@ export interface TgUser {
     homeLocationId?: number,
     isAdmin: boolean,
     verstIds: VerstIdInfo[],
-    locationDirectors: { locationId: number }[]
-    favoriteLocations: { locationId: number }[]
+    locationDirectors: {locationId: number}[]
+    favoriteLocations: {locationId: number}[]
 }
 
 export interface Position {

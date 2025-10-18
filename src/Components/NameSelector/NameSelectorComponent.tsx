@@ -1,67 +1,67 @@
-import {FC, useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import {useGlobalContext} from "@/Common/Context/GlobalContext";
-import {Alert, Button, Form, InputGroup, Spinner} from "react-bootstrap";
-import NameInputService from "../../Services/NameInputService";
-import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from "@/types";
-import {DateService} from "@/Common/DateService";
-import {Icons} from "@/Const/Icons";
-import {toast} from "react-toastify";
-import {RouteHelper} from "@/Common/RouteHelper";
-import {RouteCode} from "@/routes";
-import {getTelegramUser} from "@/Common/TelegramHelper";
-import {useUserContext} from "@/Common/Context/UserContext";
-import {SmartLink} from "@/Common/SmartLink";
+import {FC, useEffect, useState} from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useGlobalContext} from '@/Common/Context/GlobalContext'
+import {Alert, Button, Form, InputGroup, Spinner} from 'react-bootstrap'
+import NameInputService from '../../Services/NameInputService'
+import {OnInputNameData, SaveData, VerstAthlete, VerstIdInfo} from '@/types'
+import {DateService} from '@/Common/DateService'
+import {Icons} from '@/Const/Icons'
+import {toast} from 'react-toastify'
+import {RouteHelper} from '@/Common/RouteHelper'
+import {RouteCode} from '@/routes'
+import {getTelegramUser} from '@/Common/TelegramHelper'
+import {useUserContext} from '@/Common/Context/UserContext'
+import {SmartLink} from '@/Common/SmartLink'
 
 interface Props {
 }
 
 const Who = {
-    Main: "Записать меня",
-    Additional: "Записать дополнительный аккаунт",
-    Other: "Записать другого человека по имени",
-    Top: "Записать одного из инициативных волонтёров"
+    Main: 'Записать меня',
+    Additional: 'Записать дополнительный аккаунт',
+    Other: 'Записать другого человека по имени',
+    Top: 'Записать одного из инициативных волонтёров',
 }
 
 export const NameSelectorComponent: FC<Props> = () => {
 
     const [data, setData] = useState<OnInputNameData>()
-    const [selected, setSelected] = useState<keyof typeof Who | null>();
+    const [selected, setSelected] = useState<keyof typeof Who | null>()
     const [verstId, setVerstId] = useState<number | null>(null)
-    const [otherName, setOtherName] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [otherName, setOtherName] = useState<string | null>(null)
+    const [loading, setLoading] = useState<boolean>(true)
     const [isValid, setIsValid] = useState<boolean>(false)
     const [disabled, setDisabled] = useState(false)
-    const navigate = useNavigate();
-    const wikiUrl: string = import.meta.env.VITE_WIKI_URL;
+    const navigate = useNavigate()
+    const wikiUrl: string = import.meta.env.VITE_WIKI_URL
 
     const {locationId, calendarId, positionId} = useParams<{
         locationId: string,
         calendarId: string,
         positionId: string
-    }>();
+    }>()
 
     const {locationDict, positionDict} = useGlobalContext()
-    const {updateUserDates} = useUserContext();
+    const {updateUserDates} = useUserContext()
 
-    let position = positionDict[Number(positionId)];
-    let location = locationDict[Number(locationId)];
+    let position = positionDict[Number(positionId)]
+    let location = locationDict[Number(locationId)]
 
     useEffect(() => {
-            let isMounted = true;
+            let isMounted = true
 
             const loadData = async () => {
                 try {
                     let data = await NameInputService.getDataForNameInput(Number(locationId), Number(calendarId), Number(positionId))
                     setData(data)
-                    setDefault(data?.allUsersDict ?? []);
+                    setDefault(data?.allUsersDict ?? [])
                     updateUserDates([data.date])
 
                 } catch (err) {
                     if (isMounted) {
                         if (isMounted) {
                             console.error(err)
-                            toast.error("Ошибка получения данных для записи")
+                            toast.error('Ошибка получения данных для записи')
                         }
                     }
                 } finally {
@@ -69,27 +69,27 @@ export const NameSelectorComponent: FC<Props> = () => {
                         setLoading(false)
                     }
                 }
-            };
+            }
 
-            loadData();
+            loadData()
 
             return () => {
-                isMounted = false;
-            };
-        }, []
+                isMounted = false
+            }
+        }, [],
     )
 
     useEffect(() => {
         let valid: boolean
         if (locationId && calendarId && position) {
 
-            let idSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x !== "Other" as keyof typeof Who);
-            let nameSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x === "Other" as keyof typeof Who)
+            let idSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x !== 'Other' as keyof typeof Who)
+            let nameSelects = Array.from(Object.keys(Who) as (keyof typeof Who)[]).filter(x => x === 'Other' as keyof typeof Who)
 
             if (idSelects.includes(selected as keyof typeof Who)) {
-                valid = !!verstId;
+                valid = !!verstId
             } else if (nameSelects.includes(selected as keyof typeof Who)) {
-                valid = !verstId && otherName != null && otherName !== "" && otherName.length >= 5;
+                valid = !verstId && otherName != null && otherName !== '' && otherName.length >= 5
             } else {
                 valid = false
             }
@@ -99,14 +99,14 @@ export const NameSelectorComponent: FC<Props> = () => {
 
         setIsValid(valid)
 
-    }, [verstId, otherName]);
+    }, [verstId, otherName])
 
-    const setDefault = (p: { key: VerstIdInfo; value: VerstAthlete }[]) => {
+    const setDefault = (p: {key: VerstIdInfo; value: VerstAthlete}[]) => {
         const hasAdditional = p.some(x => !x.key.isMain)
         const hasMain = p.some(x => x.key.isMain)
-        setSelected(hasMain ? "Main" : hasAdditional ? "Additional" : "Other")
+        setSelected(hasMain ? 'Main' : hasAdditional ? 'Additional' : 'Other')
     }
-    let userId = getTelegramUser().id;
+    let userId = getTelegramUser().id
 
     const saveAsId = async (id: number) => {
         setDisabled(true)
@@ -115,14 +115,14 @@ export const NameSelectorComponent: FC<Props> = () => {
             locationId: Number(locationId),
             calendarId: Number(calendarId),
             positionId: Number(positionId),
-            tgId: userId
-        };
+            tgId: userId,
+        }
         await NameInputService.saveNewItem(body)
-            .then(value => toast.success("Большое спасибо, что вы записались в волонтёры.", {
-                    onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
-                })
+            .then(value => toast.success('Большое спасибо, что вы записались в волонтёры.', {
+                    onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries)),
+                }),
             ).catch(reason => {
-                toast.error("Не удалось сохранить данные по id");
+                toast.error('Не удалось сохранить данные по id')
             })
     }
 
@@ -133,21 +133,21 @@ export const NameSelectorComponent: FC<Props> = () => {
             locationId: Number(locationId),
             calendarId: Number(calendarId),
             positionId: Number(positionId),
-            tgId: userId
-        };
+            tgId: userId,
+        }
         await NameInputService.saveNewItem(body)
             .then(value =>
-                toast.success("Большое спасибо, что вы записались в волонтёры.", {
-                    onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries))
-                })
+                toast.success('Большое спасибо, что вы записались в волонтёры.', {
+                    onClose: () => navigate(RouteHelper.getPath(RouteCode.MyEntries)),
+                }),
             )
             .catch(reason => {
-                toast.error("Не удалось сохранить данные по имени")
+                toast.error('Не удалось сохранить данные по имени')
             })
     }
 
     const onRadioSelect = (who: string) => {
-        setOtherName(null);
+        setOtherName(null)
         setVerstId(null)
         setIsValid(false)
         setSelected(who as keyof typeof Who)
@@ -156,38 +156,38 @@ export const NameSelectorComponent: FC<Props> = () => {
     if (loading) {
         return (
             <div className="p-3 text-center">
-                <Spinner animation="border" role="status"/>
+                <Spinner animation="border" role="status" />
                 <p className="mt-2">Загрузка...</p>
             </div>
-        );
+        )
     }
 
     return (!loading && <div>
-        <div className={"text-center"}>
+        <div className={'text-center'}>
             <h5>Мы подошли к последнему этапу записи. Надо выбрать кого записать.</h5>
         </div>
         <div>
             <p>Вы выбрали локацию <strong>{location?.name}</strong>;</p>
-            <p>Дата - <strong>{DateService.formatDayMonthNameYear(data?.date?.date ?? "")}</strong>;</p>
+            <p>Дата - <strong>{DateService.formatDayMonthNameYear(data?.date?.date ?? '')}</strong>;</p>
             <p>Позиция - <strong>{position?.name}</strong>.</p>
         </div>
-        <Alert variant={"warning"} style={{"textAlign": "center"}}>
+        <Alert variant={'warning'} style={{'textAlign': 'center'}}>
             {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
             to={`${wikiUrl}/${data?.position.wikiPostfix}`}>требованиями</SmartLink> к позиции
         </Alert>
-        <br/>
+        <br />
         <Form>
             {Object.entries(Who).filter(([key]) => {
-                if (key === "Main") {
-                    return (data?.allUsersDict ?? []).filter(x => x.key.isMain).length > 0;
-                } else if (key === "Additional") {
-                    return (data?.allUsersDict ?? []).filter(x => !x.key.isMain).length > 0;
-                } else if (key === "Other") {
+                if (key === 'Main') {
+                    return (data?.allUsersDict ?? []).filter(x => x.key.isMain).length > 0
+                } else if (key === 'Additional') {
+                    return (data?.allUsersDict ?? []).filter(x => !x.key.isMain).length > 0
+                } else if (key === 'Other') {
                     return true
-                } else if (key === "Top") {
-                    return (data?.verstUsers ?? []).length > 0 && (data?.location?.isDirected ?? false);
+                } else if (key === 'Top') {
+                    return (data?.verstUsers ?? []).length > 0 && (data?.location?.isDirected ?? false)
                 }
-                return false;
+                return false
             })
                 .map(([key, label]) => {
 
@@ -203,7 +203,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                 })}
         </Form>
         <div className="mt-3">
-            {selected === "Main" && (
+            {selected === 'Main' && (
                 <div className="d-flex gap-2 flex-wrap">
                     {(data?.allUsersDict ?? [])
                         .filter(x => x.key.isMain).map((label, idx) => (
@@ -219,7 +219,7 @@ export const NameSelectorComponent: FC<Props> = () => {
                         ))}
                 </div>
             )}
-            {selected === "Additional" && (
+            {selected === 'Additional' && (
                 <div className="d-grid gap-2">
                     {(data?.allUsersDict ?? [])
                         .filter(x => !x.key.isMain).map((label, idx) => (
@@ -227,8 +227,8 @@ export const NameSelectorComponent: FC<Props> = () => {
                                     variant="info"
                                     disabled={disabled}
                                     onClick={async () => {
-                                        setOtherName(null);
-                                        await saveAsId(label.key.verstId);
+                                        setOtherName(null)
+                                        await saveAsId(label.key.verstId)
                                     }}>
                                 {label.key.isMain ? Icons.Favorite : null} {label.value.full_name}
                             </Button>
@@ -236,40 +236,40 @@ export const NameSelectorComponent: FC<Props> = () => {
                 </div>
             )}
 
-            {selected === "Other" && (
+            {selected === 'Other' && (
                 <div>
                     <Form.Group controlId="otherName" className="mt-2">
                         <Form.Label>
                             <div>
                                 <p>Имя человека</p>
-                                <p className={"text-danger"}>Очень желательно вводить имя в формате "Иванов Иван
+                                <p className={'text-danger'}>Очень желательно вводить имя в формате "Иванов Иван
                                     A79***".
-                                    <br/>Или нескольких "Иванов Иван A79***, Пётр Петров 79***".
-                                    <br/>Но без кавычек и в любом регистре.</p>
+                                    <br />Или нескольких "Иванов Иван A79***, Пётр Петров 79***".
+                                    <br />Но без кавычек и в любом регистре.</p>
                             </div>
                         </Form.Label>
                         <InputGroup>
                             <Form.Control
                                 type="text"
                                 placeholder="Введите имя"
-                                value={otherName ?? ""}
+                                value={otherName ?? ''}
                                 onChange={(e) => {
-                                    setVerstId(null);
-                                    setOtherName(e.target.value);
+                                    setVerstId(null)
+                                    setOtherName(e.target.value)
                                 }}
-                                aria-describedby={"btn-save"}
+                                aria-describedby={'btn-save'}
                             />
-                            {isValid && <Button variant={"info"}
+                            {isValid && <Button variant={'info'}
                                                 disabled={disabled}
-                                                size={"sm"}
-                                                id={"btn-save"}
+                                                size={'sm'}
+                                                id={'btn-save'}
                                                 onClick={async () => await saveAsName()}>Сохранить</Button>}
                         </InputGroup>
                     </Form.Group>
                 </div>
             )}
 
-            {selected === "Top" && (
+            {selected === 'Top' && (
                 <Form.Group controlId="otherName" className="mt-2">
                     <Form.Label>Кого из волонтёров вы хотите записать?</Form.Label>
                     <div className="d-grid gap-2">
@@ -278,8 +278,8 @@ export const NameSelectorComponent: FC<Props> = () => {
                                     disabled={disabled}
                                     variant="info"
                                     onClick={async () => {
-                                        setOtherName(null);
-                                        await saveAsId(v.id);
+                                        setOtherName(null)
+                                        await saveAsId(v.id)
                                     }}>
                                 {Icons.Target} {v.id} {v.full_name}
                             </Button>)}

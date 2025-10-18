@@ -1,6 +1,6 @@
-import {CSSProperties, FC, JSX, ReactNode, SyntheticEvent} from "react";
+import {CSSProperties, FC, JSX, ReactNode, SyntheticEvent} from 'react'
 
-type SmartElementTag = "span" | "button" | "div" | "img";
+type SmartElementTag = 'span' | 'button' | 'div' | 'img';
 
 interface SmartElementProps {
     as?: SmartElementTag;
@@ -12,7 +12,7 @@ interface SmartElementProps {
 }
 
 export const SmartElement: FC<SmartElementProps> = ({
-                                                        as = "span",
+                                                        as = 'span',
                                                         children,
                                                         src,
                                                         className,
@@ -20,8 +20,8 @@ export const SmartElement: FC<SmartElementProps> = ({
                                                         style,
                                                     }) => {
     const handlePreventDefault = (e: SyntheticEvent) => {
-        e.preventDefault();
-    };
+        e.preventDefault()
+    }
 
     const commonProps = {
         className,
@@ -29,21 +29,21 @@ export const SmartElement: FC<SmartElementProps> = ({
         onContextMenu: handlePreventDefault,
         onMouseDown: handlePreventDefault,
         onTouchStart: handlePreventDefault,
-        style: {cursor: "pointer", display: "inline-block", ...style},
-    };
+        style: {cursor: 'pointer', display: 'inline-block', ...style},
+    }
 
-    if (as === "img" && src) {
+    if (as === 'img' && src) {
         return (
             <div {...commonProps}>
                 <img
                     src={src}
                     alt=""
-                    style={{pointerEvents: "none", display: "block"}}
+                    style={{pointerEvents: 'none', display: 'block'}}
                 />
             </div>
-        );
+        )
     }
 
-    const Tag = as as keyof JSX.IntrinsicElements;
-    return <Tag {...commonProps}>{children}</Tag>;
-};
+    const Tag = as as keyof JSX.IntrinsicElements
+    return <Tag {...commonProps}>{children}</Tag>
+}

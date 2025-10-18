@@ -1,74 +1,74 @@
-import {FC, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import {PositionData} from "@/types";
-import PositionService from "../../Services/PositionService";
-import {Accordion, Alert, Spinner} from "react-bootstrap";
-import {useGlobalContext} from "@/Common/Context/GlobalContext";
-import {PositionType, PositionTypeParams} from "@/Const/PositionType";
-import {DateService} from "@/Common/DateService";
-import {Icons} from "@/Const/Icons";
-import {AppButtons} from "@/Const/AppButtons";
-import {toast} from "react-toastify";
-import {v4 as uuid} from "uuid";
-import {SmartLink} from "@/Common/SmartLink";
+import {FC, useEffect, useState} from 'react'
+import {useParams} from 'react-router-dom'
+import {PositionData} from '@/types'
+import PositionService from '../../Services/PositionService'
+import {Accordion, Alert, Spinner} from 'react-bootstrap'
+import {useGlobalContext} from '@/Common/Context/GlobalContext'
+import {PositionType, PositionTypeParams} from '@/Const/PositionType'
+import {DateService} from '@/Common/DateService'
+import {Icons} from '@/Const/Icons'
+import {AppButtons} from '@/Const/AppButtons'
+import {toast} from 'react-toastify'
+import {v4 as uuid} from 'uuid'
+import {SmartLink} from '@/Common/SmartLink'
 
 export const PositionComponent: FC = () => {
-    const [loading, setLoading] = useState<boolean>(true);
-    const {locationId, calendarId} = useParams<{ locationId: string, calendarId: string }>();
+    const [loading, setLoading] = useState<boolean>(true)
+    const {locationId, calendarId} = useParams<{locationId: string, calendarId: string}>()
     const [positionData, setPositionData] = useState<PositionData>()
     const {locationDict} = useGlobalContext()
 
-    const wikiUrl: string = import.meta.env.VITE_WIKI_URL;
+    const wikiUrl: string = import.meta.env.VITE_WIKI_URL
 
     useEffect(() => {
-        let isMounted = true;
+        let isMounted = true
 
         const loadData = async () => {
             try {
-                const data = await PositionService.getPositionsForSchedule(Number(locationId), Number(calendarId));
+                const data = await PositionService.getPositionsForSchedule(Number(locationId), Number(calendarId))
 
                 setPositionData(data)
             } catch (err) {
                 if (isMounted) {
                     console.error(err)
-                    toast.error("Ошибка получения позиций для записи")
+                    toast.error('Ошибка получения позиций для записи')
                 }
             } finally {
-                if (isMounted) setLoading(false);
+                if (isMounted) setLoading(false)
             }
-        };
+        }
 
-        loadData();
+        loadData()
         return () => {
-            isMounted = false;
-        };
-    }, []);
+            isMounted = false
+        }
+    }, [])
 
     if (loading) {
         return (
             <div className="p-3 text-center">
-                <Spinner animation="border" role="status"/>
+                <Spinner animation="border" role="status" />
                 <p className="mt-2">Загрузка...</p>
             </div>
-        );
+        )
     }
 
     return (
         positionData && <div>
-            <div className={"text-center"}>
+            <div className={'text-center'}>
                 <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
                     даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
             </div>
             {(positionData.overLimitPositions ?? []).length > 0 &&
-                <Alert variant={"danger"} style={{textAlign: "center"}}>Запись на некоторые позиции недоступна. Набрано
+                <Alert variant={'danger'} style={{textAlign: 'center'}}>Запись на некоторые позиции недоступна. Набрано
                     достаточное количество волонтёров</Alert>}
 
-            <Alert variant={"warning"} style={{"textAlign": "center"}}>
+            <Alert variant={'warning'} style={{'textAlign': 'center'}}>
                 {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
                 to={`${wikiUrl}/${positionData.wikiPostfix}`}>требованиями</SmartLink> к волонтёрам"
             </Alert>
 
-            <Alert variant={"info"} style={{"textAlign": "center"}}>
+            <Alert variant={'info'} style={{'textAlign': 'center'}}>
                 <span>{Icons.ExclamationRed} - обязательная позиция</span>
                 <span>{Icons.CheckGreen} - кто-то уже записался</span>
             </Alert>
@@ -79,12 +79,12 @@ export const PositionComponent: FC = () => {
                         <Accordion.Item eventKey={positionType} key={positionType.toString()}>
                             <Accordion.Header>{PositionTypeParams[Number(positionType) as keyof typeof PositionTypeParams].name}</Accordion.Header>
                             <Accordion.Body>
-                                <div className={"d-grid gap-2"}>
+                                <div className={'d-grid gap-2'}>
                                     {value
                                         .sort((a, b) => a.name.localeCompare(b.name))
                                         .map(x => {
                                             let icon = positionData.team.some(t => t.positionId === x.id) ?
-                                                Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null;
+                                                Icons.CheckGreen : positionType === PositionType.Main.toString() ? Icons.ExclamationRed : null
 
                                             return ({
                                                 ...AppButtons.ToNameInput(
@@ -92,15 +92,15 @@ export const PositionComponent: FC = () => {
                                                     Number(calendarId),
                                                     x.id,
                                                     <div>{icon} {x.name}</div>,
-                                                    "info",
+                                                    'info',
                                                     (positionData.overLimitPositions ?? []).some(o => o.id == x.id)),
-                                                key: uuid()
-                                            });
+                                                key: uuid(),
+                                            })
                                         })
                                     }
                                 </div>
                             </Accordion.Body>
-                        </Accordion.Item>
+                        </Accordion.Item>,
                     )
                 }
             </Accordion>
