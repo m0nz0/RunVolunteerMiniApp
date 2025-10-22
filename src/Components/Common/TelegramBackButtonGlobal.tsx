@@ -1,9 +1,10 @@
-import {FC, useEffect} from 'react'
+import {FC, useEffect, useRef} from 'react'
 import {useLocation, useNavigate} from 'react-router-dom'
 
 export const TelegramBackButtonGlobal: FC = () => {
     const navigate = useNavigate()
     const location = useLocation()
+    const firstPathRef = useRef(location.pathname)
 
     useEffect(() => {
         const tg = window?.Telegram?.WebApp
@@ -17,31 +18,30 @@ export const TelegramBackButtonGlobal: FC = () => {
         const handleBack = () => {
             if (window.history.length > 1) {
                 navigate(-1)
+            }
+            // если мы на стартовом экране — закрываем приложение
+            else if (location.pathname === firstPathRef.current) {
+                tg?.close?.()
             } else {
+                navigate(-1)
+            }
+        }
+
+        const handleHardwareBack = () => {
+            if (location.pathname === firstPathRef.current) {
                 tg?.close?.()
             }
         }
 
         backButton.onClick(handleBack)
-
-        const handlePopState = () => {
-            if (window.history.length <= 1) {
-                tg?.close?.()
-            }
-        }
-        window.addEventListener('popstate', handlePopState)
-
-        const isInlineMode = !!tg?.initDataUnsafe?.inline_query
-        if (isInlineMode) {
-            window.addEventListener('popstate', () => tg?.close?.())
-        }
+        window.addEventListener('popstate', handleHardwareBack)
 
         tg?.expand?.()
         tg?.disableVerticalSwipes?.()
 
         return () => {
             backButton.offClick(handleBack)
-            window.removeEventListener('popstate', handlePopState)
+            window.removeEventListener('popstate', handleHardwareBack)
         }
     }, [navigate, location])
 
