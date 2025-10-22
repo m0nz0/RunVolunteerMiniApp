@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {SmartButton} from '@/Common/SmartButton'
+import {SmartButton} from '@/Components/Common/SmartButton'
 
 interface AppButtonProps {
     to?: string;
