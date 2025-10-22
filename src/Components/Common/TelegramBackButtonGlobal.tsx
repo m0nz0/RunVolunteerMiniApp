@@ -1,8 +1,9 @@
 import {FC, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 
 export const TelegramBackButtonGlobal: FC = () => {
     const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
         const tg = window?.Telegram?.WebApp
@@ -42,7 +43,7 @@ export const TelegramBackButtonGlobal: FC = () => {
             backButton.offClick(handleBack)
             window.removeEventListener('popstate', handlePopState)
         }
-    }, [navigate])
+    }, [navigate, location])
 
     return null
 }
