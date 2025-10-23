@@ -272,7 +272,7 @@ export const PositionSettingsComponent: FC = () => {
     }
 
     return (
-        <Container>
+        <>
             {/*<pre>{JSON.stringify(positions.map(x => x.id), null, 2)}</pre>*/}
             {/*<pre>{JSON.stringify(selectedLimits, null, 2)}</pre>*/}
             {/*{<pre>{JSON.stringify(window?.Telegram?.WebApp?.initDataUnsafe?.user, null, 2)}</pre>}*/}
@@ -350,7 +350,7 @@ export const PositionSettingsComponent: FC = () => {
                         onClick={() => saveAll()}
                         size={'sm'}>Сохранить</Button>
             </div>
-        </Container>
+        </>
     )
 }
 
