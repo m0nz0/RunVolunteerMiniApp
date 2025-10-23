@@ -1,6 +1,8 @@
 import {SmartLink} from '@/Components/Common/SmartLink'
+import {useParams} from 'react-router-dom'
 
 export const LocationFaq = () => {
+    const {locationId} = useParams<{locationId: string}>()
     return <>
         <div><h6>Во сколько начинается забег?</h6>
             <p>- Мы стартуем в 8:00 утра (мск) в летний период и в 9:00 (мск) в весенне-осенний период</p>
@@ -22,8 +24,10 @@ export const LocationFaq = () => {
                 <span>- Чтобы стать волонтёром на нашем следующем забеге, у тебя есть три варианта:</span>
                 <ul>
                     <li>ты можешь обратиться к администраторам группы</li>
-                    <li> самостоятельно записаться в волонтёры на сайте: <SmartLink
+                    <li>самостоятельно записаться в волонтёры на сайте: <SmartLink
                         to={'https://dobro.ru'}>https://dobro.ru</SmartLink></li>
+                    <li>прямо тут, перейдя по <SmartLink to={`/new-entry/${locationId}/dates`}>ссылке</SmartLink>
+                    </li>
                 </ul>
             </div>
         </div>
