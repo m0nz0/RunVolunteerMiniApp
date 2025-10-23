@@ -105,6 +105,7 @@ export const LocationCardFooter: FC<Props> = (props) => {
                         {addonList.map((item, index) => <div key={index}
                                                              style={{cursor: 'pointer', padding: 2}}>{item}</div>)}
                     </DropdownButton>}
+                {location.verstId == 10022 && AppButtons.ToLocationFaq(location.verstId)}
 
             </ButtonToolbar>
         </Card.Footer>

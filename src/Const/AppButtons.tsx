@@ -86,6 +86,12 @@ export const AppButtons = {
             label=""
         />
     ),
+    ToLocationFaq: (locationId: number) => (
+        <AppButton
+            to={`/locations/${locationId}/faq`}
+            label="FAQ"
+        />
+    ),
     ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string, variant: string = 'info') => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team`}

@@ -17,6 +17,7 @@ import {RosterComponent} from './Components/Roster/RosterComponent'
 import {ComponentType} from 'react'
 import {ReportComponent} from '@/Components/Report/ReportComponent'
 import {PositionSettingsComponent} from '@/Components/Positions/PositionSettingsComponent'
+import {LocationFaq} from '@/Components/Location/LocationFaq'
 
 export enum RouteCode {
     Main = 'main',
@@ -47,6 +48,7 @@ export enum RouteCode {
     PreviewRoster = 'PreviewRoster',
     Report = 'Report',
     PositionSettings = 'PositionSettings',
+    LocationFaq = 'LocationFaq',
 }
 
 export interface AppRoute {
@@ -84,6 +86,13 @@ export const appRoutes: AppRoute[] = [
         path: '/locations/:locationId/info',
         label: 'Детали',
         element: LocationCardComponent,
+        extraProps: {},
+    },
+    {
+        routeCode: RouteCode.LocationFaq,
+        path: '/locations/:locationId/faq',
+        label: 'FAQ',
+        element: LocationFaq,
         extraProps: {},
     },
     {
