@@ -92,7 +92,7 @@ export const AppButtons = {
             label="FAQ"
         />
     ),
-    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: string, variant: string = 'info') => (
+    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: any, variant: string = 'info') => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team`}
             label={btnText}
@@ -112,7 +112,7 @@ export const AppButtons = {
             label="Хочу в эту команду"
         />
     ),
-    ToPositionFromDate: (locationId: number, calendarId: number, name: string, variant: string = 'info') => (
+    ToPositionFromDate: (locationId: number, calendarId: number, name: any, variant: string = 'info') => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position`}
             label={name}

@@ -2,13 +2,14 @@ import {FC, useEffect, useState} from 'react'
 import CalendarService from '../../Services/CalendarService'
 import {useParams} from 'react-router-dom'
 import {CalendarData} from '@/types'
-import {Spinner} from 'react-bootstrap'
+import {Alert, Spinner} from 'react-bootstrap'
 import {DateService} from '@/Common/DateService'
 import {LocationViewType} from '@/Const/LocationViewType'
 import {AppButtons} from '@/Const/AppButtons'
 import {useUserContext} from '@/Components/Common/Context/UserContext'
 import {toast} from 'react-toastify'
 import {v4 as uuid} from 'uuid'
+import {Icons} from '@/Const/Icons'
 
 interface Props {
     locationViewType: LocationViewType
@@ -73,6 +74,9 @@ export const DatesComponent: FC<Props> = (props) => {
                     'Выбор желаемой даты для записи' :
                     'Даты с записями'
                 } для локации {datesData?.location.name}</h5>
+                {datesData?.dates.some(x => x.isAditional) && <Alert variant={'danger'}>
+                    {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
+                </Alert>}
             </div>
             <div className={'d-grid gap-2'}>
                 {datesData &&
@@ -80,15 +84,19 @@ export const DatesComponent: FC<Props> = (props) => {
                         .sort((a, b) =>
                             DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
                         .map(x => {
+
+                            var btnText =
+                                <div>{x.isAditional ? Icons.ExclamationRed : null}{DateService.formatDMY(x.date)}{x.isAditional ? Icons.ExclamationRed : null}</div>
+                            console.log(btnText)
                             if (props.locationViewType === LocationViewType.ForSchedule) {
                                 return ({
-                                    ...AppButtons.ToPositionFromDate(Number(locationId), x.id, DateService.formatDMY(x.date)),
+                                    ...AppButtons.ToPositionFromDate(Number(locationId), x.id, btnText),
                                     key: uuid(),
                                 })
                             }
 
                             return ({
-                                ...AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, DateService.formatDMY(x.date)),
+                                ...AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, btnText),
                                 key: uuid(),
                             })
                         })

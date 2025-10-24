@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react'
 import {Position, TeamData} from '@/types'
 import {useParams} from 'react-router-dom'
 import TeamService from '../../Services/TeamService'
-import {Button, ButtonGroup, ListGroup, Spinner} from 'react-bootstrap'
+import {Alert, Button, ButtonGroup, ListGroup, Spinner} from 'react-bootstrap'
 import {DateService} from '@/Common/DateService'
 import {NameWithBadgeComponent} from './NameWithBadgeComponent'
 import {AppButtons} from '@/Const/AppButtons'
@@ -14,6 +14,7 @@ import {getTelegramUser} from '@/Common/TelegramHelper'
 import {useGlobalContext} from '@/Components/Common/Context/GlobalContext'
 import {useConfirmModal} from '@/Common/hooks/useConfirmModal'
 import {UndoType} from '@/Const/UndoType'
+import {Icons} from '@/Const/Icons'
 
 export const TeamComponent: FC = () => {
     const [team, setTeam] = useState<TeamData>()
@@ -169,6 +170,9 @@ export const TeamComponent: FC = () => {
                     локации {team?.location?.name} за&nbsp;
                     {DateService.formatDayMonthNameYear(team?.date?.date ?? '')}
                 </h5>
+                {team?.date.isAditional && <Alert variant={'danger'}>
+                    {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
+                </Alert>}
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 <NameWithBadgeComponent

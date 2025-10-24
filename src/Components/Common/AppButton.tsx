@@ -4,7 +4,7 @@ import {SmartButton} from '@/Components/Common/SmartButton'
 
 interface AppButtonProps {
     to?: string;
-    label: string;
+    label: any;
     variant?: string;
     size?: 'sm' | 'lg';
     disabled?: boolean;

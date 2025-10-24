@@ -243,7 +243,7 @@ export interface CalendarInfo {
     date: string;
     datetime: string
     eventStatus: string,
-    isAdditional: boolean,
+    isAditional: boolean,
 }
 
 export interface SaveData {

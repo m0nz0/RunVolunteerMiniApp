@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react'
+import React, {FC, useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom'
 import {PositionData} from '@/types'
 import PositionService from '../../Services/PositionService'
@@ -59,13 +59,17 @@ export const PositionComponent: FC = () => {
                 <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
                     даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
             </div>
+            {positionData.calendar.isAditional && <Alert variant={'danger'}>
+                {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
+            </Alert>}
+
             {(positionData.overLimitPositions ?? []).length > 0 &&
                 <Alert variant={'danger'} style={{textAlign: 'center'}}>Запись на некоторые позиции недоступна. Набрано
                     достаточное количество волонтёров</Alert>}
 
             <Alert variant={'warning'} style={{'textAlign': 'center'}}>
                 {Icons.ExclamationRed}{Icons.ExclamationRed} Пожалуйста ознакомьтесь с <SmartLink
-                to={`${wikiUrl}/${positionData.wikiPostfix}`}>требованиями</SmartLink> к волонтёрам"
+                to={`${wikiUrl}/${positionData.wikiPostfix}`}>требованиями</SmartLink> к волонтёрам
             </Alert>
 
             <Alert variant={'info'} style={{'textAlign': 'center'}}>
