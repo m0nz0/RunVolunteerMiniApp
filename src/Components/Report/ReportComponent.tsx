@@ -86,7 +86,7 @@ export const ReportComponent: FC = () => {
         {!isToday() && <div className={'text-center text-danger'}>
             {Icons.ExclamationRed} Отчёт за предыдущую дату
         </div>}
-        {info() &&
+        {data &&
             <>
                 <p dangerouslySetInnerHTML={{__html: header()}}></p>
                 {info() && <p>
@@ -102,6 +102,7 @@ export const ReportComponent: FC = () => {
                     to={`https://t.me/${reporterName}`}>@{`${reporterName}`}</SmartLink>
                 </p>
             </>}
+        {!data && header()}
         {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
     </div>
 }
