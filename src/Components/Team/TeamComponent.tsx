@@ -170,7 +170,7 @@ export const TeamComponent: FC = () => {
                     локации {team?.location?.name} за&nbsp;
                     {DateService.formatDayMonthNameYear(team?.date?.date ?? '')}
                 </h5>
-                {team?.date.isAditional && <Alert variant={'danger'}>
+                {team?.date.isAdditional && <Alert variant={'danger'}>
                     {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
                 </Alert>}
             </div>

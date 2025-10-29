@@ -59,7 +59,7 @@ export const PositionComponent: FC = () => {
                 <h5>Выбор позиции для локации {locationDict[Number(locationId)].name},
                     даты {DateService.formatDayMonthNameYear(positionData.calendar.date)}</h5>
             </div>
-            {positionData.calendar.isAditional && <Alert variant={'danger'}>
+            {positionData.calendar.isAdditional && <Alert variant={'danger'}>
                 {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
             </Alert>}
 

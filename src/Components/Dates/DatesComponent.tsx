@@ -74,7 +74,7 @@ export const DatesComponent: FC<Props> = (props) => {
                     'Выбор желаемой даты для записи' :
                     'Даты с записями'
                 } для локации {datesData?.location.name}</h5>
-                {datesData?.dates.some(x => x.isAditional) && <Alert variant={'danger'}>
+                {datesData?.dates.some(x => x.isAdditional) && <Alert variant={'danger'}>
                     {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
                 </Alert>}
             </div>
@@ -86,7 +86,7 @@ export const DatesComponent: FC<Props> = (props) => {
                         .map(x => {
 
                             var btnText =
-                                <div>{x.isAditional ? Icons.ExclamationRed : null}{DateService.formatDMY(x.date)}{x.isAditional ? Icons.ExclamationRed : null}</div>
+                                <div>{x.isAdditional ? Icons.ExclamationRed : null}{DateService.formatDMY(x.date)}{x.isAdditional ? Icons.ExclamationRed : null}</div>
                             console.log(btnText)
                             if (props.locationViewType === LocationViewType.ForSchedule) {
                                 return ({
