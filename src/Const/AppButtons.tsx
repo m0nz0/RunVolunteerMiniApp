@@ -92,11 +92,12 @@ export const AppButtons = {
             label="FAQ"
         />
     ),
-    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: any, variant: string = 'info') => (
+    ToTeamFromExistingDate: (locationId: number, calendarId: number, btnText: any, disabled: boolean = false, variant: string = 'info') => (
         <AppButton
             to={`/existing-entries/${locationId}/dates/${calendarId}/team`}
             label={btnText}
             variant={variant}
+            disabled={disabled}
         />
     ),
     WhoScheduled: (locationId: number) => (
@@ -112,11 +113,12 @@ export const AppButtons = {
             label="Хочу в эту команду"
         />
     ),
-    ToPositionFromDate: (locationId: number, calendarId: number, name: any, variant: string = 'info') => (
+    ToPositionFromDate: (locationId: number, calendarId: number, name: any, disabled: boolean = false, variant: string = 'info') => (
         <AppButton
             to={`/new-entry/${locationId}/dates/${calendarId}/position`}
             label={name}
             variant={variant}
+            disabled={disabled}
         />
     ),
     ToPosition: (locationId: number, name: string) => (

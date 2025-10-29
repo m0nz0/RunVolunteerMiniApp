@@ -74,9 +74,13 @@ export const DatesComponent: FC<Props> = (props) => {
                     'Выбор желаемой даты для записи' :
                     'Даты с записями'
                 } для локации {datesData?.location.name}</h5>
-                {datesData?.dates.some(x => x.isAdditional) && <Alert variant={'danger'}>
-                    {Icons.ExclamationRed} - Обратите внимание, что мероприятие будет не в субботу
-                </Alert>}
+                {datesData?.dates.some(x => x.isAdditional || x.eventStatus == 'Cancel') &&
+                    <Alert variant={'danger'}>
+                        <p>{datesData?.dates.some(x => x.isAdditional) && <>{Icons.ExclamationRed} - Обратите внимание,
+                            что мероприятие будет <strong>не в субботу</strong></>}</p>
+                        <p>{datesData?.dates.some(x => x.eventStatus == 'Cancel') && <>{Icons.IsCancel} - отменённое
+                            мероприятие</>}</p>
+                    </Alert>}
             </div>
             <div className={'d-grid gap-2'}>
                 {datesData &&
@@ -85,18 +89,19 @@ export const DatesComponent: FC<Props> = (props) => {
                             DateService.toLocalDate(a.date).millisecond() - DateService.toLocalDate(b.date).millisecond())
                         .map(x => {
 
+                            var isCancel = x.eventStatus == 'Cancel'
                             var btnText =
-                                <div>{x.isAdditional ? Icons.ExclamationRed : null}{DateService.formatDMY(x.date)}{x.isAdditional ? Icons.ExclamationRed : null}</div>
+                                <div>{x.isAdditional ? Icons.ExclamationRed : isCancel ? Icons.IsCancel : null}{DateService.formatDMY(x.date)}{x.isAdditional ? Icons.ExclamationRed : null}</div>
                             console.log(btnText)
                             if (props.locationViewType === LocationViewType.ForSchedule) {
                                 return ({
-                                    ...AppButtons.ToPositionFromDate(Number(locationId), x.id, btnText),
+                                    ...AppButtons.ToPositionFromDate(Number(locationId), x.id, btnText, isCancel),
                                     key: uuid(),
                                 })
                             }
 
                             return ({
-                                ...AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, btnText),
+                                ...AppButtons.ToTeamFromExistingDate(Number(locationId), x.id, btnText, isCancel),
                                 key: uuid(),
                             })
                         })
