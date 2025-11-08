@@ -261,7 +261,12 @@ export const PositionSettingsComponent: FC = () => {
     }
 
     const handleSaveOrder = async () => {
-        const orderedIds = positions.map(p => p.id)
+        const orderedIds = positions
+            .sort((a, b) =>
+                Number(a.positionType) > Number(b.positionType) ? 1 :
+                    Number(a.positionType) < Number(b.positionType) ? -1 :
+                        0,
+            ).map(p => p.id)
         await PositionService.updateOrder(Number(locationId), orderedIds)
             .then(() => toast.success('Порядок позиций сохранён', {onClose: () => window.location.reload()}))
             .catch(() => toast.error('Ошибка сохранения порядка позиций'))
