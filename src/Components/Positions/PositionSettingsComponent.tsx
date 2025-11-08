@@ -58,7 +58,7 @@ const SortableRow: FC<SortableRowProps> = memo(
                 <div className="col small">
                     <select
                         className="form-select"
-                        value={(selectedLimits[pos.id] ?? '').toString()}
+                        value={(selectedLimits[pos.id] ?? '0').toString()}
                         onChange={(e) => handleChangeLimit(pos.id, Number(e.target.value))}
                     >
                         {limitOptions.map((o: any) => (
@@ -99,7 +99,9 @@ export const PositionSettingsComponent: FC = () => {
                 setLocation(filtered.location)
 
                 setSelectedLimits(Object.fromEntries(
-                    (adminData?.location?.limits ?? []).map(l => [l.p, l.t]),
+                    (adminData?.location?.limits ?? [])
+                        .filter(x => x.t > 0)
+                        .map(l => [l.p, l.t]),
                 ))
 
                 setSelectedTypes(
@@ -150,7 +152,7 @@ export const PositionSettingsComponent: FC = () => {
             value: (i + 1).toString(),
             label: (i + 1).toString(),
         })),
-        {value: '', label: 'Нет'},
+        {value: '0', label: 'Нет'},
     ]), [])
 
     if (loading) {
@@ -246,7 +248,8 @@ export const PositionSettingsComponent: FC = () => {
     }
 
     const savePositionLimits = async () => {
-        await PositionService.savePositionsForLimitsAdmin(Number(locationId), selectedLimits)
+        const limitToSave = Object.fromEntries(Object.entries(selectedLimits).filter(([key, value]) => Number(value) > 0))
+        await PositionService.savePositionsForLimitsAdmin(Number(locationId), limitToSave)
             .then(() => toast.success('Лимиты сохранены', {onClose: () => window.location.reload()}))
             .catch(() => toast.error('Ошибка сохранения лимитов позиций'))
     }
