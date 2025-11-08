@@ -255,7 +255,8 @@ export const PositionSettingsComponent: FC = () => {
     }
 
     const savePositionTypes = async () => {
-        await PositionService.savePositionsForAdmin(Number(locationId), selectedTypes)
+        const typesForSave = Object.fromEntries(positions.map(x => [x.id, Number(x.positionType)]))
+        await PositionService.savePositionsForAdmin(Number(locationId), typesForSave)
             .then(() => toast.success('Позиции сохранены', {onClose: () => window.location.reload()}))
             .catch(() => toast.error('Ошибка сохранения типов позиций'))
     }
